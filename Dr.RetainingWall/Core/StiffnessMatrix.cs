@@ -2,7 +2,7 @@
 
 namespace Dr.RetainingWall
 {
-    class Matlab
+    class StiffnessMatrix
     {
         public static Matrix FrameElementStiffness(double E, double A, double I, double L)
         {

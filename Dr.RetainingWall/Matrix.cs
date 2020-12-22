@@ -34,6 +34,12 @@ namespace MatrixMult
         public int Rows { get; private set; }
         public int Cols { get; private set; }
 
+        public double this[int row, int col]
+        {
+            get => Values[row, col];
+            set => Values[row, col] = value;
+        }
+
         public static Matrix operator -(Matrix matrix1, Matrix matrix2)
         {
 
