@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MatrixMult;
+//using MatrixMult;
+using LinearAlgebra;
 
 namespace Dr.RetainingWall
 {
@@ -15,6 +16,9 @@ namespace Dr.RetainingWall
         [STAThread]
         static void Main()
         {
+
+            Matrix aa = Matrix.Ones(2);
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
