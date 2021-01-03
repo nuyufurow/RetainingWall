@@ -34,12 +34,27 @@ namespace Dr.RetainingWall
 
     internal static class VectorUtil
     {
+        internal static Vector Zeros(int n)
+        {
+            return new Vector(new double[n], VectorType.Column);
+        }
+
         internal static void Vpa(ref Vector v, int n)
         {
             for (int i = 0; i < v.Count; i++)
             {
-                Math.Round(v[i], n);
+                v[i] = Math.Round(v[i], n);
             }
+        }
+
+        internal static Vector Scale(Vector v, double s)
+        {
+            Vector newV = v;
+            for (int i = 0; i < v.Count; i++)
+            {
+                newV[i] = v[i] * s;
+            }
+            return newV;
         }
     }
 }

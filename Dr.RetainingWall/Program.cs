@@ -20,6 +20,9 @@ namespace Dr.RetainingWall
             //Vector b = new Vector(new double[] { 5, 6 }, VectorType.Column);
             //var c = Vector.MatMulColVec(a, b);
 
+            //Vector d = new Vector(new double[] { 5.123, 6.321 }, VectorType.Column);
+            ////VectorUtil.Vpa(ref d, 2);
+            //Vector c = VectorUtil.Scale(d, 10);
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

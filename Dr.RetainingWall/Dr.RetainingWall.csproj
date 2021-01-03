@@ -58,6 +58,7 @@
     <Compile Include="Core\BoundaryCondition.cs" />
     <Compile Include="Core\InnerForceCalculation.cs" />
     <Compile Include="Core\LoadCalculation.cs" />
+    <Compile Include="Core\ReinforcementCalculation.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
