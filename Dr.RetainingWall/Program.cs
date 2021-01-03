@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-//using MatrixMult;
 using LinearAlgebra;
+using LinearAlgebra.VectorAlgebra;
 
 namespace Dr.RetainingWall
 {
@@ -16,8 +16,10 @@ namespace Dr.RetainingWall
         [STAThread]
         static void Main()
         {
+            //Matrix a = new double[,]{ { 1, 2 }, { 3, 4 } };
+            //Vector b = new Vector(new double[] { 5, 6 }, VectorType.Column);
+            //var c = Vector.MatMulColVec(a, b);
 
-            Matrix aa = Matrix.Ones(2);
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

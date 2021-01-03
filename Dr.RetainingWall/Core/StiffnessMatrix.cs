@@ -4,7 +4,7 @@ namespace Dr.RetainingWall
 {
     class StiffnessMatrix
     {
-        public static Matrix FrameElementStiffness(double E, double A, double I, double L)
+        public static Matrix PlaneFrameElementStiffness(double E, double A, double I, double L)
         {
             double w1 = E * A / L;
             double w2 = 12 * E * I / (L * L * L);
@@ -67,15 +67,15 @@ namespace Dr.RetainingWall
             Matrix K = Matrix.Ones((n + 1) * 3, (n + 1) * 3);
             if (n == 1) 
             {
-                Matrix k1 = FrameElementStiffness(E[1], A[2], I[2], H[1, 1]);  //为单元刚度矩阵（同总刚度矩阵）
-                K = k1;                                                        //单刚同总刚
+                Matrix k1 = PlaneFrameElementStiffness(E[1], A[2], I[2], H[1, 1]);  //为单元刚度矩阵（同总刚度矩阵）
+                K = k1;                                                             //单刚同总刚
             }
             else if(n == 2)
             {
-                Matrix k1 = FrameElementStiffness(E[1], A[1], I[1], H[1, 1]);  // 一层单元刚度矩阵
-                Matrix k2 = FrameElementStiffness(E[2], A[2], I[2], H[1, 2]);  // 二层单元刚度矩阵
-                PlaneFrameAssemble(ref K, k1, 1, 2);                           // 将k1组装进K
-                PlaneFrameAssemble(ref K, k2, 2, 3);                           // 将k2组装进K
+                Matrix k1 = PlaneFrameElementStiffness(E[1], A[1], I[1], H[1, 1]);  // 一层单元刚度矩阵
+                Matrix k2 = PlaneFrameElementStiffness(E[2], A[2], I[2], H[1, 2]);  // 二层单元刚度矩阵
+                PlaneFrameAssemble(ref K, k1, 1, 2);                                // 将k1组装进K
+                PlaneFrameAssemble(ref K, k2, 2, 3);                                // 将k2组装进K
             }
             return K;
         }
