@@ -62,18 +62,18 @@ namespace Dr.RetainingWall
             K[3 * j, 3 * j] = K[3 * j, 3 * j] + k[6, 6];
         }
 
-        public static Matrix zonggangjuzhen(int n, double[] E, double[] A, double[] I, double[,] H) 
+        public static Matrix zonggangjuzhen(int n, double[] E, double[] A, double[] I, double[] H) 
         {
             Matrix K = Matrix.Ones((n + 1) * 3, (n + 1) * 3);
             if (n == 1) 
             {
-                Matrix k1 = PlaneFrameElementStiffness(E[1], A[2], I[2], H[1, 1]);  //为单元刚度矩阵（同总刚度矩阵）
+                Matrix k1 = PlaneFrameElementStiffness(E[1], A[2], I[2], H[1]);  //为单元刚度矩阵（同总刚度矩阵）
                 K = k1;                                                             //单刚同总刚
             }
             else if(n == 2)
             {
-                Matrix k1 = PlaneFrameElementStiffness(E[1], A[1], I[1], H[1, 1]);  // 一层单元刚度矩阵
-                Matrix k2 = PlaneFrameElementStiffness(E[2], A[2], I[2], H[1, 2]);  // 二层单元刚度矩阵
+                Matrix k1 = PlaneFrameElementStiffness(E[1], A[1], I[1], H[1]);  // 一层单元刚度矩阵
+                Matrix k2 = PlaneFrameElementStiffness(E[2], A[2], I[2], H[2]);  // 二层单元刚度矩阵
                 PlaneFrameAssemble(ref K, k1, 1, 2);                                // 将k1组装进K
                 PlaneFrameAssemble(ref K, k2, 2, 3);                                // 将k2组装进K
             }
