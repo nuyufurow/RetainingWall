@@ -57,4 +57,41 @@ namespace Dr.RetainingWall
             return newV;
         }
     }
+
+    internal static class Util
+    {
+        internal static int ToInt(string str)
+        {
+            int n = 0;
+            if (int.TryParse(str, out n) == false)
+                throw new Exception(str + "不是数字");
+            return n;
+        }
+
+        internal static double ToDouble(string str)
+        {
+            double d;
+            if (double.TryParse(str.Trim(), out d) == false)
+                throw new Exception(str + "不是数字");
+            return d;
+        }
+
+        internal static string ToString(double[] arr)
+        {
+            string str = "[ ";
+
+
+            foreach (var a in arr)
+            {
+                string strA = a.ToString();
+                if (Math.Abs(a) > 100)
+                {
+                    strA = a.ToString("f0");
+                }
+                str += strA + " ";
+            }
+            str += "]";
+            return str;
+        }
+    }
 }
