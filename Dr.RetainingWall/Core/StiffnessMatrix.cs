@@ -69,36 +69,36 @@ namespace Dr.RetainingWall
             K[3 * j - 1, 3 * j - 1] = K[3 * j - 1, 3 * j - 1] + k[5, 5];
         }
 
-        public static Matrix zonggangjuzhen(int n, double[] E, double[] A, double[] I, double[] H) 
+        public static Matrix zonggangjuzhen(int n, double E, double[] A, double[] I, double[] H) 
         {
             Matrix K = Matrix.Ones((n + 1) * 3, (n + 1) * 3);
             if (n == 1)
             {
-                Matrix k1 = PlaneFrameElementStiffness(E[0], A[0], I[0], H[0]);  //为单元刚度矩阵
+                Matrix k1 = PlaneFrameElementStiffness(E, A[0], I[0], H[0]);  //为单元刚度矩阵
                 K = k1;                                                          //单刚同总刚
             }
             else if (n == 2)
             {
-                Matrix k1 = PlaneFrameElementStiffness(E[0], A[0], I[0], H[0]);  //一层单元刚度矩阵
-                Matrix k2 = PlaneFrameElementStiffness(E[1], A[1], I[1], H[1]);  //二层单元刚度矩阵
+                Matrix k1 = PlaneFrameElementStiffness(E, A[0], I[0], H[0]);  //一层单元刚度矩阵
+                Matrix k2 = PlaneFrameElementStiffness(E, A[1], I[1], H[1]);  //二层单元刚度矩阵
                 PlaneFrameAssemble(ref K, k1, 1, 2);                             //将k1组装进K
                 PlaneFrameAssemble(ref K, k2, 2, 3);                             //将k2组装进K
             }
             else if (n == 3)
             {
-                Matrix k1 = PlaneFrameElementStiffness(E[0], A[0], I[0], H[0]);  //一层单元刚度矩阵
-                Matrix k2 = PlaneFrameElementStiffness(E[1], A[1], I[1], H[1]);  //二层单元刚度矩阵
-                Matrix k3 = PlaneFrameElementStiffness(E[2], A[2], I[2], H[2]);  //三层单元刚度矩阵
+                Matrix k1 = PlaneFrameElementStiffness(E, A[0], I[0], H[0]);  //一层单元刚度矩阵
+                Matrix k2 = PlaneFrameElementStiffness(E, A[1], I[1], H[1]);  //二层单元刚度矩阵
+                Matrix k3 = PlaneFrameElementStiffness(E, A[2], I[2], H[2]);  //三层单元刚度矩阵
                 PlaneFrameAssemble(ref K, k1, 1, 2);                             //将k1组装进K
                 PlaneFrameAssemble(ref K, k2, 2, 3);                             //将k2组装进K
                 PlaneFrameAssemble(ref K, k3, 3, 4);                             //将k3组装进K
             }
             else if (n == 4)
             {
-                Matrix k1 = PlaneFrameElementStiffness(E[1], A[1], I[1], H[1]);  //一层单元刚度矩阵
-                Matrix k2 = PlaneFrameElementStiffness(E[2], A[2], I[2], H[2]);  //二层单元刚度矩阵
-                Matrix k3 = PlaneFrameElementStiffness(E[3], A[3], I[3], H[3]);  //三层单元刚度矩阵
-                Matrix k4 = PlaneFrameElementStiffness(E[4], A[4], I[4], H[4]);  //四层单元刚度矩阵
+                Matrix k1 = PlaneFrameElementStiffness(E, A[1], I[1], H[1]);  //一层单元刚度矩阵
+                Matrix k2 = PlaneFrameElementStiffness(E, A[2], I[2], H[2]);  //二层单元刚度矩阵
+                Matrix k3 = PlaneFrameElementStiffness(E, A[3], I[3], H[3]);  //三层单元刚度矩阵
+                Matrix k4 = PlaneFrameElementStiffness(E, A[4], I[4], H[4]);  //四层单元刚度矩阵
                 PlaneFrameAssemble(ref K, k1, 1, 2);                             //将k1组装进K
                 PlaneFrameAssemble(ref K, k2, 2, 3);                             //将k2组装进K
                 PlaneFrameAssemble(ref K, k3, 3, 4);                             //将k3组装进K

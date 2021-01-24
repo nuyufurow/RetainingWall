@@ -32,22 +32,17 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgvInput = new System.Windows.Forms.DataGridView();
-            this.floorHeight = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.wallWidth = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ConcreteGrade = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.RebarGrade = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.rtbBrowser = new System.Windows.Forms.RichTextBox();
-            this.btnUnitStiffnessMatrix = new System.Windows.Forms.Button();
             this.btnTotalStiffnessMatrix = new System.Windows.Forms.Button();
             this.btnLoadCalculation = new System.Windows.Forms.Button();
             this.labRongzhong1 = new System.Windows.Forms.Label();
             this.tbRongZhong = new System.Windows.Forms.TextBox();
-            this.labFutuHoudu1 = new System.Windows.Forms.Label();
-            this.labHuohezai1 = new System.Windows.Forms.Label();
-            this.labHenzaiXishu = new System.Windows.Forms.Label();
+            this.labFutuThickness = new System.Windows.Forms.Label();
+            this.labHuohezai = new System.Windows.Forms.Label();
+            this.labHengzaiXishu = new System.Windows.Forms.Label();
             this.labRongzhong2 = new System.Windows.Forms.Label();
-            this.labFutuHoudu2 = new System.Windows.Forms.Label();
-            this.tbFutuHoudu = new System.Windows.Forms.TextBox();
+            this.labFutuThickness2 = new System.Windows.Forms.Label();
+            this.tbFutuThickness = new System.Windows.Forms.TextBox();
             this.tbHuohezai = new System.Windows.Forms.TextBox();
             this.labHuozaiXishu = new System.Windows.Forms.Label();
             this.tbHengzaiXishu = new System.Windows.Forms.TextBox();
@@ -62,6 +57,26 @@
             this.btnInnerForceTiaofu = new System.Windows.Forms.Button();
             this.btnMaxM = new System.Windows.Forms.Button();
             this.btnInnerForceZuhe = new System.Windows.Forms.Button();
+            this.labConcreteGrade = new System.Windows.Forms.Label();
+            this.cmbConcreteGrade = new System.Windows.Forms.ComboBox();
+            this.labRebarGrade = new System.Windows.Forms.Label();
+            this.cmbRebarGrade = new System.Windows.Forms.ComboBox();
+            this.labConcretePrice = new System.Windows.Forms.Label();
+            this.tbConcretePrice = new System.Windows.Forms.TextBox();
+            this.labConcretePrice2 = new System.Windows.Forms.Label();
+            this.labRebarPrice = new System.Windows.Forms.Label();
+            this.tbRebarPrice = new System.Windows.Forms.TextBox();
+            this.labRebarPrice2 = new System.Windows.Forms.Label();
+            this.labSeismicGrade = new System.Windows.Forms.Label();
+            this.cmbSeismicGrade = new System.Windows.Forms.ComboBox();
+            this.labRoofThickness = new System.Windows.Forms.Label();
+            this.tbRoofThickness = new System.Windows.Forms.TextBox();
+            this.labRoofThickness2 = new System.Windows.Forms.Label();
+            this.labCs = new System.Windows.Forms.Label();
+            this.tbCs = new System.Windows.Forms.TextBox();
+            this.labCs2 = new System.Windows.Forms.Label();
+            this.floorHeight = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnReinforcementCalculation = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvInput)).BeginInit();
             this.SuspendLayout();
             // 
@@ -78,10 +93,7 @@
             this.dgvInput.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvInput.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvInput.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.floorHeight,
-            this.wallWidth,
-            this.ConcreteGrade,
-            this.RebarGrade});
+            this.floorHeight});
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -90,7 +102,7 @@
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgvInput.DefaultCellStyle = dataGridViewCellStyle2;
-            this.dgvInput.Location = new System.Drawing.Point(0, 0);
+            this.dgvInput.Location = new System.Drawing.Point(15, 7);
             this.dgvInput.Name = "dgvInput";
             this.dgvInput.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -102,74 +114,23 @@
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dgvInput.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dgvInput.RowHeadersWidth = 60;
-            this.dgvInput.Size = new System.Drawing.Size(473, 180);
+            this.dgvInput.Size = new System.Drawing.Size(257, 160);
             this.dgvInput.TabIndex = 3;
             this.dgvInput.RowStateChanged += new System.Windows.Forms.DataGridViewRowStateChangedEventHandler(this.dgvInput_RowStateChanged);
             // 
-            // floorHeight
-            // 
-            this.floorHeight.Frozen = true;
-            this.floorHeight.HeaderText = "层高(mm)";
-            this.floorHeight.Name = "floorHeight";
-            // 
-            // wallWidth
-            // 
-            this.wallWidth.Frozen = true;
-            this.wallWidth.HeaderText = "墙厚(mm)";
-            this.wallWidth.Name = "wallWidth";
-            // 
-            // ConcreteGrade
-            // 
-            this.ConcreteGrade.Frozen = true;
-            this.ConcreteGrade.HeaderText = "混凝土等级";
-            this.ConcreteGrade.Items.AddRange(new object[] {
-            "20",
-            "25",
-            "30",
-            "35",
-            "40",
-            "45",
-            "50"});
-            this.ConcreteGrade.Name = "ConcreteGrade";
-            this.ConcreteGrade.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.ConcreteGrade.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
-            // RebarGrade
-            // 
-            this.RebarGrade.Frozen = true;
-            this.RebarGrade.HeaderText = "钢筋等级";
-            this.RebarGrade.Items.AddRange(new object[] {
-            "300",
-            "335",
-            "400",
-            "500"});
-            this.RebarGrade.Name = "RebarGrade";
-            this.RebarGrade.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.RebarGrade.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
             // rtbBrowser
             // 
-            this.rtbBrowser.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.rtbBrowser.Location = new System.Drawing.Point(0, 261);
+            this.rtbBrowser.Dock = System.Windows.Forms.DockStyle.Right;
+            this.rtbBrowser.Location = new System.Drawing.Point(399, 0);
             this.rtbBrowser.Name = "rtbBrowser";
             this.rtbBrowser.ReadOnly = true;
-            this.rtbBrowser.Size = new System.Drawing.Size(984, 300);
+            this.rtbBrowser.Size = new System.Drawing.Size(585, 561);
             this.rtbBrowser.TabIndex = 5;
             this.rtbBrowser.Text = "";
             // 
-            // btnUnitStiffnessMatrix
-            // 
-            this.btnUnitStiffnessMatrix.Location = new System.Drawing.Point(15, 191);
-            this.btnUnitStiffnessMatrix.Name = "btnUnitStiffnessMatrix";
-            this.btnUnitStiffnessMatrix.Size = new System.Drawing.Size(100, 23);
-            this.btnUnitStiffnessMatrix.TabIndex = 6;
-            this.btnUnitStiffnessMatrix.Text = "单元刚度矩阵";
-            this.btnUnitStiffnessMatrix.UseVisualStyleBackColor = true;
-            this.btnUnitStiffnessMatrix.Click += new System.EventHandler(this.btnUnitStiffnessMatrix_Click);
-            // 
             // btnTotalStiffnessMatrix
             // 
-            this.btnTotalStiffnessMatrix.Location = new System.Drawing.Point(123, 191);
+            this.btnTotalStiffnessMatrix.Location = new System.Drawing.Point(278, 50);
             this.btnTotalStiffnessMatrix.Name = "btnTotalStiffnessMatrix";
             this.btnTotalStiffnessMatrix.Size = new System.Drawing.Size(100, 23);
             this.btnTotalStiffnessMatrix.TabIndex = 7;
@@ -179,7 +140,7 @@
             // 
             // btnLoadCalculation
             // 
-            this.btnLoadCalculation.Location = new System.Drawing.Point(231, 191);
+            this.btnLoadCalculation.Location = new System.Drawing.Point(278, 88);
             this.btnLoadCalculation.Name = "btnLoadCalculation";
             this.btnLoadCalculation.Size = new System.Drawing.Size(100, 23);
             this.btnLoadCalculation.TabIndex = 8;
@@ -190,7 +151,7 @@
             // labRongzhong1
             // 
             this.labRongzhong1.AutoSize = true;
-            this.labRongzhong1.Location = new System.Drawing.Point(513, 13);
+            this.labRongzhong1.Location = new System.Drawing.Point(15, 304);
             this.labRongzhong1.Name = "labRongzhong1";
             this.labRongzhong1.Size = new System.Drawing.Size(77, 12);
             this.labRongzhong1.TabIndex = 9;
@@ -198,66 +159,66 @@
             // 
             // tbRongZhong
             // 
-            this.tbRongZhong.Location = new System.Drawing.Point(615, 9);
+            this.tbRongZhong.Location = new System.Drawing.Point(122, 298);
             this.tbRongZhong.Name = "tbRongZhong";
             this.tbRongZhong.Size = new System.Drawing.Size(100, 21);
             this.tbRongZhong.TabIndex = 10;
             // 
-            // labFutuHoudu1
+            // labFutuThickness
             // 
-            this.labFutuHoudu1.AutoSize = true;
-            this.labFutuHoudu1.Location = new System.Drawing.Point(513, 43);
-            this.labFutuHoudu1.Name = "labFutuHoudu1";
-            this.labFutuHoudu1.Size = new System.Drawing.Size(83, 12);
-            this.labFutuHoudu1.TabIndex = 11;
-            this.labFutuHoudu1.Text = "墙顶覆土厚度:";
+            this.labFutuThickness.AutoSize = true;
+            this.labFutuThickness.Location = new System.Drawing.Point(15, 332);
+            this.labFutuThickness.Name = "labFutuThickness";
+            this.labFutuThickness.Size = new System.Drawing.Size(83, 12);
+            this.labFutuThickness.TabIndex = 11;
+            this.labFutuThickness.Text = "墙顶覆土厚度:";
             // 
-            // labHuohezai1
+            // labHuohezai
             // 
-            this.labHuohezai1.AutoSize = true;
-            this.labHuohezai1.Location = new System.Drawing.Point(513, 73);
-            this.labHuohezai1.Name = "labHuohezai1";
-            this.labHuohezai1.Size = new System.Drawing.Size(95, 12);
-            this.labHuohezai1.TabIndex = 12;
-            this.labHuohezai1.Text = "地面活荷载(p0):";
+            this.labHuohezai.AutoSize = true;
+            this.labHuohezai.Location = new System.Drawing.Point(15, 360);
+            this.labHuohezai.Name = "labHuohezai";
+            this.labHuohezai.Size = new System.Drawing.Size(95, 12);
+            this.labHuohezai.TabIndex = 12;
+            this.labHuohezai.Text = "地面活荷载(p0):";
             // 
-            // labHenzaiXishu
+            // labHengzaiXishu
             // 
-            this.labHenzaiXishu.AutoSize = true;
-            this.labHenzaiXishu.Location = new System.Drawing.Point(513, 103);
-            this.labHenzaiXishu.Name = "labHenzaiXishu";
-            this.labHenzaiXishu.Size = new System.Drawing.Size(107, 12);
-            this.labHenzaiXishu.TabIndex = 13;
-            this.labHenzaiXishu.Text = "恒载分项系数(rg):";
+            this.labHengzaiXishu.AutoSize = true;
+            this.labHengzaiXishu.Location = new System.Drawing.Point(15, 388);
+            this.labHengzaiXishu.Name = "labHengzaiXishu";
+            this.labHengzaiXishu.Size = new System.Drawing.Size(107, 12);
+            this.labHengzaiXishu.TabIndex = 13;
+            this.labHengzaiXishu.Text = "恒载分项系数(rg):";
             // 
             // labRongzhong2
             // 
             this.labRongzhong2.AutoSize = true;
-            this.labRongzhong2.Location = new System.Drawing.Point(722, 13);
+            this.labRongzhong2.Location = new System.Drawing.Point(228, 304);
             this.labRongzhong2.Name = "labRongzhong2";
             this.labRongzhong2.Size = new System.Drawing.Size(35, 12);
             this.labRongzhong2.TabIndex = 14;
             this.labRongzhong2.Text = "N/mm3";
             // 
-            // labFutuHoudu2
+            // labFutuThickness2
             // 
-            this.labFutuHoudu2.AutoSize = true;
-            this.labFutuHoudu2.Location = new System.Drawing.Point(722, 43);
-            this.labFutuHoudu2.Name = "labFutuHoudu2";
-            this.labFutuHoudu2.Size = new System.Drawing.Size(17, 12);
-            this.labFutuHoudu2.TabIndex = 15;
-            this.labFutuHoudu2.Text = "mm";
+            this.labFutuThickness2.AutoSize = true;
+            this.labFutuThickness2.Location = new System.Drawing.Point(228, 329);
+            this.labFutuThickness2.Name = "labFutuThickness2";
+            this.labFutuThickness2.Size = new System.Drawing.Size(17, 12);
+            this.labFutuThickness2.TabIndex = 15;
+            this.labFutuThickness2.Text = "mm";
             // 
-            // tbFutuHoudu
+            // tbFutuThickness
             // 
-            this.tbFutuHoudu.Location = new System.Drawing.Point(615, 39);
-            this.tbFutuHoudu.Name = "tbFutuHoudu";
-            this.tbFutuHoudu.Size = new System.Drawing.Size(100, 21);
-            this.tbFutuHoudu.TabIndex = 16;
+            this.tbFutuThickness.Location = new System.Drawing.Point(122, 326);
+            this.tbFutuThickness.Name = "tbFutuThickness";
+            this.tbFutuThickness.Size = new System.Drawing.Size(100, 21);
+            this.tbFutuThickness.TabIndex = 16;
             // 
             // tbHuohezai
             // 
-            this.tbHuohezai.Location = new System.Drawing.Point(615, 69);
+            this.tbHuohezai.Location = new System.Drawing.Point(122, 354);
             this.tbHuohezai.Name = "tbHuohezai";
             this.tbHuohezai.Size = new System.Drawing.Size(100, 21);
             this.tbHuohezai.TabIndex = 17;
@@ -265,7 +226,7 @@
             // labHuozaiXishu
             // 
             this.labHuozaiXishu.AutoSize = true;
-            this.labHuozaiXishu.Location = new System.Drawing.Point(513, 133);
+            this.labHuozaiXishu.Location = new System.Drawing.Point(15, 416);
             this.labHuozaiXishu.Name = "labHuozaiXishu";
             this.labHuozaiXishu.Size = new System.Drawing.Size(107, 12);
             this.labHuozaiXishu.TabIndex = 18;
@@ -273,14 +234,14 @@
             // 
             // tbHengzaiXishu
             // 
-            this.tbHengzaiXishu.Location = new System.Drawing.Point(615, 99);
+            this.tbHengzaiXishu.Location = new System.Drawing.Point(122, 382);
             this.tbHengzaiXishu.Name = "tbHengzaiXishu";
             this.tbHengzaiXishu.Size = new System.Drawing.Size(100, 21);
             this.tbHengzaiXishu.TabIndex = 19;
             // 
             // tbHuozaiXishu
             // 
-            this.tbHuozaiXishu.Location = new System.Drawing.Point(615, 129);
+            this.tbHuozaiXishu.Location = new System.Drawing.Point(122, 410);
             this.tbHuozaiXishu.Name = "tbHuozaiXishu";
             this.tbHuozaiXishu.Size = new System.Drawing.Size(100, 21);
             this.tbHuozaiXishu.TabIndex = 20;
@@ -288,7 +249,7 @@
             // labHuohezai2
             // 
             this.labHuohezai2.AutoSize = true;
-            this.labHuohezai2.Location = new System.Drawing.Point(722, 73);
+            this.labHuohezai2.Location = new System.Drawing.Point(228, 360);
             this.labHuohezai2.Name = "labHuohezai2";
             this.labHuohezai2.Size = new System.Drawing.Size(35, 12);
             this.labHuohezai2.TabIndex = 21;
@@ -296,9 +257,9 @@
             // 
             // btnClearBrowse
             // 
-            this.btnClearBrowse.Location = new System.Drawing.Point(640, 191);
+            this.btnClearBrowse.Location = new System.Drawing.Point(278, 12);
             this.btnClearBrowse.Name = "btnClearBrowse";
-            this.btnClearBrowse.Size = new System.Drawing.Size(75, 23);
+            this.btnClearBrowse.Size = new System.Drawing.Size(100, 23);
             this.btnClearBrowse.TabIndex = 22;
             this.btnClearBrowse.Text = "清屏";
             this.btnClearBrowse.UseVisualStyleBackColor = true;
@@ -306,7 +267,7 @@
             // 
             // btnEquivalentNodeLoad
             // 
-            this.btnEquivalentNodeLoad.Location = new System.Drawing.Point(339, 191);
+            this.btnEquivalentNodeLoad.Location = new System.Drawing.Point(278, 126);
             this.btnEquivalentNodeLoad.Name = "btnEquivalentNodeLoad";
             this.btnEquivalentNodeLoad.Size = new System.Drawing.Size(100, 23);
             this.btnEquivalentNodeLoad.TabIndex = 23;
@@ -316,7 +277,7 @@
             // 
             // btnSimplifiedTotalStiffness
             // 
-            this.btnSimplifiedTotalStiffness.Location = new System.Drawing.Point(447, 191);
+            this.btnSimplifiedTotalStiffness.Location = new System.Drawing.Point(278, 164);
             this.btnSimplifiedTotalStiffness.Name = "btnSimplifiedTotalStiffness";
             this.btnSimplifiedTotalStiffness.Size = new System.Drawing.Size(100, 23);
             this.btnSimplifiedTotalStiffness.TabIndex = 24;
@@ -326,7 +287,7 @@
             // 
             // btnInnerForceCal
             // 
-            this.btnInnerForceCal.Location = new System.Drawing.Point(15, 224);
+            this.btnInnerForceCal.Location = new System.Drawing.Point(278, 202);
             this.btnInnerForceCal.Name = "btnInnerForceCal";
             this.btnInnerForceCal.Size = new System.Drawing.Size(100, 23);
             this.btnInnerForceCal.TabIndex = 25;
@@ -337,7 +298,7 @@
             // lbT
             // 
             this.lbT.AutoSize = true;
-            this.lbT.Location = new System.Drawing.Point(513, 163);
+            this.lbT.Location = new System.Drawing.Point(15, 444);
             this.lbT.Name = "lbT";
             this.lbT.Size = new System.Drawing.Size(101, 12);
             this.lbT.TabIndex = 26;
@@ -345,14 +306,14 @@
             // 
             // tbT
             // 
-            this.tbT.Location = new System.Drawing.Point(615, 159);
+            this.tbT.Location = new System.Drawing.Point(122, 438);
             this.tbT.Name = "tbT";
             this.tbT.Size = new System.Drawing.Size(100, 21);
             this.tbT.TabIndex = 27;
             // 
             // btnInnerForceTiaofu
             // 
-            this.btnInnerForceTiaofu.Location = new System.Drawing.Point(123, 224);
+            this.btnInnerForceTiaofu.Location = new System.Drawing.Point(278, 240);
             this.btnInnerForceTiaofu.Name = "btnInnerForceTiaofu";
             this.btnInnerForceTiaofu.Size = new System.Drawing.Size(100, 23);
             this.btnInnerForceTiaofu.TabIndex = 28;
@@ -362,7 +323,7 @@
             // 
             // btnMaxM
             // 
-            this.btnMaxM.Location = new System.Drawing.Point(231, 224);
+            this.btnMaxM.Location = new System.Drawing.Point(278, 278);
             this.btnMaxM.Name = "btnMaxM";
             this.btnMaxM.Size = new System.Drawing.Size(100, 23);
             this.btnMaxM.TabIndex = 29;
@@ -372,7 +333,7 @@
             // 
             // btnInnerForceZuhe
             // 
-            this.btnInnerForceZuhe.Location = new System.Drawing.Point(339, 224);
+            this.btnInnerForceZuhe.Location = new System.Drawing.Point(278, 316);
             this.btnInnerForceZuhe.Name = "btnInnerForceZuhe";
             this.btnInnerForceZuhe.Size = new System.Drawing.Size(100, 23);
             this.btnInnerForceZuhe.TabIndex = 30;
@@ -380,12 +341,216 @@
             this.btnInnerForceZuhe.UseVisualStyleBackColor = true;
             this.btnInnerForceZuhe.Click += new System.EventHandler(this.btnInnerForceZuhe_Click);
             // 
+            // labConcreteGrade
+            // 
+            this.labConcreteGrade.AutoSize = true;
+            this.labConcreteGrade.Location = new System.Drawing.Point(15, 192);
+            this.labConcreteGrade.Name = "labConcreteGrade";
+            this.labConcreteGrade.Size = new System.Drawing.Size(71, 12);
+            this.labConcreteGrade.TabIndex = 31;
+            this.labConcreteGrade.Text = "混凝土等级:";
+            // 
+            // cmbConcreteGrade
+            // 
+            this.cmbConcreteGrade.FormattingEnabled = true;
+            this.cmbConcreteGrade.Items.AddRange(new object[] {
+            "20",
+            "25",
+            "30",
+            "35",
+            "40",
+            "45",
+            "50"});
+            this.cmbConcreteGrade.Location = new System.Drawing.Point(122, 188);
+            this.cmbConcreteGrade.Name = "cmbConcreteGrade";
+            this.cmbConcreteGrade.Size = new System.Drawing.Size(100, 20);
+            this.cmbConcreteGrade.TabIndex = 32;
+            // 
+            // labRebarGrade
+            // 
+            this.labRebarGrade.AutoSize = true;
+            this.labRebarGrade.Location = new System.Drawing.Point(15, 220);
+            this.labRebarGrade.Name = "labRebarGrade";
+            this.labRebarGrade.Size = new System.Drawing.Size(59, 12);
+            this.labRebarGrade.TabIndex = 33;
+            this.labRebarGrade.Text = "钢筋等级:";
+            // 
+            // cmbRebarGrade
+            // 
+            this.cmbRebarGrade.FormattingEnabled = true;
+            this.cmbRebarGrade.Items.AddRange(new object[] {
+            "300",
+            "335",
+            "400",
+            "500"});
+            this.cmbRebarGrade.Location = new System.Drawing.Point(122, 215);
+            this.cmbRebarGrade.Name = "cmbRebarGrade";
+            this.cmbRebarGrade.Size = new System.Drawing.Size(100, 20);
+            this.cmbRebarGrade.TabIndex = 34;
+            // 
+            // labConcretePrice
+            // 
+            this.labConcretePrice.AutoSize = true;
+            this.labConcretePrice.Location = new System.Drawing.Point(15, 248);
+            this.labConcretePrice.Name = "labConcretePrice";
+            this.labConcretePrice.Size = new System.Drawing.Size(71, 12);
+            this.labConcretePrice.TabIndex = 35;
+            this.labConcretePrice.Text = "混凝土单价:";
+            // 
+            // tbConcretePrice
+            // 
+            this.tbConcretePrice.Location = new System.Drawing.Point(122, 242);
+            this.tbConcretePrice.Name = "tbConcretePrice";
+            this.tbConcretePrice.Size = new System.Drawing.Size(100, 21);
+            this.tbConcretePrice.TabIndex = 36;
+            // 
+            // labConcretePrice2
+            // 
+            this.labConcretePrice2.AutoSize = true;
+            this.labConcretePrice2.Location = new System.Drawing.Point(228, 246);
+            this.labConcretePrice2.Name = "labConcretePrice2";
+            this.labConcretePrice2.Size = new System.Drawing.Size(23, 12);
+            this.labConcretePrice2.TabIndex = 37;
+            this.labConcretePrice2.Text = "/m3";
+            // 
+            // labRebarPrice
+            // 
+            this.labRebarPrice.AutoSize = true;
+            this.labRebarPrice.Location = new System.Drawing.Point(15, 276);
+            this.labRebarPrice.Name = "labRebarPrice";
+            this.labRebarPrice.Size = new System.Drawing.Size(59, 12);
+            this.labRebarPrice.TabIndex = 38;
+            this.labRebarPrice.Text = "钢筋单价:";
+            // 
+            // tbRebarPrice
+            // 
+            this.tbRebarPrice.Location = new System.Drawing.Point(122, 270);
+            this.tbRebarPrice.Name = "tbRebarPrice";
+            this.tbRebarPrice.Size = new System.Drawing.Size(100, 21);
+            this.tbRebarPrice.TabIndex = 39;
+            // 
+            // labRebarPrice2
+            // 
+            this.labRebarPrice2.AutoSize = true;
+            this.labRebarPrice2.Location = new System.Drawing.Point(228, 274);
+            this.labRebarPrice2.Name = "labRebarPrice2";
+            this.labRebarPrice2.Size = new System.Drawing.Size(17, 12);
+            this.labRebarPrice2.TabIndex = 40;
+            this.labRebarPrice2.Text = "/t";
+            // 
+            // labSeismicGrade
+            // 
+            this.labSeismicGrade.AutoSize = true;
+            this.labSeismicGrade.Location = new System.Drawing.Point(15, 472);
+            this.labSeismicGrade.Name = "labSeismicGrade";
+            this.labSeismicGrade.Size = new System.Drawing.Size(59, 12);
+            this.labSeismicGrade.TabIndex = 41;
+            this.labSeismicGrade.Text = "抗震等级:";
+            // 
+            // cmbSeismicGrade
+            // 
+            this.cmbSeismicGrade.FormattingEnabled = true;
+            this.cmbSeismicGrade.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "3",
+            "4"});
+            this.cmbSeismicGrade.Location = new System.Drawing.Point(122, 466);
+            this.cmbSeismicGrade.Name = "cmbSeismicGrade";
+            this.cmbSeismicGrade.Size = new System.Drawing.Size(100, 20);
+            this.cmbSeismicGrade.TabIndex = 42;
+            // 
+            // labRoofThickness
+            // 
+            this.labRoofThickness.AutoSize = true;
+            this.labRoofThickness.Location = new System.Drawing.Point(15, 500);
+            this.labRoofThickness.Name = "labRoofThickness";
+            this.labRoofThickness.Size = new System.Drawing.Size(95, 12);
+            this.labRoofThickness.TabIndex = 43;
+            this.labRoofThickness.Text = "地下室顶板厚度:";
+            // 
+            // tbRoofThickness
+            // 
+            this.tbRoofThickness.Location = new System.Drawing.Point(122, 493);
+            this.tbRoofThickness.Name = "tbRoofThickness";
+            this.tbRoofThickness.Size = new System.Drawing.Size(100, 21);
+            this.tbRoofThickness.TabIndex = 44;
+            // 
+            // labRoofThickness2
+            // 
+            this.labRoofThickness2.AutoSize = true;
+            this.labRoofThickness2.Location = new System.Drawing.Point(228, 499);
+            this.labRoofThickness2.Name = "labRoofThickness2";
+            this.labRoofThickness2.Size = new System.Drawing.Size(17, 12);
+            this.labRoofThickness2.TabIndex = 45;
+            this.labRoofThickness2.Text = "mm";
+            // 
+            // labCs
+            // 
+            this.labCs.AutoSize = true;
+            this.labCs.Location = new System.Drawing.Point(15, 528);
+            this.labCs.Name = "labCs";
+            this.labCs.Size = new System.Drawing.Size(71, 12);
+            this.labCs.TabIndex = 46;
+            this.labCs.Text = "保护层后度:";
+            // 
+            // tbCs
+            // 
+            this.tbCs.Location = new System.Drawing.Point(122, 521);
+            this.tbCs.Name = "tbCs";
+            this.tbCs.Size = new System.Drawing.Size(100, 21);
+            this.tbCs.TabIndex = 47;
+            // 
+            // labCs2
+            // 
+            this.labCs2.AutoSize = true;
+            this.labCs2.Location = new System.Drawing.Point(228, 524);
+            this.labCs2.Name = "labCs2";
+            this.labCs2.Size = new System.Drawing.Size(17, 12);
+            this.labCs2.TabIndex = 48;
+            this.labCs2.Text = "mm";
+            // 
+            // floorHeight
+            // 
+            this.floorHeight.Frozen = true;
+            this.floorHeight.HeaderText = "层高(mm)";
+            this.floorHeight.Name = "floorHeight";
+            // 
+            // btnReinforcementCalculation
+            // 
+            this.btnReinforcementCalculation.Location = new System.Drawing.Point(278, 354);
+            this.btnReinforcementCalculation.Name = "btnReinforcementCalculation";
+            this.btnReinforcementCalculation.Size = new System.Drawing.Size(100, 23);
+            this.btnReinforcementCalculation.TabIndex = 49;
+            this.btnReinforcementCalculation.Text = "配筋计算";
+            this.btnReinforcementCalculation.UseVisualStyleBackColor = true;
+            this.btnReinforcementCalculation.Click += new System.EventHandler(this.btnReinforcementCalculation_Click);
+            // 
             // mainForm
             // 
             this.AccessibleName = "floor";
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(984, 561);
+            this.Controls.Add(this.btnReinforcementCalculation);
+            this.Controls.Add(this.labCs2);
+            this.Controls.Add(this.tbCs);
+            this.Controls.Add(this.labCs);
+            this.Controls.Add(this.labRoofThickness2);
+            this.Controls.Add(this.tbRoofThickness);
+            this.Controls.Add(this.labRoofThickness);
+            this.Controls.Add(this.cmbSeismicGrade);
+            this.Controls.Add(this.labSeismicGrade);
+            this.Controls.Add(this.labRebarPrice2);
+            this.Controls.Add(this.tbRebarPrice);
+            this.Controls.Add(this.labRebarPrice);
+            this.Controls.Add(this.labConcretePrice2);
+            this.Controls.Add(this.tbConcretePrice);
+            this.Controls.Add(this.labConcretePrice);
+            this.Controls.Add(this.cmbRebarGrade);
+            this.Controls.Add(this.labRebarGrade);
+            this.Controls.Add(this.cmbConcreteGrade);
+            this.Controls.Add(this.labConcreteGrade);
             this.Controls.Add(this.btnInnerForceZuhe);
             this.Controls.Add(this.btnMaxM);
             this.Controls.Add(this.btnInnerForceTiaofu);
@@ -400,21 +565,21 @@
             this.Controls.Add(this.tbHengzaiXishu);
             this.Controls.Add(this.labHuozaiXishu);
             this.Controls.Add(this.tbHuohezai);
-            this.Controls.Add(this.tbFutuHoudu);
-            this.Controls.Add(this.labFutuHoudu2);
+            this.Controls.Add(this.tbFutuThickness);
+            this.Controls.Add(this.labFutuThickness2);
             this.Controls.Add(this.labRongzhong2);
-            this.Controls.Add(this.labHenzaiXishu);
-            this.Controls.Add(this.labHuohezai1);
-            this.Controls.Add(this.labFutuHoudu1);
+            this.Controls.Add(this.labHengzaiXishu);
+            this.Controls.Add(this.labHuohezai);
+            this.Controls.Add(this.labFutuThickness);
             this.Controls.Add(this.tbRongZhong);
             this.Controls.Add(this.labRongzhong1);
             this.Controls.Add(this.btnLoadCalculation);
             this.Controls.Add(this.btnTotalStiffnessMatrix);
-            this.Controls.Add(this.btnUnitStiffnessMatrix);
             this.Controls.Add(this.rtbBrowser);
             this.Controls.Add(this.dgvInput);
             this.Name = "mainForm";
             this.Text = "挡土墙计算";
+            this.Load += new System.EventHandler(this.mainForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvInput)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -424,21 +589,16 @@
         #endregion
         private System.Windows.Forms.DataGridView dgvInput;
         private System.Windows.Forms.RichTextBox rtbBrowser;
-        private System.Windows.Forms.Button btnUnitStiffnessMatrix;
         private System.Windows.Forms.Button btnTotalStiffnessMatrix;
         private System.Windows.Forms.Button btnLoadCalculation;
-        private System.Windows.Forms.DataGridViewTextBoxColumn floorHeight;
-        private System.Windows.Forms.DataGridViewTextBoxColumn wallWidth;
-        private System.Windows.Forms.DataGridViewComboBoxColumn ConcreteGrade;
-        private System.Windows.Forms.DataGridViewComboBoxColumn RebarGrade;
         private System.Windows.Forms.Label labRongzhong1;
         private System.Windows.Forms.TextBox tbRongZhong;
-        private System.Windows.Forms.Label labFutuHoudu1;
-        private System.Windows.Forms.Label labHuohezai1;
-        private System.Windows.Forms.Label labHenzaiXishu;
+        private System.Windows.Forms.Label labFutuThickness;
+        private System.Windows.Forms.Label labHuohezai;
+        private System.Windows.Forms.Label labHengzaiXishu;
         private System.Windows.Forms.Label labRongzhong2;
-        private System.Windows.Forms.Label labFutuHoudu2;
-        private System.Windows.Forms.TextBox tbFutuHoudu;
+        private System.Windows.Forms.Label labFutuThickness2;
+        private System.Windows.Forms.TextBox tbFutuThickness;
         private System.Windows.Forms.TextBox tbHuohezai;
         private System.Windows.Forms.Label labHuozaiXishu;
         private System.Windows.Forms.TextBox tbHengzaiXishu;
@@ -453,6 +613,26 @@
         private System.Windows.Forms.Button btnInnerForceTiaofu;
         private System.Windows.Forms.Button btnMaxM;
         private System.Windows.Forms.Button btnInnerForceZuhe;
+        private System.Windows.Forms.Label labConcreteGrade;
+        private System.Windows.Forms.ComboBox cmbConcreteGrade;
+        private System.Windows.Forms.Label labRebarGrade;
+        private System.Windows.Forms.ComboBox cmbRebarGrade;
+        private System.Windows.Forms.Label labConcretePrice;
+        private System.Windows.Forms.TextBox tbConcretePrice;
+        private System.Windows.Forms.Label labConcretePrice2;
+        private System.Windows.Forms.Label labRebarPrice;
+        private System.Windows.Forms.TextBox tbRebarPrice;
+        private System.Windows.Forms.Label labRebarPrice2;
+        private System.Windows.Forms.Label labSeismicGrade;
+        private System.Windows.Forms.ComboBox cmbSeismicGrade;
+        private System.Windows.Forms.Label labRoofThickness;
+        private System.Windows.Forms.TextBox tbRoofThickness;
+        private System.Windows.Forms.Label labRoofThickness2;
+        private System.Windows.Forms.Label labCs;
+        private System.Windows.Forms.TextBox tbCs;
+        private System.Windows.Forms.Label labCs2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn floorHeight;
+        private System.Windows.Forms.Button btnReinforcementCalculation;
     }
 }
 

@@ -3,70 +3,76 @@ using System.Windows.Forms;
 using LinearAlgebra;
 using LinearAlgebra.VectorAlgebra;
 
+
 namespace Dr.RetainingWall
 {
     public partial class mainForm : Form
     {
-        private Output output = new Output();
         private Input input = new Input();
+        private Output output = new Output();
         public mainForm()
         {
             InitializeComponent();
-
-            dgvInput.Rows.Add();
-            dgvInput.Rows[0].Cells[0].Value = "4000";
-            dgvInput.Rows[0].Cells[1].Value = "300";
-            dgvInput.Rows[0].Cells[2].Value = "30";
-            dgvInput.Rows[0].Cells[3].Value = "400";
-
-            tbRongZhong.Text = input.r.ToString();
-            tbFutuHoudu.Text = input.fh.ToString();
-            tbHuohezai.Text = input.p0.ToString();
-            tbHengzaiXishu.Text = input.rg.ToString();
-            tbHuozaiXishu.Text = input.rq.ToString();
-            tbT.Text = input.T.ToString();
         }
 
-        private Input GetInputParameters()
+        private void mainForm_Load(object sender, EventArgs e)
         {
-            Input input = new Input();
-            int rowCounts = dgvInput.Rows.Count;
+            dgvInput.Rows.Add();
+            dgvInput.Rows[0].Cells[0].Value = "4000";
+            cmbConcreteGrade.Text = input.m_ConcreteGrade.ToString();
+            cmbRebarGrade.Text = input.m_RebarGrade.ToString();
+            tbConcretePrice.Text = input.m_ConcretePrice.ToString();
+            tbRebarPrice.Text = input.m_RebarPrice.ToString();
+            tbRongZhong.Text = input.m_r.ToString();
+            tbFutuThickness.Text = input.m_fh.ToString();
+            tbHuohezai.Text = input.m_p0.ToString();
+            tbHengzaiXishu.Text = input.m_rg.ToString();
+            tbHuozaiXishu.Text = input.m_rq.ToString();
+            tbT.Text = input.m_T.ToString();
+            cmbSeismicGrade.Text = input.m_SeismicGrade.ToString();
+            tbRoofThickness.Text = input.m_RoofThickness.ToString();
+            tbCs.Text = input.m_cs.ToString();
+        }
+
+        private void RefreshInput()
+        {
+            int rowCounts = dgvInput.Rows.Count - 1;
             double[] heights = new double[rowCounts];
-            double[] widths = new double[rowCounts];
-            int[] concreteGrades = new int[rowCounts];
-            int[] rebarGrades = new int[rowCounts];
-            if (rowCounts > 0 && rowCounts < 5)
+            if (rowCounts > 0 && rowCounts < 4)
             {
-                for (int i = 0; i < rowCounts - 1; i++)
+                for (int i = 0; i < rowCounts; i++)
                 {
                     string strHeight = dgvInput.Rows[i].Cells[0].Value.ToString();
-                    string strWidth = dgvInput.Rows[i].Cells[1].Value.ToString();
-                    string strConcreteGrade = dgvInput.Rows[i].Cells[2].Value.ToString();
-                    string strRebarGrade = dgvInput.Rows[i].Cells[3].Value.ToString();
                     heights[i] = Util.ToDouble(strHeight);
-                    widths[i] = Util.ToDouble(strWidth);
-                    concreteGrades[i] = Util.ToInt(strConcreteGrade);
-                    rebarGrades[i] = Util.ToInt(strRebarGrade);
                 }
-                input = new Input(rowCounts - 1, heights, widths, concreteGrades, rebarGrades);
             }
-            else if (rowCounts >= 5)
+            else if (rowCounts >= 4)
             {
                 MessageBox.Show("目前该软件只支持4层(含)以下挡土墙计算。");
-                return null;
             }
             else
             {
                 MessageBox.Show("请在表格中输入参数。");
-                return null;
             }
+            int concreteGrade = Util.ToInt(cmbConcreteGrade.SelectedItem.ToString());
+            int rebarGrade = Util.ToInt(cmbRebarGrade.SelectedItem.ToString());
+            input = new Input(rowCounts, heights, concreteGrade, rebarGrade);
+            input.m_ConcretePrice = Util.ToDouble(tbConcretePrice.Text);
+            input.m_RebarPrice = Util.ToDouble(tbRebarPrice.Text);
 
-            input.r = Util.ToDouble(tbRongZhong.Text);
-            input.fh = Util.ToDouble(tbFutuHoudu.Text);
-            input.p0 = Util.ToDouble(tbHuohezai.Text);
-            input.rg = Util.ToDouble(tbHengzaiXishu.Text);
-            input.rq = Util.ToDouble(tbHuozaiXishu.Text);
-            return input;
+            input.m_r = Util.ToDouble(tbRongZhong.Text);
+            input.m_fh = Util.ToDouble(tbFutuThickness.Text);
+            input.m_p0 = Util.ToDouble(tbHuohezai.Text);
+            input.m_rg = Util.ToDouble(tbHengzaiXishu.Text);
+            input.m_rq = Util.ToDouble(tbHuozaiXishu.Text);
+            input.m_T = Util.ToDouble(tbT.Text);
+            input.m_SeismicGrade = Util.ToInt(cmbSeismicGrade.Text);
+            input.m_RoofThickness = Util.ToDouble(tbRoofThickness.Text);
+            input.m_cs = Util.ToDouble(tbCs.Text);
+        }
+        private void btnClearBrowse_Click(object sender, EventArgs e)
+        {
+            rtbBrowser.Clear();
         }
 
         private void dgvInput_RowStateChanged(object sender, DataGridViewRowStateChangedEventArgs e)
@@ -87,25 +93,15 @@ namespace Dr.RetainingWall
 
         }
 
-        private void btnUnitStiffnessMatrix_Click(object sender, EventArgs e)
-        {
-            rtbBrowser.AppendText("\n");
-            Input ip = GetInputParameters();
-            for (int i = 0; i < ip.n; i++)
-            {
-                Matrix mUnitK = StiffnessMatrix.PlaneFrameElementStiffness(ip.E[i], ip.A[i], ip.I[i], ip.H[i]);
-                string strUnitK = mUnitK.ToString("e");
-                rtbBrowser.AppendText("第" + (i + 1) + "层挡土墙单元刚度矩阵：\n");
-                rtbBrowser.AppendText(strUnitK);
-            }
-        }
-
         private void btnTotalStiffnessMatrix_Click(object sender, EventArgs e)
         {
             rtbBrowser.AppendText("\n");
-            Input ip = GetInputParameters();
-            Matrix mK = StiffnessMatrix.zonggangjuzhen(ip.n, ip.E, ip.A, ip.I, ip.H);
-            output.totalStiffness = mK;
+            RefreshInput();
+
+            input.SetWallWidth(new double[]{ 250 });
+            Matrix mK = StiffnessMatrix.zonggangjuzhen(input.m_FloorCount, input.m_E, input.m_A, input.m_I, input.m_WallHeights);
+            output.m_K = mK;
+
             string strK = mK.ToString("e");
             rtbBrowser.AppendText("总刚度矩阵：\n");
             rtbBrowser.AppendText(strK);
@@ -113,15 +109,12 @@ namespace Dr.RetainingWall
 
         private void btnLoadCalculation_Click(object sender, EventArgs e)
         {
-            Input ip = GetInputParameters();
-            if (ip == null)
-            {
-                return;
-            }
-            double[] mLoad = LoadCalculation.hezaijisuan(ip.n, ip.H, ip.r, ip.fh, ip.p0, ip.rg, ip.rq);
-            output.Q = mLoad;
-
             rtbBrowser.AppendText("\n");
+            RefreshInput();
+
+            double[] mLoad = LoadCalculation.hezaijisuan(input.m_FloorCount, input.m_WallHeights, input.m_r, input.m_fh, input.m_p0, input.m_rg, input.m_rq);
+            output.m_Q = mLoad;
+
             string strLoad = Util.ToString(mLoad);
             rtbBrowser.AppendText("荷载：\n");
             rtbBrowser.AppendText(strLoad);
@@ -130,18 +123,13 @@ namespace Dr.RetainingWall
 
         private void btnEquivalentNodeLoad_Click(object sender, EventArgs e)
         {
-            Input ip = GetInputParameters();
-            if (ip == null)
-            {
-                return;
-            }
-            double[] mLoad = LoadCalculation.hezaijisuan(ip.n, ip.H, ip.r, ip.fh, ip.p0, ip.rg, ip.rq);
-            double[] f01 = LoadCalculation.dengxiaojiedianhezai01(ip.n, ip.H, mLoad);
-            double[] f02 = LoadCalculation.dengxiaojiedianhezai02(ip.n, ip.H, mLoad);
-            output.f01 = new Vector(f01, VectorType.Column);
-            output.f02 = new Vector(f02, VectorType.Column);
-
             rtbBrowser.AppendText("\n");
+            RefreshInput();
+            double[] f01 = LoadCalculation.dengxiaojiedianhezai01(input.m_FloorCount, input.m_WallHeights, output.m_Q);
+            double[] f02 = LoadCalculation.dengxiaojiedianhezai02(input.m_FloorCount, input.m_WallHeights, output.m_Q);
+            output.m_f01 = new Vector(f01, VectorType.Column);
+            output.m_f02 = new Vector(f02, VectorType.Column);
+
             string strF01 = Util.ToString(f01);
             string strF02 = Util.ToString(f02);
             rtbBrowser.AppendText("等效节点荷载：\n");
@@ -151,14 +139,24 @@ namespace Dr.RetainingWall
 
         private void btnSimplifiedTotalStiffness_Click(object sender, EventArgs e)
         {
-            Matrix K01 = BoundaryCondition.weiyibianjie01(input.n, output.totalStiffness);
-            Matrix K02 = BoundaryCondition.weiyibianjie02(input.n, output.totalStiffness);
-            output.K01 = K01;
-            output.K02 = K02;
-
             rtbBrowser.AppendText("\n");
-            string strK01 = K01.ToString();
-            string strK02 = K02.ToString();
+            RefreshInput();
+            input.SetWallWidth(new double[] { 250 });
+
+            output.m_K = StiffnessMatrix.zonggangjuzhen(input.m_FloorCount, input.m_E, input.m_A, input.m_I, input.m_WallHeights);
+            output.m_Q = LoadCalculation.hezaijisuan(input.m_FloorCount, input.m_WallHeights, input.m_r, input.m_fh, input.m_p0, input.m_rg, input.m_rq);
+            double[] f01 = LoadCalculation.dengxiaojiedianhezai01(input.m_FloorCount, input.m_WallHeights, output.m_Q);
+            double[] f02 = LoadCalculation.dengxiaojiedianhezai02(input.m_FloorCount, input.m_WallHeights, output.m_Q);
+            output.m_f01 = new Vector(f01, VectorType.Column);
+            output.m_f02 = new Vector(f02, VectorType.Column);
+
+            Matrix K01 = BoundaryCondition.weiyibianjie01(input.m_FloorCount, output.m_K);
+            Matrix K02 = BoundaryCondition.weiyibianjie02(input.m_FloorCount, output.m_K);
+            output.m_K01 = K01;
+            output.m_K02 = K02;
+
+            string strK01 = K01.ToString("e");
+            string strK02 = K02.ToString("e");
             rtbBrowser.AppendText("划行划列后的刚度矩阵：\n");
             rtbBrowser.AppendText("位移边界条件1：\n");
             rtbBrowser.AppendText(strK01 + "\n");
@@ -168,57 +166,156 @@ namespace Dr.RetainingWall
 
         private void btnInnerForceCal_Click(object sender, EventArgs e)
         {
-            Vector M01 = InnerForceCalculation.neilijisuan01(output.totalStiffness, output.K01, output.f01, input.n, output.Q, input.H);
-            Vector M02 = InnerForceCalculation.neilijisuan02(output.totalStiffness, output.K02, output.f02, input.n, output.Q, input.H);
-            output.M01 = M01;
-            output.M02 = M02;
-
             rtbBrowser.AppendText("\n");
-            string strM01 = M01.ToString();
-            string strM02 = M02.ToString();
+            RefreshInput();
+            input.SetWallWidth(new double[] { 250 });
+
+            output.m_K = StiffnessMatrix.zonggangjuzhen(input.m_FloorCount, input.m_E, input.m_A, input.m_I, input.m_WallHeights);
+            output.m_Q = LoadCalculation.hezaijisuan(input.m_FloorCount, input.m_WallHeights, input.m_r, input.m_fh, input.m_p0, input.m_rg, input.m_rq);
+            double[] f01 = LoadCalculation.dengxiaojiedianhezai01(input.m_FloorCount, input.m_WallHeights, output.m_Q);
+            double[] f02 = LoadCalculation.dengxiaojiedianhezai02(input.m_FloorCount, input.m_WallHeights, output.m_Q);
+            output.m_f01 = new Vector(f01, VectorType.Column);
+            output.m_f02 = new Vector(f02, VectorType.Column);
+
+            output.m_K01 = BoundaryCondition.weiyibianjie01(input.m_FloorCount, output.m_K);
+            output.m_K02 = BoundaryCondition.weiyibianjie02(input.m_FloorCount, output.m_K);
+
+            Matrix M01 = InnerForceCalculation.neilijisuan01(
+                input.m_E, input.m_A, input.m_I, output.m_K01, output.m_f01, input.m_FloorCount, output.m_Q, input.m_WallHeights);
+            Matrix M02 = InnerForceCalculation.neilijisuan02(
+                input.m_E, input.m_A, input.m_I, output.m_K02, output.m_f02, input.m_FloorCount, output.m_Q, input.m_WallHeights);
+            output.m_M01 = M01;
+            output.m_M02 = M02;
+
+            string strM01 = M01.ToString("e");
+            string strM02 = M02.ToString("e");
             rtbBrowser.AppendText("内力计算：\n");
             rtbBrowser.AppendText("M01：\n");
             rtbBrowser.AppendText(strM01 + "\n");
             rtbBrowser.AppendText("M02：\n");
-            rtbBrowser.AppendText(strM01);
+            rtbBrowser.AppendText(strM02);
 
         }
 
         private void btnInnerForceTiaofu_Click(object sender, EventArgs e)
         {
-            Vector MM = InnerForceCalculation.neilitiaofu(output.M01, output.M02, input.T);
-            output.MM = MM;
-
             rtbBrowser.AppendText("\n");
-            string strMM = MM.ToString();
+            RefreshInput();
+            input.SetWallWidth(new double[] { 250 });
+
+            output.m_K = StiffnessMatrix.zonggangjuzhen(input.m_FloorCount, input.m_E, input.m_A, input.m_I, input.m_WallHeights);
+            output.m_Q = LoadCalculation.hezaijisuan(input.m_FloorCount, input.m_WallHeights, input.m_r, input.m_fh, input.m_p0, input.m_rg, input.m_rq);
+            double[] f01 = LoadCalculation.dengxiaojiedianhezai01(input.m_FloorCount, input.m_WallHeights, output.m_Q);
+            double[] f02 = LoadCalculation.dengxiaojiedianhezai02(input.m_FloorCount, input.m_WallHeights, output.m_Q);
+            output.m_f01 = new Vector(f01, VectorType.Column);
+            output.m_f02 = new Vector(f02, VectorType.Column);
+            output.m_K01 = BoundaryCondition.weiyibianjie01(input.m_FloorCount, output.m_K);
+            output.m_K02 = BoundaryCondition.weiyibianjie02(input.m_FloorCount, output.m_K);
+            output.m_M01 = InnerForceCalculation.neilijisuan01(
+                input.m_E, input.m_A, input.m_I, output.m_K01, output.m_f01, input.m_FloorCount, output.m_Q, input.m_WallHeights);
+            output.m_M02 = InnerForceCalculation.neilijisuan02(
+                input.m_E, input.m_A, input.m_I, output.m_K02, output.m_f02, input.m_FloorCount, output.m_Q, input.m_WallHeights);
+
+            Matrix MM = InnerForceCalculation.neilitiaofu(output.m_M01, output.m_M02, input.m_T);
+            output.m_MM = MM;
+
+            string strMM = MM.ToString("e");
             rtbBrowser.AppendText("内力调幅：\n");
             rtbBrowser.AppendText(strMM);
         }
 
         private void btnMaxM_Click(object sender, EventArgs e)
         {
-            Vector Mmax = InnerForceCalculation.kuazhongzuidaM(output.MM, input.n, output.Q, input.H);
-            output.Mmax = Mmax;
-
             rtbBrowser.AppendText("\n");
-            string strMmax = Mmax.ToString();
+            RefreshInput();
+            input.SetWallWidth(new double[] { 250 });
+
+            output.m_K = StiffnessMatrix.zonggangjuzhen(input.m_FloorCount, input.m_E, input.m_A, input.m_I, input.m_WallHeights);
+            output.m_Q = LoadCalculation.hezaijisuan(input.m_FloorCount, input.m_WallHeights, input.m_r, input.m_fh, input.m_p0, input.m_rg, input.m_rq);
+            double[] f01 = LoadCalculation.dengxiaojiedianhezai01(input.m_FloorCount, input.m_WallHeights, output.m_Q);
+            double[] f02 = LoadCalculation.dengxiaojiedianhezai02(input.m_FloorCount, input.m_WallHeights, output.m_Q);
+            output.m_f01 = new Vector(f01, VectorType.Column);
+            output.m_f02 = new Vector(f02, VectorType.Column);
+            output.m_K01 = BoundaryCondition.weiyibianjie01(input.m_FloorCount, output.m_K);
+            output.m_K02 = BoundaryCondition.weiyibianjie02(input.m_FloorCount, output.m_K);
+            output.m_M01 = InnerForceCalculation.neilijisuan01(
+                input.m_E, input.m_A, input.m_I, output.m_K01, output.m_f01, input.m_FloorCount, output.m_Q, input.m_WallHeights);
+            output.m_M02 = InnerForceCalculation.neilijisuan02(
+                input.m_E, input.m_A, input.m_I, output.m_K02, output.m_f02, input.m_FloorCount, output.m_Q, input.m_WallHeights);
+
+            output.m_MM = InnerForceCalculation.neilitiaofu(output.m_M01, output.m_M02, input.m_T);
+
+            double[] Mmax = InnerForceCalculation.kuazhongzuidaM(output.m_MM, input.m_FloorCount, output.m_Q, input.m_WallHeights);
+            output.m_Mmax = Mmax;
+
+            string strMmax = Util.ToString(Mmax);
             rtbBrowser.AppendText("最大跨中弯矩：\n");
             rtbBrowser.AppendText(strMmax);
         }
 
         private void btnInnerForceZuhe_Click(object sender, EventArgs e)
         {
-            Vector M = InnerForceCalculation.neilizuhe(input.n, output.MM, output.Mmax);
-            output.M = M;
-
             rtbBrowser.AppendText("\n");
-            string strM = M.ToString();
+            RefreshInput();
+            input.SetWallWidth(new double[] { 250 });
+
+            output.m_K = StiffnessMatrix.zonggangjuzhen(input.m_FloorCount, input.m_E, input.m_A, input.m_I, input.m_WallHeights);
+            output.m_Q = LoadCalculation.hezaijisuan(input.m_FloorCount, input.m_WallHeights, input.m_r, input.m_fh, input.m_p0, input.m_rg, input.m_rq);
+            double[] f01 = LoadCalculation.dengxiaojiedianhezai01(input.m_FloorCount, input.m_WallHeights, output.m_Q);
+            double[] f02 = LoadCalculation.dengxiaojiedianhezai02(input.m_FloorCount, input.m_WallHeights, output.m_Q);
+            output.m_f01 = new Vector(f01, VectorType.Column);
+            output.m_f02 = new Vector(f02, VectorType.Column);
+            output.m_K01 = BoundaryCondition.weiyibianjie01(input.m_FloorCount, output.m_K);
+            output.m_K02 = BoundaryCondition.weiyibianjie02(input.m_FloorCount, output.m_K);
+            output.m_M01 = InnerForceCalculation.neilijisuan01(
+                input.m_E, input.m_A, input.m_I, output.m_K01, output.m_f01, input.m_FloorCount, output.m_Q, input.m_WallHeights);
+            output.m_M02 = InnerForceCalculation.neilijisuan02(
+                input.m_E, input.m_A, input.m_I, output.m_K02, output.m_f02, input.m_FloorCount, output.m_Q, input.m_WallHeights);
+
+            output.m_MM = InnerForceCalculation.neilitiaofu(output.m_M01, output.m_M02, input.m_T);
+            output.m_Mmax = InnerForceCalculation.kuazhongzuidaM(output.m_MM, input.m_FloorCount, output.m_Q, input.m_WallHeights);
+
+            double[] M = InnerForceCalculation.neilizuhe(input.m_FloorCount, output.m_MM, output.m_Mmax);
+            output.m_M = M;
+
+            string strM = Util.ToString(M);
             rtbBrowser.AppendText("内力组合：\n");
             rtbBrowser.AppendText(strM);
         }
-        private void btnClearBrowse_Click(object sender, EventArgs e)
+
+        private void btnReinforcementCalculation_Click(object sender, EventArgs e)
         {
-            rtbBrowser.Clear();
+            rtbBrowser.AppendText("\n");
+            RefreshInput();
+            input.SetWallWidth(new double[] { 250 });
+
+            output.m_K = StiffnessMatrix.zonggangjuzhen(input.m_FloorCount, input.m_E, input.m_A, input.m_I, input.m_WallHeights);
+            output.m_Q = LoadCalculation.hezaijisuan(input.m_FloorCount, input.m_WallHeights, input.m_r, input.m_fh, input.m_p0, input.m_rg, input.m_rq);
+            double[] f01 = LoadCalculation.dengxiaojiedianhezai01(input.m_FloorCount, input.m_WallHeights, output.m_Q);
+            double[] f02 = LoadCalculation.dengxiaojiedianhezai02(input.m_FloorCount, input.m_WallHeights, output.m_Q);
+            output.m_f01 = new Vector(f01, VectorType.Column);
+            output.m_f02 = new Vector(f02, VectorType.Column);
+            output.m_K01 = BoundaryCondition.weiyibianjie01(input.m_FloorCount, output.m_K);
+            output.m_K02 = BoundaryCondition.weiyibianjie02(input.m_FloorCount, output.m_K);
+            output.m_M01 = InnerForceCalculation.neilijisuan01(
+                input.m_E, input.m_A, input.m_I, output.m_K01, output.m_f01, input.m_FloorCount, output.m_Q, input.m_WallHeights);
+            output.m_M02 = InnerForceCalculation.neilijisuan02(
+                input.m_E, input.m_A, input.m_I, output.m_K02, output.m_f02, input.m_FloorCount, output.m_Q, input.m_WallHeights);
+
+            output.m_MM = InnerForceCalculation.neilitiaofu(output.m_M01, output.m_M02, input.m_T);
+            output.m_Mmax = InnerForceCalculation.kuazhongzuidaM(output.m_MM, input.m_FloorCount, output.m_Q, input.m_WallHeights);
+
+            output.m_M = InnerForceCalculation.neilizuhe(input.m_FloorCount, output.m_MM, output.m_Mmax);
+
+            double[] As = ReinforcementCalculation.peijinjisuan(
+                output.m_M, input.m_cs, input.m_FloorCount, input.m_WallWidths, input.m_fy, input.m_fc, input.m_ft);
+            output.m_As = As;
+
+            string strAs = Util.ToString(As);
+            rtbBrowser.AppendText("配筋计算：\n");
+            rtbBrowser.AppendText(strAs);
         }
+
+
     }
 }

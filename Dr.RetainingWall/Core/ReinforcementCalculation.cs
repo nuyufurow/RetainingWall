@@ -2,7 +2,7 @@
 using LinearAlgebra;
 using LinearAlgebra.VectorAlgebra;
 
-namespace Dr.RetainingWall.Core
+namespace Dr.RetainingWall
 {
     class ReinforcementCalculation
     {
@@ -65,7 +65,7 @@ namespace Dr.RetainingWall.Core
             if (n == 1)
             {
                 double h0 = h[0] - d / 2 - cs;                                                                    //截面有效高度 
-                double xA1 = h0 - Math.Sqrt(Math.Pow(h0, 2) - 2 * Math.Abs(M[1]) / (alpha1 * fc * 1000));      //求A点受压区高度mm
+                double xA1 = h0 - Math.Sqrt(Math.Pow(h0, 2) - 2 * Math.Abs(M[0]) / (alpha1 * fc * 1000));      //求A点受压区高度mm
                 double xA0;
                 if (xA1 >= 0 && xA1 <= kxib * h0)
                 {
@@ -80,7 +80,7 @@ namespace Dr.RetainingWall.Core
                 double As1 = Math.Max(As11, As1min);
 
                 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                double xAB1 = h0 - Math.Sqrt(Math.Pow(h0, 2) - 2 * Math.Abs(M[2]) / (alpha1 * fc * 1000));     //求AB点受压区高度mm
+                double xAB1 = h0 - Math.Sqrt(Math.Pow(h0, 2) - 2 * Math.Abs(M[1]) / (alpha1 * fc * 1000));     //求AB点受压区高度mm
                 double xAB0;
                 if (xAB1 >= 0 && xAB1 <= kxib * h0)
                 {
@@ -95,7 +95,7 @@ namespace Dr.RetainingWall.Core
                 double As2 = Math.Max(As22, As2min);
 
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                double xB1 = h0 - Math.Sqrt(Math.Pow(h0, 2) - 2 * Math.Abs(M[3]) / (alpha1 * fc * 1000));                 //求B点受压区高度mm
+                double xB1 = h0 - Math.Sqrt(Math.Pow(h0, 2) - 2 * Math.Abs(M[2]) / (alpha1 * fc * 1000));                 //求B点受压区高度mm
                 double xB0;
                 if (xB1 >= 0 && xB1 <= kxib * h0)
                 {
