@@ -94,6 +94,30 @@ namespace Dr.RetainingWall
             return str;
         }
 
+        internal static double Max(double a, double b, double c)
+        {
+            double max = Math.Max(a, b);
+            return Math.Max(max, c);
+        }
 
+        internal static double Max(double a, double b, double c, double d)
+        {
+            double max = Math.Max(a, b);
+            double max2 = Math.Max(max, c);
+            return Math.Max(max2, d);
+        }
+
+        internal static double Min(double a, double b, double c)
+        {
+            double min = Math.Min(a, b);
+            return Math.Min(min, c);
+        }
+
+        internal static double Min(double a, double b, double c, double d)
+        {
+            double min = Math.Min(a, b);
+            double min2 = Math.Min(min, c);
+            return Math.Min(min2, d);
+        }
     }
 }
