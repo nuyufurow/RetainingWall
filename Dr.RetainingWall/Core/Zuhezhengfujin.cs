@@ -33,7 +33,7 @@ namespace Dr.RetainingWall
             return rebarData;
         }
 
-        public static double[] fujinshuchu150(double Asmax, double Astong)
+        public static double[] fujinshuchu(int sd, double Asmax, double Astong)
         {
             double[] rebarData = { 0, 0, 0, 0, 0 };
             double[] diameterOfRebar = { 12, 14, 16, 18, 20, 22, 25 };
@@ -49,13 +49,13 @@ namespace Dr.RetainingWall
 
             for (int i = 0; i < 7; i++)
             {
-                double Ast = Math.Pow(diameterOfRebar[i], 2) * Math.PI / 4 * 1000 / 150;
+                double Ast = Math.Pow(diameterOfRebar[i], 2) * Math.PI / 4 * 1000 / sd;
                 double Asm = 0;
                 for (int j = 6; j >= 0; j--)
                 {
                     if (indexs[i, j] == 1)
                     {
-                        Asm = Ast + Math.Pow(diameterOfRebar[j], 2) * Math.PI / 4 * 1000 * 150;
+                        Asm = Ast + Math.Pow(diameterOfRebar[j], 2) * Math.PI / 4 * 1000 / sd;
                         break;
                     }
                 }
@@ -64,24 +64,22 @@ namespace Dr.RetainingWall
                 {
                     double delta = 1000;
                     for (int k = 0; k < 7; k++)
-                    { 
-                        double Asm1 = Ast + Math.Pow(diameterOfRebar[k], 2) * Math.PI / 4 * 1000 * 300;
-                        double Asm2 = Ast + Math.Pow(diameterOfRebar[k], 2) * Math.PI / 4 * 1000 * 150;
+                    {
+                        double Asm1 = Ast + Math.Pow(diameterOfRebar[k], 2) * Math.PI / 4 * 1000 / (2 * sd);
+                        double Asm2 = Ast + Math.Pow(diameterOfRebar[k], 2) * Math.PI / 4 * 1000 / sd;
                         if (Asmax < Asm1 && Asm1 - Asmax < delta)
                         {
                             delta = Asm1 - Asmax;
-                            rebarData = new double[] { diameterOfRebar[i], 150, diameterOfRebar[k], 300, Asm1 };
+                            rebarData = new double[] { diameterOfRebar[i], sd, diameterOfRebar[k], 2*sd, Asm1 };
                         }
                         if (Asmax < Asm2 && Asm2 - Asmax < delta)
                         {
                             delta = Asm2 - Asmax;
-                            rebarData = new double[] { diameterOfRebar[i], 150, diameterOfRebar[k], 150, Asm1 };
+                            rebarData = new double[] { diameterOfRebar[i], sd, diameterOfRebar[k], sd, Asm1 };
                         }
                     }
                     break;
                 }
-
-
             }
             return rebarData;
         }
