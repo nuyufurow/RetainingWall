@@ -24,7 +24,7 @@ namespace Dr.RetainingWall
             tbConcretePrice.Text = input.m_ConcretePrice.ToString();
             tbRebarPrice.Text = input.m_RebarPrice.ToString();
             tbRongZhong.Text = input.m_r.ToString();
-            tbFutuThickness.Text = input.m_fh.ToString();
+            tbFutuThickness.Text = input.m_FutuHeight.ToString();
             tbHuohezai.Text = input.m_p0.ToString();
             tbHengzaiXishu.Text = input.m_rg.ToString();
             tbHuozaiXishu.Text = input.m_rq.ToString();
@@ -61,7 +61,7 @@ namespace Dr.RetainingWall
             input.m_RebarPrice = Util.ToDouble(tbRebarPrice.Text);
 
             input.m_r = Util.ToDouble(tbRongZhong.Text);
-            input.m_fh = Util.ToDouble(tbFutuThickness.Text);
+            input.m_FutuHeight = Util.ToDouble(tbFutuThickness.Text);
             input.m_p0 = Util.ToDouble(tbHuohezai.Text);
             input.m_rg = Util.ToDouble(tbHengzaiXishu.Text);
             input.m_rq = Util.ToDouble(tbHuozaiXishu.Text);
@@ -99,7 +99,7 @@ namespace Dr.RetainingWall
             RefreshInput();
 
             input.SetWallWidth(new double[]{ 250 });
-            Matrix mK = StiffnessMatrix.zonggangjuzhen(input.m_FloorCount, input.m_E, input.m_A, input.m_I, input.m_WallHeights);
+            Matrix mK = StiffnessMatrix.zonggangjuzhen(input.m_FloorCount, input.m_E, input.m_A, input.m_I, input.m_FloorHeights);
             output.m_K = mK;
 
             string strK = mK.ToString("e");
@@ -112,7 +112,7 @@ namespace Dr.RetainingWall
             rtbBrowser.AppendText("\n");
             RefreshInput();
 
-            double[] mLoad = LoadCalculation.hezaijisuan(input.m_FloorCount, input.m_WallHeights, input.m_r, input.m_fh, input.m_p0, input.m_rg, input.m_rq);
+            double[] mLoad = LoadCalculation.hezaijisuan(input.m_FloorCount, input.m_FloorHeights, input.m_r, input.m_FutuHeight, input.m_p0, input.m_rg, input.m_rq);
             output.m_Q = mLoad;
 
             string strLoad = Util.ToString(mLoad);
@@ -125,8 +125,8 @@ namespace Dr.RetainingWall
         {
             rtbBrowser.AppendText("\n");
             RefreshInput();
-            double[] f01 = LoadCalculation.dengxiaojiedianhezai01(input.m_FloorCount, input.m_WallHeights, output.m_Q);
-            double[] f02 = LoadCalculation.dengxiaojiedianhezai02(input.m_FloorCount, input.m_WallHeights, output.m_Q);
+            double[] f01 = LoadCalculation.dengxiaojiedianhezai01(input.m_FloorCount, input.m_FloorHeights, output.m_Q);
+            double[] f02 = LoadCalculation.dengxiaojiedianhezai02(input.m_FloorCount, input.m_FloorHeights, output.m_Q);
             output.m_f01 = new Vector(f01, VectorType.Column);
             output.m_f02 = new Vector(f02, VectorType.Column);
 
@@ -143,10 +143,10 @@ namespace Dr.RetainingWall
             RefreshInput();
             input.SetWallWidth(new double[] { 250 });
 
-            output.m_K = StiffnessMatrix.zonggangjuzhen(input.m_FloorCount, input.m_E, input.m_A, input.m_I, input.m_WallHeights);
-            output.m_Q = LoadCalculation.hezaijisuan(input.m_FloorCount, input.m_WallHeights, input.m_r, input.m_fh, input.m_p0, input.m_rg, input.m_rq);
-            double[] f01 = LoadCalculation.dengxiaojiedianhezai01(input.m_FloorCount, input.m_WallHeights, output.m_Q);
-            double[] f02 = LoadCalculation.dengxiaojiedianhezai02(input.m_FloorCount, input.m_WallHeights, output.m_Q);
+            output.m_K = StiffnessMatrix.zonggangjuzhen(input.m_FloorCount, input.m_E, input.m_A, input.m_I, input.m_FloorHeights);
+            output.m_Q = LoadCalculation.hezaijisuan(input.m_FloorCount, input.m_FloorHeights, input.m_r, input.m_FutuHeight, input.m_p0, input.m_rg, input.m_rq);
+            double[] f01 = LoadCalculation.dengxiaojiedianhezai01(input.m_FloorCount, input.m_FloorHeights, output.m_Q);
+            double[] f02 = LoadCalculation.dengxiaojiedianhezai02(input.m_FloorCount, input.m_FloorHeights, output.m_Q);
             output.m_f01 = new Vector(f01, VectorType.Column);
             output.m_f02 = new Vector(f02, VectorType.Column);
 
@@ -170,10 +170,10 @@ namespace Dr.RetainingWall
             RefreshInput();
             input.SetWallWidth(new double[] { 250 });
 
-            output.m_K = StiffnessMatrix.zonggangjuzhen(input.m_FloorCount, input.m_E, input.m_A, input.m_I, input.m_WallHeights);
-            output.m_Q = LoadCalculation.hezaijisuan(input.m_FloorCount, input.m_WallHeights, input.m_r, input.m_fh, input.m_p0, input.m_rg, input.m_rq);
-            double[] f01 = LoadCalculation.dengxiaojiedianhezai01(input.m_FloorCount, input.m_WallHeights, output.m_Q);
-            double[] f02 = LoadCalculation.dengxiaojiedianhezai02(input.m_FloorCount, input.m_WallHeights, output.m_Q);
+            output.m_K = StiffnessMatrix.zonggangjuzhen(input.m_FloorCount, input.m_E, input.m_A, input.m_I, input.m_FloorHeights);
+            output.m_Q = LoadCalculation.hezaijisuan(input.m_FloorCount, input.m_FloorHeights, input.m_r, input.m_FutuHeight, input.m_p0, input.m_rg, input.m_rq);
+            double[] f01 = LoadCalculation.dengxiaojiedianhezai01(input.m_FloorCount, input.m_FloorHeights, output.m_Q);
+            double[] f02 = LoadCalculation.dengxiaojiedianhezai02(input.m_FloorCount, input.m_FloorHeights, output.m_Q);
             output.m_f01 = new Vector(f01, VectorType.Column);
             output.m_f02 = new Vector(f02, VectorType.Column);
 
@@ -181,9 +181,9 @@ namespace Dr.RetainingWall
             output.m_K02 = BoundaryCondition.weiyibianjie02(input.m_FloorCount, output.m_K);
 
             Matrix M01 = InnerForceCalculation.neilijisuan01(
-                input.m_E, input.m_A, input.m_I, output.m_K01, output.m_f01, input.m_FloorCount, output.m_Q, input.m_WallHeights);
+                input.m_E, input.m_A, input.m_I, output.m_K01, output.m_f01, input.m_FloorCount, output.m_Q, input.m_FloorHeights);
             Matrix M02 = InnerForceCalculation.neilijisuan02(
-                input.m_E, input.m_A, input.m_I, output.m_K02, output.m_f02, input.m_FloorCount, output.m_Q, input.m_WallHeights);
+                input.m_E, input.m_A, input.m_I, output.m_K02, output.m_f02, input.m_FloorCount, output.m_Q, input.m_FloorHeights);
             output.m_M01 = M01;
             output.m_M02 = M02;
 
@@ -203,18 +203,18 @@ namespace Dr.RetainingWall
             RefreshInput();
             input.SetWallWidth(new double[] { 250 });
 
-            output.m_K = StiffnessMatrix.zonggangjuzhen(input.m_FloorCount, input.m_E, input.m_A, input.m_I, input.m_WallHeights);
-            output.m_Q = LoadCalculation.hezaijisuan(input.m_FloorCount, input.m_WallHeights, input.m_r, input.m_fh, input.m_p0, input.m_rg, input.m_rq);
-            double[] f01 = LoadCalculation.dengxiaojiedianhezai01(input.m_FloorCount, input.m_WallHeights, output.m_Q);
-            double[] f02 = LoadCalculation.dengxiaojiedianhezai02(input.m_FloorCount, input.m_WallHeights, output.m_Q);
+            output.m_K = StiffnessMatrix.zonggangjuzhen(input.m_FloorCount, input.m_E, input.m_A, input.m_I, input.m_FloorHeights);
+            output.m_Q = LoadCalculation.hezaijisuan(input.m_FloorCount, input.m_FloorHeights, input.m_r, input.m_FutuHeight, input.m_p0, input.m_rg, input.m_rq);
+            double[] f01 = LoadCalculation.dengxiaojiedianhezai01(input.m_FloorCount, input.m_FloorHeights, output.m_Q);
+            double[] f02 = LoadCalculation.dengxiaojiedianhezai02(input.m_FloorCount, input.m_FloorHeights, output.m_Q);
             output.m_f01 = new Vector(f01, VectorType.Column);
             output.m_f02 = new Vector(f02, VectorType.Column);
             output.m_K01 = BoundaryCondition.weiyibianjie01(input.m_FloorCount, output.m_K);
             output.m_K02 = BoundaryCondition.weiyibianjie02(input.m_FloorCount, output.m_K);
             output.m_M01 = InnerForceCalculation.neilijisuan01(
-                input.m_E, input.m_A, input.m_I, output.m_K01, output.m_f01, input.m_FloorCount, output.m_Q, input.m_WallHeights);
+                input.m_E, input.m_A, input.m_I, output.m_K01, output.m_f01, input.m_FloorCount, output.m_Q, input.m_FloorHeights);
             output.m_M02 = InnerForceCalculation.neilijisuan02(
-                input.m_E, input.m_A, input.m_I, output.m_K02, output.m_f02, input.m_FloorCount, output.m_Q, input.m_WallHeights);
+                input.m_E, input.m_A, input.m_I, output.m_K02, output.m_f02, input.m_FloorCount, output.m_Q, input.m_FloorHeights);
 
             Matrix MM = InnerForceCalculation.neilitiaofu(output.m_M01, output.m_M02, input.m_T);
             output.m_MM = MM;
@@ -230,22 +230,22 @@ namespace Dr.RetainingWall
             RefreshInput();
             input.SetWallWidth(new double[] { 250 });
 
-            output.m_K = StiffnessMatrix.zonggangjuzhen(input.m_FloorCount, input.m_E, input.m_A, input.m_I, input.m_WallHeights);
-            output.m_Q = LoadCalculation.hezaijisuan(input.m_FloorCount, input.m_WallHeights, input.m_r, input.m_fh, input.m_p0, input.m_rg, input.m_rq);
-            double[] f01 = LoadCalculation.dengxiaojiedianhezai01(input.m_FloorCount, input.m_WallHeights, output.m_Q);
-            double[] f02 = LoadCalculation.dengxiaojiedianhezai02(input.m_FloorCount, input.m_WallHeights, output.m_Q);
+            output.m_K = StiffnessMatrix.zonggangjuzhen(input.m_FloorCount, input.m_E, input.m_A, input.m_I, input.m_FloorHeights);
+            output.m_Q = LoadCalculation.hezaijisuan(input.m_FloorCount, input.m_FloorHeights, input.m_r, input.m_FutuHeight, input.m_p0, input.m_rg, input.m_rq);
+            double[] f01 = LoadCalculation.dengxiaojiedianhezai01(input.m_FloorCount, input.m_FloorHeights, output.m_Q);
+            double[] f02 = LoadCalculation.dengxiaojiedianhezai02(input.m_FloorCount, input.m_FloorHeights, output.m_Q);
             output.m_f01 = new Vector(f01, VectorType.Column);
             output.m_f02 = new Vector(f02, VectorType.Column);
             output.m_K01 = BoundaryCondition.weiyibianjie01(input.m_FloorCount, output.m_K);
             output.m_K02 = BoundaryCondition.weiyibianjie02(input.m_FloorCount, output.m_K);
             output.m_M01 = InnerForceCalculation.neilijisuan01(
-                input.m_E, input.m_A, input.m_I, output.m_K01, output.m_f01, input.m_FloorCount, output.m_Q, input.m_WallHeights);
+                input.m_E, input.m_A, input.m_I, output.m_K01, output.m_f01, input.m_FloorCount, output.m_Q, input.m_FloorHeights);
             output.m_M02 = InnerForceCalculation.neilijisuan02(
-                input.m_E, input.m_A, input.m_I, output.m_K02, output.m_f02, input.m_FloorCount, output.m_Q, input.m_WallHeights);
+                input.m_E, input.m_A, input.m_I, output.m_K02, output.m_f02, input.m_FloorCount, output.m_Q, input.m_FloorHeights);
 
             output.m_MM = InnerForceCalculation.neilitiaofu(output.m_M01, output.m_M02, input.m_T);
 
-            double[] Mmax = InnerForceCalculation.kuazhongzuidaM(output.m_MM, input.m_FloorCount, output.m_Q, input.m_WallHeights);
+            double[] Mmax = InnerForceCalculation.kuazhongzuidaM(output.m_MM, input.m_FloorCount, output.m_Q, input.m_FloorHeights);
             output.m_Mmax = Mmax;
 
             string strMmax = Util.ToString(Mmax);
@@ -259,21 +259,21 @@ namespace Dr.RetainingWall
             RefreshInput();
             input.SetWallWidth(new double[] { 250 });
 
-            output.m_K = StiffnessMatrix.zonggangjuzhen(input.m_FloorCount, input.m_E, input.m_A, input.m_I, input.m_WallHeights);
-            output.m_Q = LoadCalculation.hezaijisuan(input.m_FloorCount, input.m_WallHeights, input.m_r, input.m_fh, input.m_p0, input.m_rg, input.m_rq);
-            double[] f01 = LoadCalculation.dengxiaojiedianhezai01(input.m_FloorCount, input.m_WallHeights, output.m_Q);
-            double[] f02 = LoadCalculation.dengxiaojiedianhezai02(input.m_FloorCount, input.m_WallHeights, output.m_Q);
+            output.m_K = StiffnessMatrix.zonggangjuzhen(input.m_FloorCount, input.m_E, input.m_A, input.m_I, input.m_FloorHeights);
+            output.m_Q = LoadCalculation.hezaijisuan(input.m_FloorCount, input.m_FloorHeights, input.m_r, input.m_FutuHeight, input.m_p0, input.m_rg, input.m_rq);
+            double[] f01 = LoadCalculation.dengxiaojiedianhezai01(input.m_FloorCount, input.m_FloorHeights, output.m_Q);
+            double[] f02 = LoadCalculation.dengxiaojiedianhezai02(input.m_FloorCount, input.m_FloorHeights, output.m_Q);
             output.m_f01 = new Vector(f01, VectorType.Column);
             output.m_f02 = new Vector(f02, VectorType.Column);
             output.m_K01 = BoundaryCondition.weiyibianjie01(input.m_FloorCount, output.m_K);
             output.m_K02 = BoundaryCondition.weiyibianjie02(input.m_FloorCount, output.m_K);
             output.m_M01 = InnerForceCalculation.neilijisuan01(
-                input.m_E, input.m_A, input.m_I, output.m_K01, output.m_f01, input.m_FloorCount, output.m_Q, input.m_WallHeights);
+                input.m_E, input.m_A, input.m_I, output.m_K01, output.m_f01, input.m_FloorCount, output.m_Q, input.m_FloorHeights);
             output.m_M02 = InnerForceCalculation.neilijisuan02(
-                input.m_E, input.m_A, input.m_I, output.m_K02, output.m_f02, input.m_FloorCount, output.m_Q, input.m_WallHeights);
+                input.m_E, input.m_A, input.m_I, output.m_K02, output.m_f02, input.m_FloorCount, output.m_Q, input.m_FloorHeights);
 
             output.m_MM = InnerForceCalculation.neilitiaofu(output.m_M01, output.m_M02, input.m_T);
-            output.m_Mmax = InnerForceCalculation.kuazhongzuidaM(output.m_MM, input.m_FloorCount, output.m_Q, input.m_WallHeights);
+            output.m_Mmax = InnerForceCalculation.kuazhongzuidaM(output.m_MM, input.m_FloorCount, output.m_Q, input.m_FloorHeights);
 
             double[] M = InnerForceCalculation.neilizuhe(input.m_FloorCount, output.m_MM, output.m_Mmax);
             output.m_M = M;
@@ -289,21 +289,21 @@ namespace Dr.RetainingWall
             RefreshInput();
             input.SetWallWidth(new double[] { 250 });
 
-            output.m_K = StiffnessMatrix.zonggangjuzhen(input.m_FloorCount, input.m_E, input.m_A, input.m_I, input.m_WallHeights);
-            output.m_Q = LoadCalculation.hezaijisuan(input.m_FloorCount, input.m_WallHeights, input.m_r, input.m_fh, input.m_p0, input.m_rg, input.m_rq);
-            double[] f01 = LoadCalculation.dengxiaojiedianhezai01(input.m_FloorCount, input.m_WallHeights, output.m_Q);
-            double[] f02 = LoadCalculation.dengxiaojiedianhezai02(input.m_FloorCount, input.m_WallHeights, output.m_Q);
+            output.m_K = StiffnessMatrix.zonggangjuzhen(input.m_FloorCount, input.m_E, input.m_A, input.m_I, input.m_FloorHeights);
+            output.m_Q = LoadCalculation.hezaijisuan(input.m_FloorCount, input.m_FloorHeights, input.m_r, input.m_FutuHeight, input.m_p0, input.m_rg, input.m_rq);
+            double[] f01 = LoadCalculation.dengxiaojiedianhezai01(input.m_FloorCount, input.m_FloorHeights, output.m_Q);
+            double[] f02 = LoadCalculation.dengxiaojiedianhezai02(input.m_FloorCount, input.m_FloorHeights, output.m_Q);
             output.m_f01 = new Vector(f01, VectorType.Column);
             output.m_f02 = new Vector(f02, VectorType.Column);
             output.m_K01 = BoundaryCondition.weiyibianjie01(input.m_FloorCount, output.m_K);
             output.m_K02 = BoundaryCondition.weiyibianjie02(input.m_FloorCount, output.m_K);
             output.m_M01 = InnerForceCalculation.neilijisuan01(
-                input.m_E, input.m_A, input.m_I, output.m_K01, output.m_f01, input.m_FloorCount, output.m_Q, input.m_WallHeights);
+                input.m_E, input.m_A, input.m_I, output.m_K01, output.m_f01, input.m_FloorCount, output.m_Q, input.m_FloorHeights);
             output.m_M02 = InnerForceCalculation.neilijisuan02(
-                input.m_E, input.m_A, input.m_I, output.m_K02, output.m_f02, input.m_FloorCount, output.m_Q, input.m_WallHeights);
+                input.m_E, input.m_A, input.m_I, output.m_K02, output.m_f02, input.m_FloorCount, output.m_Q, input.m_FloorHeights);
 
             output.m_MM = InnerForceCalculation.neilitiaofu(output.m_M01, output.m_M02, input.m_T);
-            output.m_Mmax = InnerForceCalculation.kuazhongzuidaM(output.m_MM, input.m_FloorCount, output.m_Q, input.m_WallHeights);
+            output.m_Mmax = InnerForceCalculation.kuazhongzuidaM(output.m_MM, input.m_FloorCount, output.m_Q, input.m_FloorHeights);
 
             output.m_M = InnerForceCalculation.neilizuhe(input.m_FloorCount, output.m_MM, output.m_Mmax);
 
@@ -316,6 +316,10 @@ namespace Dr.RetainingWall
             rtbBrowser.AppendText(strAs);
         }
 
+        private void btnZuhezhengfujin_Click(object sender, EventArgs e)
+        {
+            Zuhezhengfujin.zuhezhengfujin(input.m_FloorCount, output.m_As, input.m_ft, input.m_fy, input.m_WallWidths, output.m_M, input.m_cs, input.m_ConcreteGrade, input.m_rg);
 
+        }
     }
 }

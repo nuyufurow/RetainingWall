@@ -32,6 +32,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgvInput = new System.Windows.Forms.DataGridView();
+            this.floorHeight = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.rtbBrowser = new System.Windows.Forms.RichTextBox();
             this.btnTotalStiffnessMatrix = new System.Windows.Forms.Button();
             this.btnLoadCalculation = new System.Windows.Forms.Button();
@@ -75,8 +76,8 @@
             this.labCs = new System.Windows.Forms.Label();
             this.tbCs = new System.Windows.Forms.TextBox();
             this.labCs2 = new System.Windows.Forms.Label();
-            this.floorHeight = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnReinforcementCalculation = new System.Windows.Forms.Button();
+            this.btnZuhezhengfujin = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvInput)).BeginInit();
             this.SuspendLayout();
             // 
@@ -117,6 +118,12 @@
             this.dgvInput.Size = new System.Drawing.Size(257, 160);
             this.dgvInput.TabIndex = 3;
             this.dgvInput.RowStateChanged += new System.Windows.Forms.DataGridViewRowStateChangedEventHandler(this.dgvInput_RowStateChanged);
+            // 
+            // floorHeight
+            // 
+            this.floorHeight.Frozen = true;
+            this.floorHeight.HeaderText = "层高(mm)";
+            this.floorHeight.Name = "floorHeight";
             // 
             // rtbBrowser
             // 
@@ -510,12 +517,6 @@
             this.labCs2.TabIndex = 48;
             this.labCs2.Text = "mm";
             // 
-            // floorHeight
-            // 
-            this.floorHeight.Frozen = true;
-            this.floorHeight.HeaderText = "层高(mm)";
-            this.floorHeight.Name = "floorHeight";
-            // 
             // btnReinforcementCalculation
             // 
             this.btnReinforcementCalculation.Location = new System.Drawing.Point(278, 354);
@@ -526,12 +527,23 @@
             this.btnReinforcementCalculation.UseVisualStyleBackColor = true;
             this.btnReinforcementCalculation.Click += new System.EventHandler(this.btnReinforcementCalculation_Click);
             // 
+            // btnZuhezhengfujin
+            // 
+            this.btnZuhezhengfujin.Location = new System.Drawing.Point(278, 388);
+            this.btnZuhezhengfujin.Name = "btnZuhezhengfujin";
+            this.btnZuhezhengfujin.Size = new System.Drawing.Size(100, 23);
+            this.btnZuhezhengfujin.TabIndex = 50;
+            this.btnZuhezhengfujin.Text = "组合正负筋";
+            this.btnZuhezhengfujin.UseVisualStyleBackColor = true;
+            this.btnZuhezhengfujin.Click += new System.EventHandler(this.btnZuhezhengfujin_Click);
+            // 
             // mainForm
             // 
             this.AccessibleName = "floor";
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(984, 561);
+            this.Controls.Add(this.btnZuhezhengfujin);
             this.Controls.Add(this.btnReinforcementCalculation);
             this.Controls.Add(this.labCs2);
             this.Controls.Add(this.tbCs);
@@ -633,6 +645,7 @@
         private System.Windows.Forms.Label labCs2;
         private System.Windows.Forms.DataGridViewTextBoxColumn floorHeight;
         private System.Windows.Forms.Button btnReinforcementCalculation;
+        private System.Windows.Forms.Button btnZuhezhengfujin;
     }
 }
 

@@ -19,13 +19,13 @@ namespace Dr.RetainingWall
         public double m_RebarPrice = 4000;                      //钢筋每吨价格
 
         public int m_FloorCount = 1;                            //层数
-        public double[] m_WallHeights = { 4000 };               //层高
+        public double[] m_FloorHeights = { 4000 };              //层高
         public double[] m_WallWidths;                           //墙厚
         public double[] m_A;                                    //截面积
         public double[] m_I;                                    //截面惯性矩
 
         public double m_r = 0.00002;                            //填土容重N/mm3
-        public double m_fh = 1500;                              //墙顶覆土厚度mm
+        public double m_FutuHeight = 1500;                      //墙顶覆土厚度mm
         public double m_p0 = 0.005;                             //活荷载N/mm2
         public double m_rg = 1.3;                               //恒荷载分项系数
         public double m_rq = 1.5;                               //活荷载分项系数
@@ -70,7 +70,7 @@ namespace Dr.RetainingWall
             m_fy = rebProperties[0];
 
             m_FloorCount = n;
-            m_WallHeights = heights;
+            m_FloorHeights = heights;
         }
 
         public void SetWallWidth(double[] widths)
