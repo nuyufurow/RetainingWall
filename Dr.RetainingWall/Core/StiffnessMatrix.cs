@@ -71,7 +71,7 @@ namespace Dr.RetainingWall
 
         public static Matrix zonggangjuzhen(int n, double E, double[] A, double[] I, double[] H) 
         {
-            Matrix K = Matrix.Ones((n + 1) * 3, (n + 1) * 3);
+            Matrix K = Matrix.Zeros((n + 1) * 3, (n + 1) * 3);
             if (n == 1)
             {
                 Matrix k1 = PlaneFrameElementStiffness(E, A[0], I[0], H[0]);  //为单元刚度矩阵

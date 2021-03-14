@@ -24,7 +24,7 @@ namespace Dr.RetainingWall
             return As2;
         }
 
-        public static double[] peijinjisuan(double[] M, double cs, int n, double[] h, double fy, double fc, double ft)
+        public static double[][] peijinjisuan(double[] M, double cs, int n, double[] h, double fy, double fc, double ft)
         {
             //此子程序为配筋计算程序,输出计算所需钢筋面积
             // M为各点内力值[A        AB        B          BC          C         CD           D          DE          E   ]
@@ -110,14 +110,18 @@ namespace Dr.RetainingWall
                 double As3 = Math.Max(As33, As3min);
                 //////////////////////////////////////////////////////////////////////////////////////////////////////////
                 //As ={ As1, As2, As3};
-                return new double[] { As1, As2, As3 };
+                return new double[][] {
+                    new double[]{ As1   , As2    , As3 },
+                    new double[]{ As1   , As2    , As3 },
+                    new double[]{ xA1   , xAB1   , 0   },
+                    new double[]{ xA1/h0, xAB1/h0, kxib}};
             }
             else if (n == 2)
             {
-                double[] h0 = { h[1] - d / 2 - cs, h[2] - d / 2 - cs };                                   //各层截面有效高度
-                double xA1 = h0[1] - Math.Sqrt(Math.Pow(h0[1], 2) - 2 * Math.Abs(M[1]) / (alpha1 * fc * 1000));           //求A点受压区高度mm
+                double[] h0 = { h[0] - d / 2 - cs, h[1] - d / 2 - cs };                                   //各层截面有效高度
+                double xA1 = h0[0] - Math.Sqrt(Math.Pow(h0[0], 2) - 2 * Math.Abs(M[0]) / (alpha1 * fc * 1000));           //求A点受压区高度mm
                 double xA0;
-                if (xA1 >= 0 && xA1 <= kxib * h0[1])
+                if (xA1 >= 0 && xA1 <= kxib * h0[0])
                 {
                     xA0 = xA1;
                 }
@@ -126,28 +130,28 @@ namespace Dr.RetainingWall
                     throw new Exception("超筋，请修改1层挡墙参数!!!");
                 }
                 double As11 = alpha1 * fc * 1000 * xA0 / fy;                                             //A点计算配筋值
-                double As1min = 1000 * h[1] * roumin;
+                double As1min = 1000 * h[0] * roumin;
                 double As1 = Math.Max(As11, As1min);
 
                 /////////////////////////////////////////////////////////////////////////////////////////////////////////
-                double xAB1 = h0[1] - Math.Sqrt(Math.Pow(h0[1], 2) - 2 * Math.Abs(M[2]) / (alpha1 * fc * 1000));          //求AB点受压区高度mm
+                double xABl = h0[0] - Math.Sqrt(Math.Pow(h0[0], 2) - 2 * Math.Abs(M[1]) / (alpha1 * fc * 1000));          //求AB点受压区高度mm
                 double xAB0;
-                if (xAB1 >= 0 && xAB1 <= kxib * h0[1])
+                if (xABl >= 0 && xABl <= kxib * h0[0])
                 {
-                    xAB0 = xAB1;
+                    xAB0 = xABl;
                 }
                 else
                 {
                     throw new Exception("超筋，请修改1层挡墙参数!!!");
                 }
                 double As22 = alpha1 * fc * 1000 * xAB0 / fy;                                            //AB点计算配筋值
-                double As2min = 1000 * h[1] * roumin;
+                double As2min = 1000 * h[0] * roumin;
                 double As2 = Math.Max(As22, As2min);
 
                 //////////////////////////////////////////////////////////////////////////////////////////////////////////
-                double xB1l = h0[1] - Math.Sqrt(Math.Pow(h0[1], 2) - 2 * Math.Abs(M[3]) / (alpha1 * fc * 1000));          //求B点左侧受压区高度mm
+                double xB1l = h0[0] - Math.Sqrt(Math.Pow(h0[0], 2) - 2 * Math.Abs(M[2]) / (alpha1 * fc * 1000));          //求B点左侧受压区高度mm
                 double xB0l;
-                if (xB1l >= 0 && xB1l <= kxib * h0[1])
+                if (xB1l >= 0 && xB1l <= kxib * h0[0])
                 {
                     xB0l = xB1l;
                 }
@@ -156,13 +160,13 @@ namespace Dr.RetainingWall
                     throw new Exception("超筋，请修改1层挡墙参数!!!");
                 }
                 double As33l = alpha1 * fc * 1000 * xB0l / fy;                                           //B点左侧计算配筋值
-                double As3lmin = 1000 * h[1] * roumin;
+                double As3lmin = 1000 * h[0] * roumin;
                 double As3l = Math.Max(As33l, As3lmin);
 
                 /////////////////////////////////////////////////////////////////////////////////////////////////////////
-                double xB1r = h0[2] - Math.Sqrt(Math.Pow(h0[2], 2) - 2 * Math.Abs(M[3]) / (alpha1 * fc * 1000));          //求B点右侧受压区高度mm
+                double xB1r = h0[1] - Math.Sqrt(Math.Pow(h0[1], 2) - 2 * Math.Abs(M[2]) / (alpha1 * fc * 1000));          //求B点右侧受压区高度mm
                 double xB0r;
-                if (xB1r >= 0 && xB1r <= kxib * h0[2])
+                if (xB1r >= 0 && xB1r <= kxib * h0[1])
                 {
                     xB0r = xB1r;
                 }
@@ -171,13 +175,13 @@ namespace Dr.RetainingWall
                     throw new Exception("超筋，请修改2层挡墙参数!!!");
                 }
                 double As33r = alpha1 * fc * 1000 * xB0r / fy;                                           //B点右侧计算配筋值
-                double As3rmin = 1000 * h[2] * roumin;
+                double As3rmin = 1000 * h[1] * roumin;
                 double As3r = Math.Max(As33r, As3rmin);
 
                 /////////////////////////////////////////////////////////////////////////////////////////////////////////
-                double xBC1 = h0[2] - Math.Sqrt(Math.Pow(h0[2], 2) - 2 * Math.Abs(M[4]) / (alpha1 * fc * 1000));          //求BC点受压区高度mm
+                double xBC1 = h0[1] - Math.Sqrt(Math.Pow(h0[1], 2) - 2 * Math.Abs(M[3]) / (alpha1 * fc * 1000));          //求BC点受压区高度mm
                 double xBC0;
-                if (xBC1 >= 0 && xBC1 <= kxib * h0[2])
+                if (xBC1 >= 0 && xBC1 <= kxib * h0[1])
                 {
                     xBC0 = xBC1;
                 }
@@ -186,13 +190,13 @@ namespace Dr.RetainingWall
                     throw new Exception("超筋，请修改2层挡墙参数!!!");
                 }
                 double As44 = alpha1 * fc * 1000 * xBC0 / fy;                                            //BC点计算配筋值
-                double As4min = 1000 * h[2] * roumin;
+                double As4min = 1000 * h[1] * roumin;
                 double As4 = Math.Max(As44, As4min);
 
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////
-                double xC1 = h0[2] - Math.Sqrt(Math.Pow(h0[2], 2) - 2 * Math.Abs(M[5]) / (alpha1 * fc * 1000));           //求C点受压区高度mm
+                double xC1 = h0[1] - Math.Sqrt(Math.Pow(h0[1], 2) - 2 * Math.Abs(M[4]) / (alpha1 * fc * 1000));           //求C点受压区高度mm
                 double xC0;
-                if (xC1 >= 0 && xC1 <= kxib * h0[2])
+                if (xC1 >= 0 && xC1 <= kxib * h0[1])
                 {
                     xC0 = xC1;
                 }
@@ -201,11 +205,15 @@ namespace Dr.RetainingWall
                     throw new Exception("超筋，请修改2层挡墙参数!!!");
                 }
                 double As55 = alpha1 * fc * 1000 * xC0 / fy;                                             //C点计算配筋值 
-                double As5min = 1000 * h[2] * roumin;
+                double As5min = 1000 * h[1] * roumin;
                 double As5 = Math.Max(As55, As5min);
 
                 /////////////////////////////////////////////////////////////////////////////////////////////////////
-                return new double[] { As1, As2, Math.Max(As3l, As3r), As4, As5 };
+                return new double[][] {
+                    new double[]{ As1      , As2       , Math.Max(As3l, As3r), As4       , As5       , 0   },
+                    new double[]{ As1      , As2       , As3l                , As3r      , As4       , As5 },
+                    new double[]{ xA1      , xABl      , xB1l                , xB1r      , xBC1      , 0   },
+                    new double[]{ xA1/h0[0], xABl/h0[0], xB1l/h0[0]          , xB1r/h0[1], xBC1/h0[1], kxib}};
             }
             else if (n == 3)
             {
@@ -345,7 +353,8 @@ namespace Dr.RetainingWall
                 double As7 = Math.Max(As77, As7min);
 
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////
-                return new double[] { As1, As2, Math.Max(As3l, As3r), As4, Math.Max(As5l, As5r), As6, As7 };
+                return new double[][] { 
+                    new double[]{ As1, As2, Math.Max(As3l, As3r), As4, Math.Max(As5l, As5r), As6, As7 } };
             }
             else if (n == 4)
             {
@@ -530,10 +539,12 @@ namespace Dr.RetainingWall
                 double As9 = Math.Max(As99, As9min);
 
                 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                return new double[]{ As1, As2, Math.Max(As3l, As3r), As4, Math.Max(As5l, As5r), As6, Math.Max(As7l, As7r), As8, As9};
+                return new double[][] { 
+                    new double[]{ As1, As2, Math.Max(As3l, As3r), As4, Math.Max(As5l, As5r), As6, Math.Max(As7l, As7r), As8, As9 } };
 
             }
-            return new double[] { };
+            return new double[][] { 
+                new double[]{ } };
         }
 
 
