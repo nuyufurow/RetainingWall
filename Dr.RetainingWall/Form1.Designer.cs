@@ -78,6 +78,8 @@
             this.labCs2 = new System.Windows.Forms.Label();
             this.btnReinforcementCalculation = new System.Windows.Forms.Button();
             this.btnZuhezhengfujin = new System.Windows.Forms.Button();
+            this.btnShuipingjin = new System.Windows.Forms.Button();
+            this.btnChengben = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvInput)).BeginInit();
             this.SuspendLayout();
             // 
@@ -537,12 +539,34 @@
             this.btnZuhezhengfujin.UseVisualStyleBackColor = true;
             this.btnZuhezhengfujin.Click += new System.EventHandler(this.btnZuhezhengfujin_Click);
             // 
+            // btnShuipingjin
+            // 
+            this.btnShuipingjin.Location = new System.Drawing.Point(278, 433);
+            this.btnShuipingjin.Name = "btnShuipingjin";
+            this.btnShuipingjin.Size = new System.Drawing.Size(75, 23);
+            this.btnShuipingjin.TabIndex = 51;
+            this.btnShuipingjin.Text = "水平筋";
+            this.btnShuipingjin.UseVisualStyleBackColor = true;
+            this.btnShuipingjin.Click += new System.EventHandler(this.btnShuipingjin_Click);
+            // 
+            // btnChengben
+            // 
+            this.btnChengben.Location = new System.Drawing.Point(291, 472);
+            this.btnChengben.Name = "btnChengben";
+            this.btnChengben.Size = new System.Drawing.Size(75, 23);
+            this.btnChengben.TabIndex = 52;
+            this.btnChengben.Text = "成本";
+            this.btnChengben.UseVisualStyleBackColor = true;
+            this.btnChengben.Click += new System.EventHandler(this.btnChengben_Click);
+            // 
             // mainForm
             // 
             this.AccessibleName = "floor";
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(984, 561);
+            this.Controls.Add(this.btnChengben);
+            this.Controls.Add(this.btnShuipingjin);
             this.Controls.Add(this.btnZuhezhengfujin);
             this.Controls.Add(this.btnReinforcementCalculation);
             this.Controls.Add(this.labCs2);
@@ -646,6 +670,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn floorHeight;
         private System.Windows.Forms.Button btnReinforcementCalculation;
         private System.Windows.Forms.Button btnZuhezhengfujin;
+        private System.Windows.Forms.Button btnShuipingjin;
+        private System.Windows.Forms.Button btnChengben;
     }
 }
 

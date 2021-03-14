@@ -56,10 +56,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\BoundaryCondition.cs" />
+    <Compile Include="Core\Chengben.cs" />
     <Compile Include="Core\Class1.cs" />
     <Compile Include="Core\InnerForceCalculation.cs" />
     <Compile Include="Core\LoadCalculation.cs" />
     <Compile Include="Core\ReinforcementCalculation.cs" />
+    <Compile Include="Core\Shuipingjin.cs" />
     <Compile Include="Core\Zuhezhengfujin.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>

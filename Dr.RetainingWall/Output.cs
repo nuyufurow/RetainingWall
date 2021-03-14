@@ -17,5 +17,8 @@ namespace Dr.RetainingWall
         public double[] m_Mmax;
         public double[] m_M;
         public double[] m_As;
+
+        public double[][] m_Zuhejin;
+        public double[] m_Shuipingjin;
     }
 }

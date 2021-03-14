@@ -556,7 +556,7 @@ namespace Dr.RetainingWall
         }
 
 
-        public static double[][][] zuhezhengfujin(int n, double[] As, double ft, double fy, double[] h, double[] M, double cs, int C, double rg)
+        public static double[][] zuhezhengfujin(int n, double[] As, double ft, double fy, double[] h, double[] M, double cs, int C, double rg)
         {
             //此子函数用于将正筋选筋和负筋选筋结果组合成一个矩阵，方便后续调用
             //Asz——为正筋选筋矩阵
@@ -565,13 +565,13 @@ namespace Dr.RetainingWall
             //Ass——为最后输出的配筋
             //As——为为peijinjisuan(M, cs, n, fy, fc, ft)中计算得到各点的计算配筋
 
-            double[][][] Ass = { };
+            double[][] Ass = { };
             if (n == 1)
             {
                 var Asz = zhengjinxuanjin(n, As, h, M, cs, C, rg);
                 var Asf150 = fujinxuanjin(150, n, As, ft, fy, h, M, cs, C, rg);
                 var Asf200 = fujinxuanjin(200, n, As, ft, fy, h, M, cs, C, rg);
-                Ass = new double[][][] { Asf150, Asf200, Asz };
+                Ass = new double[][] { Asf150[0], Asf150[1], Asf200[0], Asf200[1], Asz[0] };
             }
 
             return Ass;

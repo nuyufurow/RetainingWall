@@ -31,7 +31,7 @@ namespace Dr.RetainingWall
         public double m_rq = 1.5;                               //活荷载分项系数
         public double m_T = 0.75;                               //内力调幅系数
 
-        public double m_SeismicGrade = 4;                       //抗震等级
+        public double[] m_SeismicGrade;                       //抗震等级
         public double m_RoofThickness = 160;                    //地下室顶板厚度
         public double m_cs = 30;                                //保护层厚度
 
