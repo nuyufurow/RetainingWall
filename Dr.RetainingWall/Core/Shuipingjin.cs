@@ -17,7 +17,7 @@ namespace Dr.RetainingWall
                 double Ass = 1000 * h[0] * roumin;
                 for (int i = 0; i < 7; i++)
                 {
-                    double As = Math.PI * Math.Pow(diameters[i], 2) * 4 * 1000 / 150;
+                    double As = Math.PI * Math.Pow(diameters[i], 2) / 4 * 1000 / 150;
                     if (Ass < As)
                     {
                         return new double[] { diameters[i], 150, 0, 0, As, 0 };

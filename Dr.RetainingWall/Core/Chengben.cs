@@ -40,17 +40,17 @@ namespace Dr.RetainingWall
 
 
         public static double[] chengben(double[][] Ass, double[] Ashui, int n, double Qh, double Qg,
-            double[] h, double[] H, double cs, double[] s, double[] Z, int CC, int F)
+            double[] h, double[] H, double cs, double s, double Z, int CC, int F)
         {
             if (n == 1)
             {
                 double la150 = maoguchangdu(CC, F, Ass[0][0]);   //间距150结果的la
                 double la200 = maoguchangdu(CC, F, Ass[1][0]);   //间距200结果的la
                 double laz = maoguchangdu(CC, F, Ass[2][0]);
-                double Lft150 = H[0] - s[0] + la150;                //Lft为间距150通长顶筋的长度
-                double Lft200 = H[0] - s[0] + la200;                //Lft为间距200通长顶筋的长度
-                double Lff = Math.Round((H[0] - s[0]) / 3, 1) + 10; //Lff为附加顶筋的长度，对十位四舍五入取整
-                double Lz = H[0] - s[0] + laz;                      //Lz为底筋的长度
+                double Lft150 = H[0] - s + la150;                //Lft为间距150通长顶筋的长度
+                double Lft200 = H[0] - s + la200;                //Lft为间距200通长顶筋的长度
+                double Lff = Math.Round((H[0] - s) / 3, 1) + 10; //Lff为附加顶筋的长度，对十位四舍五入取整
+                double Lz = H[0] - s + laz;                      //Lz为底筋的长度
 
                 double Qs = 1 * 2 * Ashui[4] * H[0] * 7.85 * Qg * Math.Pow(10, -9);//水平筋费用
 

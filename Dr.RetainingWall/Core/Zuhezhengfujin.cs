@@ -71,8 +71,8 @@ namespace Dr.RetainingWall
                             }
                         }
                     }
+                    break;
                 }
-                break;
             }
             return rebarData;
         }
