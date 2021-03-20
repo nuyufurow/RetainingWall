@@ -77,6 +77,60 @@ namespace Dr.RetainingWall
             return rebarData;
         }
 
+        public static double[] peijinxietiao(double[][] A1, double[] M, double cs, double[] h, int C, double rg)
+        {
+            double[] diameterOfRebar = { 12, 14, 16, 18, 20, 22, 25 };
+            double[,] indexs = {
+                { 1, 1, 1, 0, 0, 0, 0},
+                { 1, 1, 1, 1, 0, 0, 0},
+                { 1, 1, 1, 1, 1, 0, 0},
+                { 0, 1, 1, 1, 1, 1, 0},
+                { 0, 0, 1, 1, 1, 1, 1},
+                { 0, 0, 0, 1, 1, 1, 1},
+                { 0, 0, 0, 0, 1, 1, 1}
+            };
+
+            if (A1[0][0] >= A1[1][0])
+            {
+                A1[1][0] = A1[0][0];
+                for (int i = 0; i < 7; i++)
+                {
+                    if (A1[0][0] == diameterOfRebar[i])
+                    {
+                        for (int j = 0; j < 7; j++)
+                        {
+                            if (indexs[i, j] == 1)
+                            { 
+                                
+                            
+                            }
+                        
+                        }
+                    
+                    }
+                
+                }
+
+            }
+            else 
+            {
+            
+            
+            }
+    A1(2, 1) = A1(1, 1);
+            if A1(1, 1) == 12
+                if A1(2, 5) <= AA01(2, 5)
+            A1(2, 3) = AA01(2, 3);
+            A1(2, 4) = AA01(2, 4);
+            A1(2, 5) = AA01(2, 5);
+            d =[AA01(2, 1) fix(1000 / AA01(2, 2)) AA01(2, 3) fix(1000 / AA01(2, 4))];
+            w1 = liefeng1(M(3), cs, d, AA01(2, 5), h(1), C, rg);
+            w2 = liefeng1(M(3), cs, d, AA01(2, 5), h(2), C, rg);
+            w = max(w1, w2);
+            A1(2, 6) = w;
+
+        }
+
         public static double[] shuipingjin(int n, double[] h)
         {
             double[] As = new double[6];
