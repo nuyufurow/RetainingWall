@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 using LinearAlgebra;
 using LinearAlgebra.VectorAlgebra;
-
+using System.Collections.Generic;
 
 namespace Dr.RetainingWall
 {
@@ -98,7 +98,7 @@ namespace Dr.RetainingWall
             rtbBrowser.AppendText("\n");
             RefreshInput();
 
-            input.SetWallWidth(new double[]{ 250 });
+            input.SetWallWidth(new double[] { 250 });
             Matrix mK = StiffnessMatrix.zonggangjuzhen(input.m_FloorCount, input.m_E, input.m_A, input.m_I, input.m_FloorHeights);
             output.m_K = mK;
 
@@ -355,7 +355,7 @@ namespace Dr.RetainingWall
         {
             rtbBrowser.AppendText("\n");
             RefreshInput();
-            input.SetWallWidth(new double[] { 350, 250 });
+            input.SetWallWidth(new double[] { 250 });
 
             output.m_K = StiffnessMatrix.zonggangjuzhen(input.m_FloorCount, input.m_E, input.m_A, input.m_I, input.m_FloorHeights);
             output.m_Q = LoadCalculation.hezaijisuan(input.m_FloorCount, input.m_FloorHeights, input.m_r, input.m_FutuHeight, input.m_p0, input.m_rg, input.m_rq);
@@ -394,13 +394,53 @@ namespace Dr.RetainingWall
         {
             rtbBrowser.AppendText("\n");
 
-            double[] cheng = Chengben.chengben(output.m_Zuhejin, output.m_Shuipingjin, input.m_FloorCount, input.m_ConcretePrice,
-                input.m_RebarPrice, input.m_WallWidths, input.m_FloorHeights, input.m_cs, input.m_RoofThickness,
-                input.m_SeismicGrade, input.m_ConcreteGrade, input.m_RebarGrade);
+            RefreshInput();
 
-            string strChengben = Util.ToString(cheng);
-            rtbBrowser.AppendText("成本计算：\n");
-            rtbBrowser.AppendText(strChengben);
+            List<double[]> wallWidths = WallWidth.Genereate(input.m_FloorCount);
+
+            //input.SetWallWidth(new double[] { 250 });
+
+            for (int i = wallWidths.Count -1 ; i >= 0; i--)
+            {
+                input.SetWallWidth(wallWidths[i]);
+
+                output.m_K = StiffnessMatrix.zonggangjuzhen(input.m_FloorCount, input.m_E, input.m_A, input.m_I, input.m_FloorHeights);
+                output.m_Q = LoadCalculation.hezaijisuan(input.m_FloorCount, input.m_FloorHeights, input.m_r, input.m_FutuHeight, input.m_p0, input.m_rg, input.m_rq);
+                double[] f01 = LoadCalculation.dengxiaojiedianhezai01(input.m_FloorCount, input.m_FloorHeights, output.m_Q);
+                double[] f02 = LoadCalculation.dengxiaojiedianhezai02(input.m_FloorCount, input.m_FloorHeights, output.m_Q);
+                output.m_f01 = new Vector(f01, VectorType.Column);
+                output.m_f02 = new Vector(f02, VectorType.Column);
+                output.m_K01 = BoundaryCondition.weiyibianjie01(input.m_FloorCount, output.m_K);
+                output.m_K02 = BoundaryCondition.weiyibianjie02(input.m_FloorCount, output.m_K);
+                output.m_M01 = InnerForceCalculation.neilijisuan01(
+                    input.m_E, input.m_A, input.m_I, output.m_K01, output.m_f01, input.m_FloorCount, output.m_Q, input.m_FloorHeights);
+                output.m_M02 = InnerForceCalculation.neilijisuan02(
+                    input.m_E, input.m_A, input.m_I, output.m_K02, output.m_f02, input.m_FloorCount, output.m_Q, input.m_FloorHeights);
+
+                output.m_MM = InnerForceCalculation.neilitiaofu(output.m_M01, output.m_M02, input.m_T);
+                output.m_Mmax = InnerForceCalculation.kuazhongzuidaM(output.m_MM, input.m_FloorCount, output.m_Q, input.m_FloorHeights);
+
+                output.m_M = InnerForceCalculation.neilizuhe(input.m_FloorCount, output.m_MM, output.m_Mmax);
+
+                double[][] As = ReinforcementCalculation.peijinjisuan(
+                    output.m_M, input.m_cs, input.m_FloorCount, input.m_WallWidths, input.m_fy, input.m_fc, input.m_ft);
+                output.m_As = As;
+
+                double[][] zuhejin = Zuhezhengfujin.zuhezhengfujin(input.m_FloorCount, output.m_As[0], input.m_ft, input.m_fy, input.m_WallWidths, output.m_M, input.m_cs, input.m_ConcreteGrade, input.m_rg);
+                output.m_Zuhejin = zuhejin;
+
+                double[] shuipingjin = Shuipingjin.shuipingjin(input.m_FloorCount, input.m_WallWidths);
+                output.m_Shuipingjin = shuipingjin;
+
+                double[] cheng = Chengben.chengben(output.m_Zuhejin, output.m_Shuipingjin, input.m_FloorCount, input.m_ConcretePrice,
+                    input.m_RebarPrice, input.m_WallWidths, input.m_FloorHeights, input.m_cs, input.m_RoofThickness,
+                    input.m_SeismicGrade, input.m_ConcreteGrade, input.m_RebarGrade);
+
+                string strChengben = Util.ToString(cheng);
+                rtbBrowser.AppendText("成本计算：\n");
+                rtbBrowser.AppendText(strChengben);
+
+            }
         }
     }
 }
