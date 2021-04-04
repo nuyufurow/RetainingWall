@@ -416,7 +416,7 @@ namespace Dr.RetainingWall
             return new double[1][];
         }
 
-        public static double[][] peijinxietiao150(double[][] A, double[] M, double cs, double[] h, int C, double rg)
+        public static double[][] peijinxietiao(double space, double[][] A, double[] M, double cs, double[] h, int C, double rg)
         {
             double[] d = { 12, 14, 16, 18, 20, 22, 25 };
             double[,] indexs = {
@@ -453,64 +453,51 @@ namespace Dr.RetainingWall
                     {
                         if (indexs[i, j] == 1)
                         {
-                            double area1 = Math.PI * Math.Pow(d[i], 2) / 4 * 1000 / 150 + Math.PI * Math.Pow(d[j], 2) / 4 * 1000 / 150;
-                            double area2 = Math.PI * Math.Pow(d[i], 2) / 4 * 1000 / 150 + Math.PI * Math.Pow(d[j], 2) / 4 * 1000 / 300;
+                            double area1 = Math.PI * Math.Pow(d[i], 2) / 4 * 1000 / space + Math.PI * Math.Pow(d[j], 2) / 4 * 1000 / space;
+                            double area2 = Math.PI * Math.Pow(d[i], 2) / 4 * 1000 / space + Math.PI * Math.Pow(d[j], 2) / 4 * 1000 / (2 * space);
+
+                            double[] dd = { amin[0], Math.Floor(1000 / amin[1]), d[j], Math.Floor(1000 / (2 * space)) };
+                            double w1 = Zuhezhengfujin.liefeng1(pm, cs, dd, area2, h[0], C, rg);
+                            double w2 = Zuhezhengfujin.liefeng1(pm, cs, dd, area2, h[1], C, rg);
+                            double w = Math.Max(w1, w2);
 
                             if (area < area2 && area2 - area < delta)
                             {
                                 delta = area2 - area;
                                 amin[2] = d[j];
-                                amin[3] = 300;
+                                amin[3] = 2* space;
                                 amin[4] = area2;
-                                double[] dd = { amin[0], Math.Floor(1000 / amin[1]), amin[2], Math.Floor(1000 / amin[3]) };
-                                double w1 = Zuhezhengfujin.liefeng1(pm, cs, dd, amin[4], h[0], C, rg);
-                                double w2 = Zuhezhengfujin.liefeng1(pm, cs, dd, amin[4], h[1], C, rg);
-                                double w = Math.Max(w1, w2);
                                 amin[5] = w;
                             }
-                            else if (area > area2)
+                            else if (area > area2 && w < 0.2)
                             {
-                                double[] dd = { amin[0], Math.Floor(1000 / amin[1]), d[j], Math.Floor(1000 / 300.0) };
-                                double w1 = Zuhezhengfujin.liefeng1(pm, cs, dd, area2, h[0], C, rg);
-                                double w2 = Zuhezhengfujin.liefeng1(pm, cs, dd, area2, h[1], C, rg);
-                                double w = Math.Max(w1, w2);
-                                if (w < 0.2)
-                                {
-                                    delta = area2 - area;
-                                    amin[2] = d[j];
-                                    amin[3] = 300;
-                                    amin[4] = area2;
-                                    amin[5] = w;
-                                }
+                                delta = area2 - area;
+                                amin[2] = d[j];
+                                amin[3] = 2 * space;
+                                amin[4] = area2;
+                                amin[5] = w;
                             }
 
+                            dd = new double[]{ amin[0], Math.Floor(1000 / amin[1]), d[j], Math.Floor(1000 / space) };
+                            w1 = Zuhezhengfujin.liefeng1(pm, cs, dd, area1, h[0], C, rg);
+                            w2 = Zuhezhengfujin.liefeng1(pm, cs, dd, area1, h[1], C, rg);
+                            w = Math.Max(w1, w2);
 
                             if (area < area1 && area1 - area < delta)
                             {
                                 delta = area1 - area;
                                 amin[2] = d[j];
-                                amin[3] = 150;
+                                amin[3] = space;
                                 amin[4] = area1;
-                                double[] dd = { amin[0], Math.Floor(1000 / amin[1]), amin[2], Math.Floor(1000 / amin[3]) };
-                                double w1 = Zuhezhengfujin.liefeng1(pm, cs, dd, amin[4], h[0], C, rg);
-                                double w2 = Zuhezhengfujin.liefeng1(pm, cs, dd, amin[4], h[1], C, rg);
-                                double w = Math.Max(w1, w2);
                                 amin[5] = w;
                             }
-                            else if(area > area1)
+                            else if (area > area1 && w < 0.2)
                             {
-                                double[] dd = { amin[0], Math.Floor(1000 / amin[1]), d[j], Math.Floor(1000 / 150.0) };
-                                double w1 = Zuhezhengfujin.liefeng1(pm, cs, dd, area1, h[0], C, rg);
-                                double w2 = Zuhezhengfujin.liefeng1(pm, cs, dd, area1, h[1], C, rg);
-                                double w = Math.Max(w1, w2);
-                                if (w < 0.2)
-                                {
-                                    delta = area1 - area;
-                                    amin[2] = d[j];
-                                    amin[3] = 300;
-                                    amin[4] = area1;
-                                    amin[5] = w;
-                                }
+                                delta = area1 - area;
+                                amin[2] = d[j];
+                                amin[3] = space;
+                                amin[4] = area1;
+                                amin[5] = w;
                             }
                         }
                     }
@@ -674,7 +661,7 @@ namespace Dr.RetainingWall
                         }
                     }
                 }
-                A = peijinxietiao150(Ak, M, cs, h, C, rg);
+                A = peijinxietiao(space, Ak, M, cs, h, C, rg);
 
                 return A;
             }
