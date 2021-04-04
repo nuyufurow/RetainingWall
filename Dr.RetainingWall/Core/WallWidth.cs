@@ -24,7 +24,7 @@ namespace Dr.RetainingWall
             {
                 for (int i = 0; i < 4; i++)
                 {
-                    for (int j = i; j < n; j++)
+                    for (int j = i; j < 4; j++)
                     {
                         wallWidths.Add(new double[] { widths[i], widths[j] });
                     }

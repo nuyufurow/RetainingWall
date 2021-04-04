@@ -32,7 +32,6 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgvInput = new System.Windows.Forms.DataGridView();
-            this.floorHeight = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.rtbBrowser = new System.Windows.Forms.RichTextBox();
             this.btnTotalStiffnessMatrix = new System.Windows.Forms.Button();
             this.btnLoadCalculation = new System.Windows.Forms.Button();
@@ -80,6 +79,8 @@
             this.btnZuhezhengfujin = new System.Windows.Forms.Button();
             this.btnShuipingjin = new System.Windows.Forms.Button();
             this.btnChengben = new System.Windows.Forms.Button();
+            this.floorHeight = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.s = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvInput)).BeginInit();
             this.SuspendLayout();
             // 
@@ -96,7 +97,8 @@
             this.dgvInput.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvInput.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvInput.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.floorHeight});
+            this.floorHeight,
+            this.s});
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -105,7 +107,7 @@
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgvInput.DefaultCellStyle = dataGridViewCellStyle2;
-            this.dgvInput.Location = new System.Drawing.Point(15, 7);
+            this.dgvInput.Location = new System.Drawing.Point(2, 0);
             this.dgvInput.Name = "dgvInput";
             this.dgvInput.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -117,45 +119,37 @@
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dgvInput.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dgvInput.RowHeadersWidth = 60;
-            this.dgvInput.Size = new System.Drawing.Size(257, 160);
+            this.dgvInput.Size = new System.Drawing.Size(323, 160);
             this.dgvInput.TabIndex = 3;
             this.dgvInput.RowStateChanged += new System.Windows.Forms.DataGridViewRowStateChangedEventHandler(this.dgvInput_RowStateChanged);
-            // 
-            // floorHeight
-            // 
-            this.floorHeight.Frozen = true;
-            this.floorHeight.HeaderText = "层高(mm)";
-            this.floorHeight.Name = "floorHeight";
             // 
             // rtbBrowser
             // 
             this.rtbBrowser.Dock = System.Windows.Forms.DockStyle.Right;
-            this.rtbBrowser.Location = new System.Drawing.Point(399, 0);
+            this.rtbBrowser.Location = new System.Drawing.Point(480, 0);
             this.rtbBrowser.Name = "rtbBrowser";
             this.rtbBrowser.ReadOnly = true;
-            this.rtbBrowser.Size = new System.Drawing.Size(585, 561);
+            this.rtbBrowser.Size = new System.Drawing.Size(504, 561);
             this.rtbBrowser.TabIndex = 5;
             this.rtbBrowser.Text = "";
             // 
             // btnTotalStiffnessMatrix
             // 
-            this.btnTotalStiffnessMatrix.Location = new System.Drawing.Point(278, 50);
+            this.btnTotalStiffnessMatrix.Location = new System.Drawing.Point(364, 50);
             this.btnTotalStiffnessMatrix.Name = "btnTotalStiffnessMatrix";
             this.btnTotalStiffnessMatrix.Size = new System.Drawing.Size(100, 23);
             this.btnTotalStiffnessMatrix.TabIndex = 7;
             this.btnTotalStiffnessMatrix.Text = "总刚度矩阵";
             this.btnTotalStiffnessMatrix.UseVisualStyleBackColor = true;
-            this.btnTotalStiffnessMatrix.Click += new System.EventHandler(this.btnTotalStiffnessMatrix_Click);
             // 
             // btnLoadCalculation
             // 
-            this.btnLoadCalculation.Location = new System.Drawing.Point(278, 88);
+            this.btnLoadCalculation.Location = new System.Drawing.Point(364, 88);
             this.btnLoadCalculation.Name = "btnLoadCalculation";
             this.btnLoadCalculation.Size = new System.Drawing.Size(100, 23);
             this.btnLoadCalculation.TabIndex = 8;
             this.btnLoadCalculation.Text = "荷载计算";
             this.btnLoadCalculation.UseVisualStyleBackColor = true;
-            this.btnLoadCalculation.Click += new System.EventHandler(this.btnLoadCalculation_Click);
             // 
             // labRongzhong1
             // 
@@ -266,7 +260,7 @@
             // 
             // btnClearBrowse
             // 
-            this.btnClearBrowse.Location = new System.Drawing.Point(278, 12);
+            this.btnClearBrowse.Location = new System.Drawing.Point(364, 12);
             this.btnClearBrowse.Name = "btnClearBrowse";
             this.btnClearBrowse.Size = new System.Drawing.Size(100, 23);
             this.btnClearBrowse.TabIndex = 22;
@@ -276,33 +270,30 @@
             // 
             // btnEquivalentNodeLoad
             // 
-            this.btnEquivalentNodeLoad.Location = new System.Drawing.Point(278, 126);
+            this.btnEquivalentNodeLoad.Location = new System.Drawing.Point(364, 126);
             this.btnEquivalentNodeLoad.Name = "btnEquivalentNodeLoad";
             this.btnEquivalentNodeLoad.Size = new System.Drawing.Size(100, 23);
             this.btnEquivalentNodeLoad.TabIndex = 23;
             this.btnEquivalentNodeLoad.Text = "等效节点荷载";
             this.btnEquivalentNodeLoad.UseVisualStyleBackColor = true;
-            this.btnEquivalentNodeLoad.Click += new System.EventHandler(this.btnEquivalentNodeLoad_Click);
             // 
             // btnSimplifiedTotalStiffness
             // 
-            this.btnSimplifiedTotalStiffness.Location = new System.Drawing.Point(278, 164);
+            this.btnSimplifiedTotalStiffness.Location = new System.Drawing.Point(364, 164);
             this.btnSimplifiedTotalStiffness.Name = "btnSimplifiedTotalStiffness";
             this.btnSimplifiedTotalStiffness.Size = new System.Drawing.Size(100, 23);
             this.btnSimplifiedTotalStiffness.TabIndex = 24;
             this.btnSimplifiedTotalStiffness.Text = "化简后总刚";
             this.btnSimplifiedTotalStiffness.UseVisualStyleBackColor = true;
-            this.btnSimplifiedTotalStiffness.Click += new System.EventHandler(this.btnSimplifiedTotalStiffness_Click);
             // 
             // btnInnerForceCal
             // 
-            this.btnInnerForceCal.Location = new System.Drawing.Point(278, 202);
+            this.btnInnerForceCal.Location = new System.Drawing.Point(364, 202);
             this.btnInnerForceCal.Name = "btnInnerForceCal";
             this.btnInnerForceCal.Size = new System.Drawing.Size(100, 23);
             this.btnInnerForceCal.TabIndex = 25;
             this.btnInnerForceCal.Text = "内力计算";
             this.btnInnerForceCal.UseVisualStyleBackColor = true;
-            this.btnInnerForceCal.Click += new System.EventHandler(this.btnInnerForceCal_Click);
             // 
             // lbT
             // 
@@ -322,33 +313,30 @@
             // 
             // btnInnerForceTiaofu
             // 
-            this.btnInnerForceTiaofu.Location = new System.Drawing.Point(278, 240);
+            this.btnInnerForceTiaofu.Location = new System.Drawing.Point(364, 240);
             this.btnInnerForceTiaofu.Name = "btnInnerForceTiaofu";
             this.btnInnerForceTiaofu.Size = new System.Drawing.Size(100, 23);
             this.btnInnerForceTiaofu.TabIndex = 28;
             this.btnInnerForceTiaofu.Text = "内力调幅";
             this.btnInnerForceTiaofu.UseVisualStyleBackColor = true;
-            this.btnInnerForceTiaofu.Click += new System.EventHandler(this.btnInnerForceTiaofu_Click);
             // 
             // btnMaxM
             // 
-            this.btnMaxM.Location = new System.Drawing.Point(278, 278);
+            this.btnMaxM.Location = new System.Drawing.Point(364, 278);
             this.btnMaxM.Name = "btnMaxM";
             this.btnMaxM.Size = new System.Drawing.Size(100, 23);
             this.btnMaxM.TabIndex = 29;
             this.btnMaxM.Text = "跨中最大弯矩";
             this.btnMaxM.UseVisualStyleBackColor = true;
-            this.btnMaxM.Click += new System.EventHandler(this.btnMaxM_Click);
             // 
             // btnInnerForceZuhe
             // 
-            this.btnInnerForceZuhe.Location = new System.Drawing.Point(278, 316);
+            this.btnInnerForceZuhe.Location = new System.Drawing.Point(364, 316);
             this.btnInnerForceZuhe.Name = "btnInnerForceZuhe";
             this.btnInnerForceZuhe.Size = new System.Drawing.Size(100, 23);
             this.btnInnerForceZuhe.TabIndex = 30;
             this.btnInnerForceZuhe.Text = "内力组合";
             this.btnInnerForceZuhe.UseVisualStyleBackColor = true;
-            this.btnInnerForceZuhe.Click += new System.EventHandler(this.btnInnerForceZuhe_Click);
             // 
             // labConcreteGrade
             // 
@@ -521,43 +509,53 @@
             // 
             // btnReinforcementCalculation
             // 
-            this.btnReinforcementCalculation.Location = new System.Drawing.Point(278, 354);
+            this.btnReinforcementCalculation.Location = new System.Drawing.Point(364, 354);
             this.btnReinforcementCalculation.Name = "btnReinforcementCalculation";
             this.btnReinforcementCalculation.Size = new System.Drawing.Size(100, 23);
             this.btnReinforcementCalculation.TabIndex = 49;
             this.btnReinforcementCalculation.Text = "配筋计算";
             this.btnReinforcementCalculation.UseVisualStyleBackColor = true;
-            this.btnReinforcementCalculation.Click += new System.EventHandler(this.btnReinforcementCalculation_Click);
             // 
             // btnZuhezhengfujin
             // 
-            this.btnZuhezhengfujin.Location = new System.Drawing.Point(278, 388);
+            this.btnZuhezhengfujin.Location = new System.Drawing.Point(364, 392);
             this.btnZuhezhengfujin.Name = "btnZuhezhengfujin";
             this.btnZuhezhengfujin.Size = new System.Drawing.Size(100, 23);
             this.btnZuhezhengfujin.TabIndex = 50;
             this.btnZuhezhengfujin.Text = "组合正负筋";
             this.btnZuhezhengfujin.UseVisualStyleBackColor = true;
-            this.btnZuhezhengfujin.Click += new System.EventHandler(this.btnZuhezhengfujin_Click);
             // 
             // btnShuipingjin
             // 
-            this.btnShuipingjin.Location = new System.Drawing.Point(278, 433);
+            this.btnShuipingjin.Location = new System.Drawing.Point(364, 430);
             this.btnShuipingjin.Name = "btnShuipingjin";
-            this.btnShuipingjin.Size = new System.Drawing.Size(75, 23);
+            this.btnShuipingjin.Size = new System.Drawing.Size(100, 23);
             this.btnShuipingjin.TabIndex = 51;
             this.btnShuipingjin.Text = "水平筋";
             this.btnShuipingjin.UseVisualStyleBackColor = true;
-            this.btnShuipingjin.Click += new System.EventHandler(this.btnShuipingjin_Click);
             // 
             // btnChengben
             // 
-            this.btnChengben.Location = new System.Drawing.Point(291, 472);
+            this.btnChengben.Location = new System.Drawing.Point(364, 468);
             this.btnChengben.Name = "btnChengben";
-            this.btnChengben.Size = new System.Drawing.Size(75, 23);
+            this.btnChengben.Size = new System.Drawing.Size(100, 23);
             this.btnChengben.TabIndex = 52;
             this.btnChengben.Text = "成本";
             this.btnChengben.UseVisualStyleBackColor = true;
             this.btnChengben.Click += new System.EventHandler(this.btnChengben_Click);
+            // 
+            // floorHeight
+            // 
+            this.floorHeight.Frozen = true;
+            this.floorHeight.HeaderText = "层高(mm)";
+            this.floorHeight.Name = "floorHeight";
+            this.floorHeight.Width = 130;
+            // 
+            // s
+            // 
+            this.s.HeaderText = "地下室顶板厚(mm)";
+            this.s.Name = "s";
+            this.s.Width = 130;
             // 
             // mainForm
             // 
@@ -667,11 +665,12 @@
         private System.Windows.Forms.Label labCs;
         private System.Windows.Forms.TextBox tbCs;
         private System.Windows.Forms.Label labCs2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn floorHeight;
         private System.Windows.Forms.Button btnReinforcementCalculation;
         private System.Windows.Forms.Button btnZuhezhengfujin;
         private System.Windows.Forms.Button btnShuipingjin;
         private System.Windows.Forms.Button btnChengben;
+        private System.Windows.Forms.DataGridViewTextBoxColumn floorHeight;
+        private System.Windows.Forms.DataGridViewTextBoxColumn s;
     }
 }
 

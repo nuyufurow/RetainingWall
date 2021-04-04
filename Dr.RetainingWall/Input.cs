@@ -19,7 +19,7 @@ namespace Dr.RetainingWall
         public double m_RebarPrice = 4000;                      //钢筋每吨价格
 
         public int m_FloorCount = 1;                            //层数
-        public double[] m_FloorHeights = { 4000 };              //层高
+        public double[] m_FloorHeights = { 4000, 4000 };        //层高
         public double[] m_WallWidths;                           //墙厚
         public double[] m_A;                                    //截面积
         public double[] m_I;                                    //截面惯性矩
@@ -32,7 +32,7 @@ namespace Dr.RetainingWall
         public double m_T = 0.75;                               //内力调幅系数
 
         public int m_SeismicGrade;                              //抗震等级
-        public double m_RoofThickness = 160;                    //地下室顶板厚度
+        public double[] m_RoofThickness = {120, 160 };              //地下室顶板厚度
         public double m_cs = 30;                                //保护层厚度
 
         private void Init()

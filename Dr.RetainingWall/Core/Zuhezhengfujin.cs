@@ -71,13 +71,16 @@ namespace Dr.RetainingWall
                             }
                         }
                     }
-                    break;
+                    if (rebarData[0] != 0)
+                    {
+                        break;
+                    }
                 }
             }
             return rebarData;
         }
 
-        
+
 
         public static double[] shuipingjin(int n, double[] h)
         {
@@ -413,6 +416,79 @@ namespace Dr.RetainingWall
             return new double[1][];
         }
 
+        public static double[][] peijinxietiao150(double[][] A, double[] M, double cs, double[] h, int C, double rg)
+        {
+            double[] d = { 12, 14, 16, 18, 20, 22, 25 };
+            double[,] indexs = {
+                { 1, 1, 1, 0, 0, 0, 0},
+                { 1, 1, 1, 1, 0, 0, 0},
+                { 1, 1, 1, 1, 1, 0, 0},
+                { 0, 1, 1, 1, 1, 1, 0},
+                { 0, 0, 1, 1, 1, 1, 1},
+                { 0, 0, 0, 1, 1, 1, 1},
+                { 0, 0, 0, 0, 1, 1, 1}
+            };
+
+            double[] amin = A[0];
+            double[] amax = A[1];
+            bool isExchange = false;
+            if (A[0][0] >= A[1][0])
+            {
+                amin = A[1];
+                amax = A[0];
+                isExchange = true;
+            }
+
+            amin[0] = amax[0];
+            for (int i = 0; i < 7; i++)
+            {
+                if (amin[0] == d[i])
+                {
+                    double delta = 1000;
+                    double delta2 = 1000;
+                    double area = amin[4];
+                    for (int j = 0; j < 7; j++)
+                    {
+                        if (indexs[i, j] == 1)
+                        {
+                            double area1 = Math.PI * Math.Pow(d[i], 2) / 4 * 1000 / 150 + Math.PI * Math.Pow(d[j], 2) / 4 * 1000 / 150;
+                            double area2 = Math.PI * Math.Pow(d[i], 2) / 4 * 1000 / 150 + Math.PI * Math.Pow(d[j], 2) / 4 * 1000 / 300;
+
+                            if((area < area2 && area2 - area < delta)|| (area > area2))
+                            {
+                                delta = area2 - area;
+                                amin[2] = d[j];
+                                amin[3] = 300;
+                                amin[4] = area2;
+                                double[] dd = { amin[0], Math.Floor(1000 / amin[1]), amin[2], Math.Floor(1000 / amin[3]) };
+                                double w1 = Zuhezhengfujin.liefeng1(M[2], cs, dd, amin[4], h[0], C, rg);
+                                double w2 = Zuhezhengfujin.liefeng1(M[2], cs, dd, amin[4], h[1], C, rg);
+                                double w = Math.Max(w1, w2);
+                                amin[5] = w;
+                            }
+                            else if (area < area1 && area1 - area < delta)
+                            {
+                                delta = area1 - area;
+                                amin[2] = d[j];
+                                amin[3] = 150;
+                                amin[4] = area1;
+                                double[] dd = { amin[0], Math.Floor(1000 / amin[1]), amin[2], Math.Floor(1000 / amin[3]) };
+                                double w1 = Zuhezhengfujin.liefeng1(M[2], cs, dd, amin[4], h[0], C, rg);
+                                double w2 = Zuhezhengfujin.liefeng1(M[2], cs, dd, amin[4], h[1], C, rg);
+                                double w = Math.Max(w1, w2);
+                                amin[5] = w;
+                            }
+                        }
+                    }
+
+                    break;
+                }
+            }
+
+            double[][] result = isExchange ? new double[][] { amax, amin } : new double[][] { amin, amax };
+
+            return result;
+        }
 
         public static double[][] fujinxuanjin(int space, int n, double[] As, double ft, double fy, double[] h, double[] M, double cs, int C, double rg)
         {
@@ -512,7 +588,7 @@ namespace Dr.RetainingWall
                 for (int i = 0; i < 2; i++)
                 {
                     double[] d = new double[] { Asss[i][0], Math.Floor(1000 / Asss[i][1]), Asss[i][2], Math.Floor(1000 / Asss[i][3]) };//A点的配筋直径、数量
-                    double wl = i == 0 ? 0 : Zuhezhengfujin.liefeng1(M[2 * i], cs, d, Asss[i][4], h[i -1], C, rg);//计算A点裂缝
+                    double wl = i == 0 ? 0 : Zuhezhengfujin.liefeng1(M[2 * i], cs, d, Asss[i][4], h[i - 1], C, rg);//计算A点裂缝
                     double wr = Zuhezhengfujin.liefeng1(M[2 * i], cs, d, Asss[i][4], h[i], C, rg);//计算A点裂缝
                     double w = Math.Max(wl, wr);
                     if (w <= 0.2)
@@ -533,7 +609,17 @@ namespace Dr.RetainingWall
                             double[] AA = Zuhezhengfujin.fujinshuchu(space, Asss[i][4], Astong);//再次选筋
                             Asss[i] = new double[] { AA[0], AA[1], AA[2], AA[3], AA[4] };//将选筋结果填入Asss矩阵中
                             d = new double[] { Asss[i][0], Math.Floor(1000 / Asss[i][1]), Asss[i][2], Math.Floor(1000 / Asss[i][3]) };
-                            w = Zuhezhengfujin.liefeng1(M[0], cs, d, Asss[i][4], h[0], C, rg);
+                            if (i == 0)
+                            {
+                                w = Zuhezhengfujin.liefeng1(M[0], cs, d, Asss[i][4], h[0], C, rg);
+                            }
+                            else
+                            {
+                                wl = Zuhezhengfujin.liefeng1(M[2 * i], cs, d, Asss[i][4], h[i - 1], C, rg);
+                                wr = Zuhezhengfujin.liefeng1(M[2 * i], cs, d, Asss[i][4], h[i], C, rg);
+                                w = Math.Max(wl, wr);
+                            }
+
                             if (w <= 0.2)
                             {
                                 Ak[i] = new double[] { Asss[i][0], Asss[i][1], Asss[i][2], Asss[i][3], Asss[i][4], w };//计算得到A点配筋和裂缝宽度
@@ -555,8 +641,7 @@ namespace Dr.RetainingWall
                         }
                     }
                 }
-
-
+                A = peijinxietiao150(Ak, M, cs, h, C, rg);
 
                 return A;
             }
@@ -564,75 +649,7 @@ namespace Dr.RetainingWall
         }
 
 
-        public static double[][] peijinxietiao150(double[][] A, double[] M, double cs, double[] h, int C, double rg)
-        {
-            double[] d = { 12, 14, 16, 18, 20, 22, 25 };
-            double[,] indexs = {
-                { 1, 1, 1, 0, 0, 0, 0},
-                { 1, 1, 1, 1, 0, 0, 0},
-                { 1, 1, 1, 1, 1, 0, 0},
-                { 0, 1, 1, 1, 1, 1, 0},
-                { 0, 0, 1, 1, 1, 1, 1},
-                { 0, 0, 0, 1, 1, 1, 1},
-                { 0, 0, 0, 0, 1, 1, 1}
-            };
 
-            double[] amin = A[0];
-            double[] amax = A[1];
-            bool isExchange = false;
-            if (A[0][0] >= A[1][0])
-            {
-                amin = A[1];
-                amax = A[0];
-                isExchange = true;
-            }
-
-            amin[0] = amax[0];
-            for (int i = 0; i < 7; i++)
-            {
-                if (amin[0] == d[i])
-                {
-                    double delta = 1000;
-                    for (int j = 0; j < 7; j++)
-                    {
-                        if (indexs[i, j] == 1)
-                        {
-                            double area1 = Math.PI * Math.Pow(d[i], 2) / 4 * 1000 / 150 + Math.PI * Math.Pow(d[j], 2) / 4 * 1000 / 150;
-                            double area2 = Math.PI * Math.Pow(d[i], 2) / 4 * 1000 / 150 + Math.PI * Math.Pow(d[j], 2) / 4 * 1000 / 300;
-                            if (amin[4] < area2 && area2 - amin[4] < delta)
-                            {
-                                delta = area2 - amin[4];
-                                amin[2] = d[j];
-                                amin[3] = 300;
-                                amin[4] = area2;
-                                double[] dd = { amin[0], Math.Floor(1000 / amin[1]), amin[2], Math.Floor(1000 / amin[3]) };
-                                double w1 = Zuhezhengfujin.liefeng1(M[2], cs, dd, amin[4], h[0], C, rg);
-                                double w2 = Zuhezhengfujin.liefeng1(M[2], cs, dd, amin[4], h[1], C, rg);
-                                double w = Math.Max(w1, w2);
-                                amin[5] = w;
-                            }
-                            else if (amin[4] < area1 && area1 - amin[4] < delta)
-                            {
-                                delta = area1 - amin[4];
-                                amin[2] = d[j];
-                                amin[3] = 150;
-                                amin[4] = area1;
-                                double[] dd = { amin[0], Math.Floor(1000 / amin[1]), amin[2], Math.Floor(1000 / amin[3]) };
-                                double w1 = Zuhezhengfujin.liefeng1(M[2], cs, dd, amin[4], h[0], C, rg);
-                                double w2 = Zuhezhengfujin.liefeng1(M[2], cs, dd, amin[4], h[1], C, rg);
-                                double w = Math.Max(w1, w2);
-                                amin[5] = w;
-                            }
-                        }
-                    }
-                    break;
-                }
-            }
-
-            double[][] result = isExchange ? new double[][] { amax, amin } : new double[][] { amin, amax };
-
-            return result;
-        }
 
         public static double[][] zuhezhengfujin(int n, double[] As, double ft, double fy, double[] h, double[] M, double cs, int C, double rg)
         {

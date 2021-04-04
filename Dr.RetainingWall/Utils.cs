@@ -84,9 +84,9 @@ namespace Dr.RetainingWall
             foreach (var a in arr)
             {
                 string strA = a.ToString();
-                if (Math.Abs(a) > 100)
+                if (Math.Abs(a) > 10)
                 {
-                    strA = a.ToString("f0");
+                    strA = a.ToString("f2");
                 }
                 str += strA + " ";
             }
