@@ -34,7 +34,7 @@ namespace Dr.RetainingWall
             tbHuozaiXishu.Text = input.m_rq.ToString();
             tbT.Text = input.m_T.ToString();
             cmbSeismicGrade.Text = input.m_SeismicGrade.ToString();
-            tbRoofThickness.Text = input.m_RoofThickness[0].ToString();
+            tbBarSpace.Text = input.m_BarSpace.ToString();
             tbCs.Text = input.m_cs.ToString();
         }
 
@@ -75,6 +75,7 @@ namespace Dr.RetainingWall
             input.m_T = Util.ToDouble(tbT.Text);
             input.m_SeismicGrade = Util.ToInt(cmbSeismicGrade.Text);
             input.m_RoofThickness = roofs;
+            input.m_BarSpace = Util.ToDouble(tbBarSpace.Text);
             input.m_cs = Util.ToDouble(tbCs.Text);
         }
         private void btnClearBrowse_Click(object sender, EventArgs e)

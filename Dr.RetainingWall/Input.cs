@@ -7,8 +7,8 @@ namespace Dr.RetainingWall
 {
     class Input
     {
-        private Dictionary<int, double[]> m_DicConcrteProperty;  //混凝土属性集
-        private Dictionary<int, double[]> m_DicRebarProperty;    //钢筋属性集
+        private Dictionary<int, double[]> m_DicConcrteProperty; //混凝土属性集
+        private Dictionary<int, double[]> m_DicRebarProperty;   //钢筋属性集
         public int m_ConcreteGrade = 30;                        //混凝土等级
         public int m_RebarGrade = 400;                          //钢筋等级
         public double m_E;                                      //混凝土弹性模量
@@ -31,8 +31,9 @@ namespace Dr.RetainingWall
         public double m_rq = 1.5;                               //活荷载分项系数
         public double m_T = 0.75;                               //内力调幅系数
 
-        public int m_SeismicGrade = 4;                              //抗震等级
-        public double[] m_RoofThickness = {120, 160 };              //地下室顶板厚度
+        public int m_SeismicGrade = 4;                          //抗震等级
+        public double[] m_RoofThickness = {120, 160 };          //地下室顶板厚度
+        public double m_BarSpace = 150;                         //配筋间距
         public double m_cs = 30;                                //保护层厚度
 
         private void Init()

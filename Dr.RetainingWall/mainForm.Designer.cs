@@ -28,13 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgvInput = new System.Windows.Forms.DataGridView();
+            this.floorHeight = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.s = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.rtbBrowser = new System.Windows.Forms.RichTextBox();
-            this.btnTotalStiffnessMatrix = new System.Windows.Forms.Button();
-            this.btnLoadCalculation = new System.Windows.Forms.Button();
             this.labRongzhong1 = new System.Windows.Forms.Label();
             this.tbRongZhong = new System.Windows.Forms.TextBox();
             this.labFutuThickness = new System.Windows.Forms.Label();
@@ -49,14 +49,8 @@
             this.tbHuozaiXishu = new System.Windows.Forms.TextBox();
             this.labHuohezai2 = new System.Windows.Forms.Label();
             this.btnClearBrowse = new System.Windows.Forms.Button();
-            this.btnEquivalentNodeLoad = new System.Windows.Forms.Button();
-            this.btnSimplifiedTotalStiffness = new System.Windows.Forms.Button();
-            this.btnInnerForceCal = new System.Windows.Forms.Button();
             this.lbT = new System.Windows.Forms.Label();
             this.tbT = new System.Windows.Forms.TextBox();
-            this.btnInnerForceTiaofu = new System.Windows.Forms.Button();
-            this.btnMaxM = new System.Windows.Forms.Button();
-            this.btnInnerForceZuhe = new System.Windows.Forms.Button();
             this.labConcreteGrade = new System.Windows.Forms.Label();
             this.cmbConcreteGrade = new System.Windows.Forms.ComboBox();
             this.labRebarGrade = new System.Windows.Forms.Label();
@@ -69,59 +63,67 @@
             this.labRebarPrice2 = new System.Windows.Forms.Label();
             this.labSeismicGrade = new System.Windows.Forms.Label();
             this.cmbSeismicGrade = new System.Windows.Forms.ComboBox();
-            this.labRoofThickness = new System.Windows.Forms.Label();
-            this.tbRoofThickness = new System.Windows.Forms.TextBox();
+            this.labBarSpace = new System.Windows.Forms.Label();
+            this.tbBarSpace = new System.Windows.Forms.TextBox();
             this.labRoofThickness2 = new System.Windows.Forms.Label();
             this.labCs = new System.Windows.Forms.Label();
             this.tbCs = new System.Windows.Forms.TextBox();
             this.labCs2 = new System.Windows.Forms.Label();
-            this.btnReinforcementCalculation = new System.Windows.Forms.Button();
-            this.btnZuhezhengfujin = new System.Windows.Forms.Button();
-            this.btnShuipingjin = new System.Windows.Forms.Button();
             this.btnChengben = new System.Windows.Forms.Button();
-            this.floorHeight = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.s = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvInput)).BeginInit();
             this.SuspendLayout();
             // 
             // dgvInput
             // 
             this.dgvInput.AllowDrop = true;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvInput.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvInput.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.dgvInput.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvInput.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.floorHeight,
             this.s});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvInput.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvInput.DefaultCellStyle = dataGridViewCellStyle5;
             this.dgvInput.Location = new System.Drawing.Point(2, 0);
             this.dgvInput.Name = "dgvInput";
             this.dgvInput.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvInput.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvInput.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.dgvInput.RowHeadersWidth = 60;
             this.dgvInput.Size = new System.Drawing.Size(323, 160);
             this.dgvInput.TabIndex = 3;
             this.dgvInput.RowStateChanged += new System.Windows.Forms.DataGridViewRowStateChangedEventHandler(this.dgvInput_RowStateChanged);
+            // 
+            // floorHeight
+            // 
+            this.floorHeight.Frozen = true;
+            this.floorHeight.HeaderText = "层高(mm)";
+            this.floorHeight.Name = "floorHeight";
+            this.floorHeight.Width = 130;
+            // 
+            // s
+            // 
+            this.s.HeaderText = "地下室顶板厚(mm)";
+            this.s.Name = "s";
+            this.s.Width = 130;
             // 
             // rtbBrowser
             // 
@@ -132,24 +134,6 @@
             this.rtbBrowser.Size = new System.Drawing.Size(504, 561);
             this.rtbBrowser.TabIndex = 5;
             this.rtbBrowser.Text = "";
-            // 
-            // btnTotalStiffnessMatrix
-            // 
-            this.btnTotalStiffnessMatrix.Location = new System.Drawing.Point(364, 50);
-            this.btnTotalStiffnessMatrix.Name = "btnTotalStiffnessMatrix";
-            this.btnTotalStiffnessMatrix.Size = new System.Drawing.Size(100, 23);
-            this.btnTotalStiffnessMatrix.TabIndex = 7;
-            this.btnTotalStiffnessMatrix.Text = "总刚度矩阵";
-            this.btnTotalStiffnessMatrix.UseVisualStyleBackColor = true;
-            // 
-            // btnLoadCalculation
-            // 
-            this.btnLoadCalculation.Location = new System.Drawing.Point(364, 88);
-            this.btnLoadCalculation.Name = "btnLoadCalculation";
-            this.btnLoadCalculation.Size = new System.Drawing.Size(100, 23);
-            this.btnLoadCalculation.TabIndex = 8;
-            this.btnLoadCalculation.Text = "荷载计算";
-            this.btnLoadCalculation.UseVisualStyleBackColor = true;
             // 
             // labRongzhong1
             // 
@@ -268,33 +252,6 @@
             this.btnClearBrowse.UseVisualStyleBackColor = true;
             this.btnClearBrowse.Click += new System.EventHandler(this.btnClearBrowse_Click);
             // 
-            // btnEquivalentNodeLoad
-            // 
-            this.btnEquivalentNodeLoad.Location = new System.Drawing.Point(364, 126);
-            this.btnEquivalentNodeLoad.Name = "btnEquivalentNodeLoad";
-            this.btnEquivalentNodeLoad.Size = new System.Drawing.Size(100, 23);
-            this.btnEquivalentNodeLoad.TabIndex = 23;
-            this.btnEquivalentNodeLoad.Text = "等效节点荷载";
-            this.btnEquivalentNodeLoad.UseVisualStyleBackColor = true;
-            // 
-            // btnSimplifiedTotalStiffness
-            // 
-            this.btnSimplifiedTotalStiffness.Location = new System.Drawing.Point(364, 164);
-            this.btnSimplifiedTotalStiffness.Name = "btnSimplifiedTotalStiffness";
-            this.btnSimplifiedTotalStiffness.Size = new System.Drawing.Size(100, 23);
-            this.btnSimplifiedTotalStiffness.TabIndex = 24;
-            this.btnSimplifiedTotalStiffness.Text = "化简后总刚";
-            this.btnSimplifiedTotalStiffness.UseVisualStyleBackColor = true;
-            // 
-            // btnInnerForceCal
-            // 
-            this.btnInnerForceCal.Location = new System.Drawing.Point(364, 202);
-            this.btnInnerForceCal.Name = "btnInnerForceCal";
-            this.btnInnerForceCal.Size = new System.Drawing.Size(100, 23);
-            this.btnInnerForceCal.TabIndex = 25;
-            this.btnInnerForceCal.Text = "内力计算";
-            this.btnInnerForceCal.UseVisualStyleBackColor = true;
-            // 
             // lbT
             // 
             this.lbT.AutoSize = true;
@@ -310,33 +267,6 @@
             this.tbT.Name = "tbT";
             this.tbT.Size = new System.Drawing.Size(100, 21);
             this.tbT.TabIndex = 27;
-            // 
-            // btnInnerForceTiaofu
-            // 
-            this.btnInnerForceTiaofu.Location = new System.Drawing.Point(364, 240);
-            this.btnInnerForceTiaofu.Name = "btnInnerForceTiaofu";
-            this.btnInnerForceTiaofu.Size = new System.Drawing.Size(100, 23);
-            this.btnInnerForceTiaofu.TabIndex = 28;
-            this.btnInnerForceTiaofu.Text = "内力调幅";
-            this.btnInnerForceTiaofu.UseVisualStyleBackColor = true;
-            // 
-            // btnMaxM
-            // 
-            this.btnMaxM.Location = new System.Drawing.Point(364, 278);
-            this.btnMaxM.Name = "btnMaxM";
-            this.btnMaxM.Size = new System.Drawing.Size(100, 23);
-            this.btnMaxM.TabIndex = 29;
-            this.btnMaxM.Text = "跨中最大弯矩";
-            this.btnMaxM.UseVisualStyleBackColor = true;
-            // 
-            // btnInnerForceZuhe
-            // 
-            this.btnInnerForceZuhe.Location = new System.Drawing.Point(364, 316);
-            this.btnInnerForceZuhe.Name = "btnInnerForceZuhe";
-            this.btnInnerForceZuhe.Size = new System.Drawing.Size(100, 23);
-            this.btnInnerForceZuhe.TabIndex = 30;
-            this.btnInnerForceZuhe.Text = "内力组合";
-            this.btnInnerForceZuhe.UseVisualStyleBackColor = true;
             // 
             // labConcreteGrade
             // 
@@ -457,21 +387,21 @@
             this.cmbSeismicGrade.Size = new System.Drawing.Size(100, 20);
             this.cmbSeismicGrade.TabIndex = 42;
             // 
-            // labRoofThickness
+            // labBarSpace
             // 
-            this.labRoofThickness.AutoSize = true;
-            this.labRoofThickness.Location = new System.Drawing.Point(15, 500);
-            this.labRoofThickness.Name = "labRoofThickness";
-            this.labRoofThickness.Size = new System.Drawing.Size(95, 12);
-            this.labRoofThickness.TabIndex = 43;
-            this.labRoofThickness.Text = "地下室顶板厚度:";
+            this.labBarSpace.AutoSize = true;
+            this.labBarSpace.Location = new System.Drawing.Point(15, 500);
+            this.labBarSpace.Name = "labBarSpace";
+            this.labBarSpace.Size = new System.Drawing.Size(59, 12);
+            this.labBarSpace.TabIndex = 43;
+            this.labBarSpace.Text = "配筋间距:";
             // 
-            // tbRoofThickness
+            // tbBarSpace
             // 
-            this.tbRoofThickness.Location = new System.Drawing.Point(122, 493);
-            this.tbRoofThickness.Name = "tbRoofThickness";
-            this.tbRoofThickness.Size = new System.Drawing.Size(100, 21);
-            this.tbRoofThickness.TabIndex = 44;
+            this.tbBarSpace.Location = new System.Drawing.Point(122, 493);
+            this.tbBarSpace.Name = "tbBarSpace";
+            this.tbBarSpace.Size = new System.Drawing.Size(100, 21);
+            this.tbBarSpace.TabIndex = 44;
             // 
             // labRoofThickness2
             // 
@@ -489,7 +419,7 @@
             this.labCs.Name = "labCs";
             this.labCs.Size = new System.Drawing.Size(71, 12);
             this.labCs.TabIndex = 46;
-            this.labCs.Text = "保护层后度:";
+            this.labCs.Text = "保护层厚度:";
             // 
             // tbCs
             // 
@@ -507,55 +437,15 @@
             this.labCs2.TabIndex = 48;
             this.labCs2.Text = "mm";
             // 
-            // btnReinforcementCalculation
-            // 
-            this.btnReinforcementCalculation.Location = new System.Drawing.Point(364, 354);
-            this.btnReinforcementCalculation.Name = "btnReinforcementCalculation";
-            this.btnReinforcementCalculation.Size = new System.Drawing.Size(100, 23);
-            this.btnReinforcementCalculation.TabIndex = 49;
-            this.btnReinforcementCalculation.Text = "配筋计算";
-            this.btnReinforcementCalculation.UseVisualStyleBackColor = true;
-            // 
-            // btnZuhezhengfujin
-            // 
-            this.btnZuhezhengfujin.Location = new System.Drawing.Point(364, 392);
-            this.btnZuhezhengfujin.Name = "btnZuhezhengfujin";
-            this.btnZuhezhengfujin.Size = new System.Drawing.Size(100, 23);
-            this.btnZuhezhengfujin.TabIndex = 50;
-            this.btnZuhezhengfujin.Text = "组合正负筋";
-            this.btnZuhezhengfujin.UseVisualStyleBackColor = true;
-            // 
-            // btnShuipingjin
-            // 
-            this.btnShuipingjin.Location = new System.Drawing.Point(364, 430);
-            this.btnShuipingjin.Name = "btnShuipingjin";
-            this.btnShuipingjin.Size = new System.Drawing.Size(100, 23);
-            this.btnShuipingjin.TabIndex = 51;
-            this.btnShuipingjin.Text = "水平筋";
-            this.btnShuipingjin.UseVisualStyleBackColor = true;
-            // 
             // btnChengben
             // 
-            this.btnChengben.Location = new System.Drawing.Point(364, 468);
+            this.btnChengben.Location = new System.Drawing.Point(364, 56);
             this.btnChengben.Name = "btnChengben";
             this.btnChengben.Size = new System.Drawing.Size(100, 23);
             this.btnChengben.TabIndex = 52;
-            this.btnChengben.Text = "成本";
+            this.btnChengben.Text = "计算";
             this.btnChengben.UseVisualStyleBackColor = true;
             this.btnChengben.Click += new System.EventHandler(this.btnChengben_Click);
-            // 
-            // floorHeight
-            // 
-            this.floorHeight.Frozen = true;
-            this.floorHeight.HeaderText = "层高(mm)";
-            this.floorHeight.Name = "floorHeight";
-            this.floorHeight.Width = 130;
-            // 
-            // s
-            // 
-            this.s.HeaderText = "地下室顶板厚(mm)";
-            this.s.Name = "s";
-            this.s.Width = 130;
             // 
             // mainForm
             // 
@@ -564,15 +454,12 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(984, 561);
             this.Controls.Add(this.btnChengben);
-            this.Controls.Add(this.btnShuipingjin);
-            this.Controls.Add(this.btnZuhezhengfujin);
-            this.Controls.Add(this.btnReinforcementCalculation);
             this.Controls.Add(this.labCs2);
             this.Controls.Add(this.tbCs);
             this.Controls.Add(this.labCs);
             this.Controls.Add(this.labRoofThickness2);
-            this.Controls.Add(this.tbRoofThickness);
-            this.Controls.Add(this.labRoofThickness);
+            this.Controls.Add(this.tbBarSpace);
+            this.Controls.Add(this.labBarSpace);
             this.Controls.Add(this.cmbSeismicGrade);
             this.Controls.Add(this.labSeismicGrade);
             this.Controls.Add(this.labRebarPrice2);
@@ -585,14 +472,8 @@
             this.Controls.Add(this.labRebarGrade);
             this.Controls.Add(this.cmbConcreteGrade);
             this.Controls.Add(this.labConcreteGrade);
-            this.Controls.Add(this.btnInnerForceZuhe);
-            this.Controls.Add(this.btnMaxM);
-            this.Controls.Add(this.btnInnerForceTiaofu);
             this.Controls.Add(this.tbT);
             this.Controls.Add(this.lbT);
-            this.Controls.Add(this.btnInnerForceCal);
-            this.Controls.Add(this.btnSimplifiedTotalStiffness);
-            this.Controls.Add(this.btnEquivalentNodeLoad);
             this.Controls.Add(this.btnClearBrowse);
             this.Controls.Add(this.labHuohezai2);
             this.Controls.Add(this.tbHuozaiXishu);
@@ -607,8 +488,6 @@
             this.Controls.Add(this.labFutuThickness);
             this.Controls.Add(this.tbRongZhong);
             this.Controls.Add(this.labRongzhong1);
-            this.Controls.Add(this.btnLoadCalculation);
-            this.Controls.Add(this.btnTotalStiffnessMatrix);
             this.Controls.Add(this.rtbBrowser);
             this.Controls.Add(this.dgvInput);
             this.Name = "mainForm";
@@ -623,8 +502,6 @@
         #endregion
         private System.Windows.Forms.DataGridView dgvInput;
         private System.Windows.Forms.RichTextBox rtbBrowser;
-        private System.Windows.Forms.Button btnTotalStiffnessMatrix;
-        private System.Windows.Forms.Button btnLoadCalculation;
         private System.Windows.Forms.Label labRongzhong1;
         private System.Windows.Forms.TextBox tbRongZhong;
         private System.Windows.Forms.Label labFutuThickness;
@@ -639,14 +516,8 @@
         private System.Windows.Forms.TextBox tbHuozaiXishu;
         private System.Windows.Forms.Label labHuohezai2;
         private System.Windows.Forms.Button btnClearBrowse;
-        private System.Windows.Forms.Button btnEquivalentNodeLoad;
-        private System.Windows.Forms.Button btnSimplifiedTotalStiffness;
-        private System.Windows.Forms.Button btnInnerForceCal;
         private System.Windows.Forms.Label lbT;
         private System.Windows.Forms.TextBox tbT;
-        private System.Windows.Forms.Button btnInnerForceTiaofu;
-        private System.Windows.Forms.Button btnMaxM;
-        private System.Windows.Forms.Button btnInnerForceZuhe;
         private System.Windows.Forms.Label labConcreteGrade;
         private System.Windows.Forms.ComboBox cmbConcreteGrade;
         private System.Windows.Forms.Label labRebarGrade;
@@ -659,15 +530,12 @@
         private System.Windows.Forms.Label labRebarPrice2;
         private System.Windows.Forms.Label labSeismicGrade;
         private System.Windows.Forms.ComboBox cmbSeismicGrade;
-        private System.Windows.Forms.Label labRoofThickness;
-        private System.Windows.Forms.TextBox tbRoofThickness;
+        private System.Windows.Forms.Label labBarSpace;
+        private System.Windows.Forms.TextBox tbBarSpace;
         private System.Windows.Forms.Label labRoofThickness2;
         private System.Windows.Forms.Label labCs;
         private System.Windows.Forms.TextBox tbCs;
         private System.Windows.Forms.Label labCs2;
-        private System.Windows.Forms.Button btnReinforcementCalculation;
-        private System.Windows.Forms.Button btnZuhezhengfujin;
-        private System.Windows.Forms.Button btnShuipingjin;
         private System.Windows.Forms.Button btnChengben;
         private System.Windows.Forms.DataGridViewTextBoxColumn floorHeight;
         private System.Windows.Forms.DataGridViewTextBoxColumn s;
