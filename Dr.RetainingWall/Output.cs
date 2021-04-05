@@ -1,5 +1,6 @@
 ﻿using LinearAlgebra;
 using LinearAlgebra.VectorAlgebra;
+using System.Collections.Generic;
 
 namespace Dr.RetainingWall
 {
@@ -18,7 +19,7 @@ namespace Dr.RetainingWall
         public double[] m_M;
         public double[][] m_As;
 
-        public double[][] m_Zuhejin;
-        public double[] m_Shuipingjin;
+        public List<double[]> m_Zuhejin;
+        public List<double[]> m_Shuipingjin;
     }
 }

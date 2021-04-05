@@ -151,11 +151,11 @@ namespace Dr.RetainingWall
             return w;
         }
 
-        public static double[][] zhengjinxuanjin(int n, double[] As, double[] h, double[] M, double cs, int C, double rg)
+        public static List<double[]> zhengjinxuanjin(int n, double[] As, double[] h, double[] M, double cs, int C, double rg)
         {
+            List<double[]> A = new List<double[]>();
             if (n == 1) //1层挡墙
             {
-                double[][] A = new double[1][];
                 double AsmaxAB = As[1];                         //AB跨中计算配筋
                 if (AsmaxAB > 4909 || AsmaxAB <= 0) //超出选筋库时或之前配筋计算超筋时令其配筋为0
                 {
@@ -170,7 +170,7 @@ namespace Dr.RetainingWall
                 var w = Zuhezhengfujin.liefeng1(M[1], cs, d, Asss[4], h[0], C, rg);  //计算i跨裂缝
                 if (w <= 0.2)
                 {
-                    A[0] = new double[] { Asss[0], Asss[1], Asss[2], Asss[3], Asss[4], w };//A配筋输出格式统一为[直径 间距 直径 间距 实选面积]
+                    A.Add(new double[] { Asss[0], Asss[1], Asss[2], Asss[3], Asss[4], w });//A配筋输出格式统一为[直径 间距 直径 间距 实选面积]
                 }
                 else
                 {
@@ -190,7 +190,7 @@ namespace Dr.RetainingWall
                         w = Zuhezhengfujin.liefeng1(M[1], cs, d, Asss[4], h[0], C, rg);
                         if (w <= 0.2)
                         {
-                            A[0] = new double[] { Asss[0], Asss[1], Asss[2], Asss[3], Asss[4], w };
+                            A.Add(new double[] { Asss[0], Asss[1], Asss[2], Asss[3], Asss[4], w });
                             break;
                         }
                         else
@@ -209,11 +209,9 @@ namespace Dr.RetainingWall
                         }
                     }
                 }
-                return A;
             }
             else if (n == 2)//2层挡墙
             {
-                double[][] A = new double[2][];
                 double AsmaxAB = As[1];//AB跨中计算配筋
                 double AsmaxBC = As[3];//BC跨中计算配筋 
                 if (Math.Max(AsmaxAB, AsmaxBC) > 4909 || Math.Min(AsmaxAB, AsmaxBC) <= 0)//超出选筋库时或配筋计算超筋时令其配筋为0
@@ -235,7 +233,7 @@ namespace Dr.RetainingWall
                     double w = Zuhezhengfujin.liefeng1(M[2 * i + 1], cs, d, Asss[i][4], h[i], C, rg);//计算i跨裂缝
                     if (w <= 0.2)
                     {
-                        A[i] = new double[] { Asss[i][0], Asss[i][1], Asss[i][2], Asss[i][3], Asss[i][4], w };//A配筋输出格式统一为[直径 间距 直径 间距 实选面积]
+                        A.Add(new double[] { Asss[i][0], Asss[i][1], Asss[i][2], Asss[i][3], Asss[i][4], w });//A配筋输出格式统一为[直径 间距 直径 间距 实选面积]
                     }
                     else
                     {
@@ -254,7 +252,7 @@ namespace Dr.RetainingWall
                             w = Zuhezhengfujin.liefeng1(M[2 * i + 1], cs, d, Asss[i][4], h[i], C, rg);
                             if (w <= 0.2)
                             {
-                                A[i] = new double[] { Asss[i][0], Asss[i][1], Asss[i][2], Asss[i][3], Asss[i][4], w };
+                                A.Add(new double[] { Asss[i][0], Asss[i][1], Asss[i][2], Asss[i][3], Asss[i][4], w });
                                 break;
                             }
                             else
@@ -273,11 +271,9 @@ namespace Dr.RetainingWall
                         }
                     }
                 }
-                return A;
             }
             else if (n == 3)//3层挡墙
             {
-                double[][] A = new double[3][];
                 double AsmaxAB = As[2];//AB跨中计算配筋
                 double AsmaxBC = As[4];//BC跨中计算配筋
                 double AsmaxCD = As[6];//CD跨中计算配筋  
@@ -340,12 +336,9 @@ namespace Dr.RetainingWall
                         }
                     }
                 }
-                return A;
             }
             else if (n == 4)//4层挡墙
             {
-                double[][] A = new double[4][];
-
                 double AsmaxAB = As[2];//AB跨中计算配筋
                 double AsmaxBC = As[4];//BC跨中计算配筋
                 double AsmaxCD = As[6];//CD跨中计算配筋
@@ -411,12 +404,11 @@ namespace Dr.RetainingWall
                         }
                     }
                 }
-                return A;
             }
-            return new double[1][];
+            return A;
         }
 
-        public static double[][] peijinxietiao(double space, double[][] A, double[] M, double cs, double[] h, int C, double rg)
+        public static List<double[]> peijinxietiao(double space, double[][] A, double[] M, double cs, double[] h, int C, double rg)
         {
             double[] d = { 12, 14, 16, 18, 20, 22, 25 };
             double[,] indexs = {
@@ -429,16 +421,16 @@ namespace Dr.RetainingWall
                 { 0, 0, 0, 0, 1, 1, 1}
             };
 
-            double[] amin = A[0];
-            double[] amax = A[1];
-            double pm = M[0];
-            bool isExchange = false;
-            if (A[0][0] >= A[1][0])
+            double[] amax = A[0];
+            double[] amin = A[1];
+            double pm = M[2];
+            bool isSingle = false;
+            if (A[0][0] < A[1][0])
             {
-                amin = A[1];
-                amax = A[0];
-                pm = M[2];
-                isExchange = true;
+                amax = A[1];
+                amin = A[0];
+                pm = M[0];
+                isSingle = true;
             }
 
             amin[0] = amax[0];
@@ -447,7 +439,6 @@ namespace Dr.RetainingWall
                 if (amin[0] == d[i])
                 {
                     double delta = 1000;
-                    double delta2 = 1000;
                     double area = amin[4];
                     for (int j = 0; j < 7; j++)
                     {
@@ -459,17 +450,17 @@ namespace Dr.RetainingWall
                             double[] dd = { amin[0], Math.Floor(1000 / amin[1]), d[j], Math.Floor(1000 / (2 * space)) };
                             double w1 = Zuhezhengfujin.liefeng1(pm, cs, dd, area2, h[0], C, rg);
                             double w2 = Zuhezhengfujin.liefeng1(pm, cs, dd, area2, h[1], C, rg);
-                            double w = Math.Max(w1, w2);
+                            double w = isSingle ? w1 : Math.Max(w1, w2);
 
-                            if (area < area2 && area2 - area < delta)
+                            if (area2 - area > -0.001 && area2 - area < delta)
                             {
                                 delta = area2 - area;
                                 amin[2] = d[j];
-                                amin[3] = 2* space;
+                                amin[3] = 2 * space;
                                 amin[4] = area2;
                                 amin[5] = w;
                             }
-                            else if (area > area2 && w < 0.2)
+                            else if (area2 - area < -0.001 && w < 0.2)
                             {
                                 delta = area2 - area;
                                 amin[2] = d[j];
@@ -478,12 +469,12 @@ namespace Dr.RetainingWall
                                 amin[5] = w;
                             }
 
-                            dd = new double[]{ amin[0], Math.Floor(1000 / amin[1]), d[j], Math.Floor(1000 / space) };
+                            dd = new double[] { amin[0], Math.Floor(1000 / amin[1]), d[j], Math.Floor(1000 / space) };
                             w1 = Zuhezhengfujin.liefeng1(pm, cs, dd, area1, h[0], C, rg);
                             w2 = Zuhezhengfujin.liefeng1(pm, cs, dd, area1, h[1], C, rg);
-                            w = Math.Max(w1, w2);
+                            w = isSingle ? w1 : Math.Max(w1, w2);
 
-                            if (area < area1 && area1 - area < delta)
+                            if (area1 - area > -0.001 && area1 - area < delta)
                             {
                                 delta = area1 - area;
                                 amin[2] = d[j];
@@ -491,7 +482,7 @@ namespace Dr.RetainingWall
                                 amin[4] = area1;
                                 amin[5] = w;
                             }
-                            else if (area > area1 && w < 0.2)
+                            else if (area1 - area < -0.001 && w < 0.2)
                             {
                                 delta = area1 - area;
                                 amin[2] = d[j];
@@ -505,12 +496,61 @@ namespace Dr.RetainingWall
                 }
             }
 
-            double[][] result = isExchange ? new double[][] { amax, amin } : new double[][] { amin, amax };
+            List<double[]> result = isSingle ? new List<double[]> { amin, amax } : new List<double[]> { amax, amin };
 
             return result;
         }
 
-        public static double[][] fujinxuanjin(int space, int n, double[] As, double ft, double fy, double[] h, double[] M, double cs, int C, double rg)
+        public static double[] tongchang(double space, double ft, double fy, double h)
+        {
+            //此子函数用于给顶点选通长筋
+            //h为指定某一层的截面厚度
+            double roumin = Math.Max(0.002, 0.45 * ft / (100 * fy));//最小配筋率
+
+            //第6列全部为0是裂缝宽度为0，为了和选筋子程序里的格式统一
+            double[][] AAA ={
+                new double[]{ 12, space, 0, 0, Math.Pow(12, 2) * Math.PI / 4 * 1000 / space, 0 },
+                new double[]{ 14, space, 0, 0, Math.Pow(14, 2) * Math.PI / 4 * 1000 / space, 0 },
+                new double[]{ 16, space, 0, 0, Math.Pow(16, 2) * Math.PI / 4 * 1000 / space, 0 },
+                new double[]{ 18, space, 0, 0, Math.Pow(18, 2) * Math.PI / 4 * 1000 / space, 0 },
+                new double[]{ 20, space, 0, 0, Math.Pow(20, 2) * Math.PI / 4 * 1000 / space, 0 },
+                new double[]{ 22, space, 0, 0, Math.Pow(22, 2) * Math.PI / 4 * 1000 / space, 0 },
+                new double[]{ 25, space, 0, 0, Math.Pow(25, 2) * Math.PI / 4 * 1000 / space, 0 } };
+            double As = 1000 * h * roumin;
+
+            if (As <= AAA[0][4])
+            {
+                return AAA[0];
+            }
+            else if (As > AAA[0][4] && As <= AAA[1][4])
+            {
+                return AAA[1];
+            }
+            else if (As > AAA[1][4] && As <= AAA[2][4])
+            {
+                return AAA[2];
+            }
+            else if (As > AAA[2][4] && As <= AAA[3][4])
+            {
+                return AAA[3];
+            }
+            else if (As > AAA[3][4] && As <= AAA[4][4])
+            {
+                return AAA[4];
+            }
+            else if (As > AAA[4][4] && As <= AAA[5][4])
+            {
+                return AAA[5];
+            }
+            else if (As > AAA[5][4] && As <= AAA[6][4])
+            {
+                return AAA[6];
+            }
+            return new double[] { };
+        }
+
+
+        public static List<double[]> fujinxuanjin(int space, int n, double[] As, double ft, double fy, double[] h, double[] M, double cs, int C, double rg)
         {
             //本子函数用于负筋自动选筋，按照此子程序计算得到的配筋为最节省配筋
             //本子函数即根据裂缝选筋liefeng1(M, cs, d, As, h, C, rg)
@@ -522,7 +562,6 @@ namespace Dr.RetainingWall
             double roumin = Math.Max(0.002, 0.45 * ft / (100 * fy));        //最小配筋率
             if (n == 1)//1层挡墙
             {
-                double[][] A = new double[1][];
                 double AsmaxA = As[0];//A点计算配筋
                 if (AsmaxA > 6544 || AsmaxA <= 0)
                 {
@@ -579,14 +618,14 @@ namespace Dr.RetainingWall
                         }
                     }
                 }
-                A = new double[][]{
-                    new double[] { A1[0], A1[1], A1[2], A1[3], A1[4], A1[5] },
-                    new double[] { A1[0], A1[1], 0, 0, Math.PI * Math.Pow(A1[0], 2) * 1000 / (4 * A1[1]), 0 }};
+
+                List<double[]> A = new List<double[]>();
+                A.Add(new double[] { A1[0], A1[1], A1[2], A1[3], A1[4], A1[5] });
+                A.Add(new double[] { A1[0], A1[1], 0, 0, Math.PI * Math.Pow(A1[0], 2) * 1000 / (4 * A1[1]), 0 });
                 return A;
             }
             else if (n == 2)
             {
-                double[][] A = new double[2][];
                 double[][] Ak = new double[2][];
                 double AsmaxA = As[0];//A点计算配筋
                 double AsmaxB = As[2];//B点计算配筋
@@ -661,17 +700,21 @@ namespace Dr.RetainingWall
                         }
                     }
                 }
-                A = peijinxietiao(space, Ak, M, cs, h, C, rg);
 
+                List<double[]> A = new List<double[]>();
+                A = peijinxietiao(space, Ak, M, cs, h, C, rg);
+                A.Add(tongchang(space, ft, fy, h[1]));
                 return A;
             }
-            return new double[1][];
+
+
+            return new List<double[]>();
         }
 
 
 
 
-        public static double[][] zuhezhengfujin(int n, double[] As, double ft, double fy, double[] h, double[] M, double cs, int C, double rg)
+        public static List<double[]> zuhezhengfujin(int n, double[] As, double ft, double fy, double[] h, double[] M, double cs, int C, double rg)
         {
             //此子函数用于将正筋选筋和负筋选筋结果组合成一个矩阵，方便后续调用
             //Asz——为正筋选筋矩阵
@@ -680,20 +723,20 @@ namespace Dr.RetainingWall
             //Ass——为最后输出的配筋
             //As——为为peijinjisuan(M, cs, n, fy, fc, ft)中计算得到各点的计算配筋
 
-            double[][] Ass = { };
+            List<double[]> Ass = new List<double[]>();
             if (n == 1)
             {
                 var Asz = zhengjinxuanjin(n, As, h, M, cs, C, rg);
                 var Asf150 = fujinxuanjin(150, n, As, ft, fy, h, M, cs, C, rg);
                 var Asf200 = fujinxuanjin(200, n, As, ft, fy, h, M, cs, C, rg);
-                Ass = new double[][] { Asf150[0], Asf150[1], Asf200[0], Asf200[1], Asz[0] };
+                Ass = new List<double[]> { Asf150[0], Asf150[1], Asf200[0], Asf200[1], Asz[0] };
             }
             else if (n == 2)
             {
                 var Asz = zhengjinxuanjin(n, As, h, M, cs, C, rg);
                 var Asf150 = fujinxuanjin(150, n, As, ft, fy, h, M, cs, C, rg);
                 var Asf200 = fujinxuanjin(200, n, As, ft, fy, h, M, cs, C, rg);
-                Ass = new double[][] { Asf150[0], Asf150[1], Asf200[0], Asf200[1], Asz[0] };
+                Ass = new List<double[]> { Asf150[0], Asf150[1], Asf150[2], Asf200[0], Asf200[1], Asf200[2], Asz[0], Asz[1] };
             }
             return Ass;
 

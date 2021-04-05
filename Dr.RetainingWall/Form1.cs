@@ -103,12 +103,12 @@ namespace Dr.RetainingWall
         private void btnChengben_Click(object sender, EventArgs e)
         {
             rtbBrowser.AppendText("\n");
-            rtbBrowser.AppendText("成本计算：");
+            rtbBrowser.AppendText("计算结果：[厚度][成本]");
             RefreshInput();
 
             List<double[]> wallWidths = WallWidth.Genereate(input.m_FloorCount);
 
-            for (int i = wallWidths.Count -1 ; i >= 0; i--)
+            for (int i = 0 ; i < wallWidths.Count; i++)
             {
                 input.SetWallWidth(wallWidths[i]);
 
@@ -134,18 +134,20 @@ namespace Dr.RetainingWall
                     output.m_M, input.m_cs, input.m_FloorCount, input.m_WallWidths, input.m_fy, input.m_fc, input.m_ft);
                 output.m_As = As;
 
-                double[][] zuhejin = Zuhezhengfujin.zuhezhengfujin(input.m_FloorCount, output.m_As[0], input.m_ft, input.m_fy, input.m_WallWidths, output.m_M, input.m_cs, input.m_ConcreteGrade, input.m_rg);
+                List<double[]> zuhejin = Zuhezhengfujin.zuhezhengfujin(input.m_FloorCount, output.m_As[0], input.m_ft, input.m_fy, input.m_WallWidths, output.m_M, input.m_cs, input.m_ConcreteGrade, input.m_rg);
                 output.m_Zuhejin = zuhejin;
 
-                double[] shuipingjin = Shuipingjin.shuipingjin(input.m_FloorCount, input.m_WallWidths);
+                List<double[]> shuipingjin = Shuipingjin.shuipingjin(input.m_FloorCount, input.m_WallWidths);
                 output.m_Shuipingjin = shuipingjin;
 
                 double[] cheng = Chengben.chengben(output.m_Zuhejin, output.m_Shuipingjin, input.m_FloorCount, input.m_ConcretePrice,
                     input.m_RebarPrice, input.m_WallWidths, input.m_FloorHeights, input.m_cs, input.m_RoofThickness,
                     input.m_SeismicGrade, input.m_ConcreteGrade, input.m_RebarGrade);
 
+                string strWidths = Util.ToString(wallWidths[i]);
                 string strChengben = Util.ToString(cheng);
                 rtbBrowser.AppendText("\n");
+                rtbBrowser.AppendText(strWidths);
                 rtbBrowser.AppendText(strChengben);
 
             }

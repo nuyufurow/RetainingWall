@@ -88,11 +88,11 @@ namespace Dr.RetainingWall
             }
             else if (Z == 3)
             {
-                multiples = multiples2;
+                multiples = multiples3;
             }
             else if (Z == 4)
             {
-                multiples = multiples2;
+                multiples = multiples4;
             }
             else
             {
@@ -116,7 +116,7 @@ namespace Dr.RetainingWall
         }
 
 
-        public static double[] chengben(double[][] Ass, double[] Ashui, int n, double Qh, double Qg,
+        public static double[] chengben(List<double[]> Ass, List<double[]> Ashui, int n, double Qh, double Qg,
             double[] h, double[] H, double cs, double[] s, int Z, int CC, int F)
         {
             if (n == 1)
@@ -129,7 +129,7 @@ namespace Dr.RetainingWall
                 double Lff = Math.Round((H[0] - s[0]) / 3, 1) + 10; //Lff为附加顶筋的长度，对十位四舍五入取整
                 double Lz = H[0] - s[0] + laz;                      //Lz为底筋的长度
 
-                double Qs = 1 * 2 * Ashui[4] * H[0] * 7.85 * Qg * Math.Pow(10, -9);//水平筋费用
+                double Qs = 1 * 2 * Ashui[0][4] * H[0] * 7.85 * Qg * Math.Pow(10, -9);//水平筋费用
 
                 double Qft150 = (1000 / Ass[0][1]) * (Math.Pow(Ass[0][0] / 1000, 2) * Math.PI / 4) * (Lft150 / 1000) * 7.85 * Qg;//Qft为通长顶筋间距150费用
                 double Qff150 = (1000 / Ass[0][3]) * (Math.Pow(Ass[0][2] / 1000, 2) * Math.PI / 4) * (Lff / 1000) * 7.85 * Qg;//Qff为附加顶筋间距150费用
@@ -144,8 +144,8 @@ namespace Dr.RetainingWall
             }
             else if (n == 2)
             {
-                double Lff1 = Math.Round((H[0] - s[0]) / 3, 1) + 10;//1层层高净高三分之一
-                double Lff2 = Math.Round((H[1] - s[1]) / 3, 1) + 10;//2层层高净高三分之一
+                double Lff1 = Math.Round((H[0] - s[0]) / 3 / 10, 0) * 10 + 10;//1层层高净高三分之一
+                double Lff2 = Math.Round((H[1] - s[1]) / 3 / 10, 0) * 10 + 10;//2层层高净高三分之一
                 double LffB = 2 * Math.Max(Lff1, Lff2) + s[0];//B点附加筋总长度
                 double LffA = (H[0] - s[0]) / 3;//A点附加筋总长度
 
@@ -183,15 +183,16 @@ namespace Dr.RetainingWall
                 double Qff200 = ((1000 / Ass[3][3]) * (Math.Pow((Ass[3][2] / 1000), 2) * Math.PI / 4) * (LffA / 1000) + (1000 / Ass[4][3]) * (Math.Pow((Ass[4][2] / 1000), 2) * Math.PI / 4) * (LffB / 1000)) * 7.85 * Qg;        //Qff为附加顶筋间距200费用
 
                 double Qz = ((1000 / Ass[6][1]) * (Math.Pow((Ass[6][0] / 1000), 2) * Math.PI / 4) * (Lz1 / 1000) + (1000 / Ass[7][1]) * (Math.Pow((Ass[7][0] / 1000), 2) * Math.PI / 4) * (Lz2 / 1000)) * 7.85 * Qg;              //Qz为底筋费用
-                double Qs = (1 * 2 * Ashui[0] * H[0] + 1 * 2 * Ashui[1] * H[1]) * 7.85 * Qg * Math.Pow(10, -9);//水平筋的费用
+                double Qs = (1 * 2 * Ashui[0][4] * H[0] + 1 * 2 * Ashui[1][4] * H[1]) * 7.85 * Qg * Math.Pow(10, -9);//水平筋的费用
                 double Qt = ((1 * h[0] / 1000) * (H[0] / 1000) + (1 * h[1] / 1000) * (H[1] / 1000)) * Qh;//Qt为混凝土费用
                 double QF150 = Qft150 + Qff150;//QF150为间距150所有钢筋的费用
                 double QF200 = Qft200 + Qff200;//QF200为间距200所有钢筋的费用
                 double[] Q = { QF150, QF200, Qz, Qt, Qs, QF150 + Qz + Qt + Qs, QF200 + Qz + Qt + Qs };
-                        //150顶筋费用 200顶筋费用 底筋费用 砼费用 水平筋费用 间距150总费用 间距200总费用
+                //150顶筋费用 200顶筋费用 底筋费用 砼费用 水平筋费用 间距150总费用 间距200总费用
+                return Q;
             }
 
-            return new double[]{};  
+            return new double[] { };
         }
 
     }
