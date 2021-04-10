@@ -1,8 +1,7 @@
 ﻿using LinearAlgebra;
 using System;
 using System.Collections.Generic;
-
-
+using System.Windows.Forms;
 
 namespace Dr.RetainingWall
 {
@@ -151,7 +150,7 @@ namespace Dr.RetainingWall
             return w;
         }
 
-        public static List<double[]> zhengjinxuanjin(int n, double[] As, double[] h, double[] M, double cs, int C, double rg)
+        public static List<double[]> zhengjinxuanjin(int n, List<double> As, double[] h, double[] M, double cs, int C, double rg)
         {
             List<double[]> A = new List<double[]>();
             if (n == 1) //1层挡墙
@@ -205,12 +204,13 @@ namespace Dr.RetainingWall
                             if (Asss[4] - Asss0 > 1000)
                             {
                                 throw new Exception("按裂缝选筋增加钢筋过大，请修改挡墙参数");
+                                return A;
                             }
                         }
                     }
                 }
             }
-            else if (n == 2)//2层挡墙
+            else//2层挡墙
             {
                 double AsmaxAB = As[1];//AB跨中计算配筋
                 double AsmaxBC = As[3];//BC跨中计算配筋 
@@ -227,7 +227,7 @@ namespace Dr.RetainingWall
                 };//与负筋统一格式[直径 间距 直径 间距 实选面积]
 
                 //跨中选筋
-                for (int i = 0; i < 2; i++)
+                for (int i = 0; i < n; i++)
                 {
                     double[] d = { Asss[i][0], Math.Floor(1000 / Asss[i][1]), 0, 0 };       //i层配筋直径、数量
                     double w = Zuhezhengfujin.liefeng1(M[2 * i + 1], cs, d, Asss[i][4], h[i], C, rg);//计算i跨裂缝
@@ -241,7 +241,8 @@ namespace Dr.RetainingWall
                         Asss[i][4] = Asss[i][4] + 1;//裂缝计算不够时，实配钢筋面积增加200mm2,选筋后,再进行裂缝验算
                         if (Asss[i][4] > 4909)//超出选筋库时令其配筋为0
                         {
-                            throw new Exception("选筋超出选筋库");
+                            MessageBox.Show("超出选筋库！");
+                            return A;
                         }
 
                         for (int j = 1; j <= 2000; j++)//嵌套循环增加配筋面积，最多增加2000mm2
@@ -272,139 +273,7 @@ namespace Dr.RetainingWall
                     }
                 }
             }
-            else if (n == 3)//3层挡墙
-            {
-                double AsmaxAB = As[2];//AB跨中计算配筋
-                double AsmaxBC = As[4];//BC跨中计算配筋
-                double AsmaxCD = As[6];//CD跨中计算配筋  
-
-                if (Util.Max(AsmaxAB, AsmaxBC, AsmaxCD) > 4909 || Util.Min(AsmaxAB, AsmaxBC, AsmaxCD) <= 0)//超出选筋库时或配筋计算超筋时令其配筋为0
-                {
-                    throw new Exception("选筋超出选筋库");
-                }
-
-                double[] AssAB = Zuhezhengfujin.zhengjinshuchu(AsmaxAB);//调用函数，输出AB点的配筋，[直径 间距 实选面积]
-                double[] AssBC = Zuhezhengfujin.zhengjinshuchu(AsmaxBC);//调用函数，输出BC点的配筋，[直径 间距 实选面积]
-                double[] AssCD = Zuhezhengfujin.zhengjinshuchu(AsmaxCD);//调用函数，输出CD点的配筋，[直径 间距 实选面积]
-                double[][] Asss ={
-                    new double[]{AssAB[1],  AssAB[2],  0,  0,  AssAB[3] },
-                    new double[]{AssBC[1],  AssBC[2],  0,  0,  AssBC[3] },
-                    new double[]{AssCD[1],  AssCD[2],  0,  0,  AssCD[3] }
-                };//与负筋统一格式[直径 间距 直径 间距 实选面积]
-
-                //跨中选筋     
-                for (int i = 1; i <= 3; i++)
-                {
-                    double[] d = { Asss[i][1], Math.Floor(1000 / Asss[i][2]), 0, 0 };//i层配筋直径、数量
-                    double w = Zuhezhengfujin.liefeng1(M[2 * i], cs, d, Asss[i][5], h[i], C, rg);//计算i跨裂缝
-                    if (w <= 0.2)
-                    {
-                        A[i] = new double[] { Asss[i][1], Asss[i][2], Asss[i][3], Asss[i][4], Asss[i][5], w };//A配筋输出格式统一为[直径 间距 直径 间距 实选面积]
-                    }
-                    else
-                    {
-                        double Asss0 = Asss[i][5];//Asss0用于做标记，判断后面增加面积是否超过1000mm2
-                        Asss[i][5] = Asss[i][5] + 1;//裂缝计算不够时，实配钢筋面积增加200mm2,选筋后,再进行裂缝验算
-
-                        if (Asss[i][5] > 4909)//超出选筋库时令其配筋为0
-                        {
-                            throw new Exception("选筋超出选筋库");
-                        }
-                        for (int j = 1; j <= 2000; j++)//嵌套循环增加配筋面积，最多增加2000mm2
-                        {
-                            double[] AA = Zuhezhengfujin.zhengjinshuchu(Asss[i][5]);//再次选筋
-                            Asss[i] = new double[] { AA[1], AA[2], 0, 0, AA[3] };//将选筋结果填入Asss矩阵中
-                            d = new double[] { Asss[i][1], Math.Floor(1000 / Asss[i][2]), 0, 0 };
-                            w = Zuhezhengfujin.liefeng1(M[2 * i], cs, d, Asss[i][5], h[i], C, rg);
-                            if (w <= 0.2)
-                            {
-                                A[i] = new double[] { Asss[i][1], Asss[i][2], Asss[i][3], Asss[i][4], Asss[i][5], w };
-                                break;
-                            }
-                            else
-                            {
-                                Asss[i][5] = Asss[i][5] + 1;
-                                if (Asss[i][5] > 4909)//超出选筋库时令其配筋为0
-                                {
-                                    throw new Exception("选筋超出选筋库");
-                                }
-                                if (Asss[i][5] - Asss0 > 1000)
-                                {
-                                    throw new Exception("按裂缝选筋增加钢筋过大，请修改挡墙参数");
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            else if (n == 4)//4层挡墙
-            {
-                double AsmaxAB = As[2];//AB跨中计算配筋
-                double AsmaxBC = As[4];//BC跨中计算配筋
-                double AsmaxCD = As[6];//CD跨中计算配筋
-                double AsmaxDE = As[8];//DE跨中计算配筋
-
-                if (Util.Max(AsmaxAB, AsmaxBC, AsmaxCD, AsmaxDE) > 4909 || Util.Min(AsmaxAB, AsmaxBC, AsmaxCD, AsmaxDE) <= 0)//超出选筋库时或配筋计算超筋时令其配筋为0
-                {
-                    throw new Exception("选筋超出选筋库");
-                }
-
-                double[] AssAB = Zuhezhengfujin.zhengjinshuchu(AsmaxAB);//调用函数，输出AB点的配筋，[直径 间距 实选面积]
-                double[] AssBC = Zuhezhengfujin.zhengjinshuchu(AsmaxBC);//调用函数，输出BC点的配筋，[直径 间距 实选面积]
-                double[] AssCD = Zuhezhengfujin.zhengjinshuchu(AsmaxCD);//调用函数，输出CD点的配筋，[直径 间距 实选面积]
-                double[] AssDE = Zuhezhengfujin.zhengjinshuchu(AsmaxDE);//调用函数，输出CD点的配筋，[直径 间距 实选面积]
-                double[][] Asss = {
-                    new double[]{AssAB[1],  AssAB[2],  0,  0,  AssAB[3] },
-                    new double[]{AssBC[1],  AssBC[2],  0,  0,  AssBC[3] },
-                    new double[]{AssCD[1],  AssCD[2],  0,  0,  AssCD[3] },
-                    new double[]{AssDE[1],  AssDE[2],  0,  0,  AssDE[3] }
-                };//与负筋统一格式[直径 间距 直径 间距 实选面积]
-
-                //跨中选筋
-                for (int i = 1; i <= 4; i++)
-                {
-                    double[] d = { Asss[i][1], Math.Floor(1000 / Asss[i][2]), 0, 0 };//i层配筋直径、数量
-                    double w = Zuhezhengfujin.liefeng1(M[2 * i], cs, d, Asss[i][5], h[i], C, rg);// 计算i跨裂缝
-                    if (w <= 0.2)
-                    {
-                        A[i] = new double[] { Asss[i][1], Asss[i][2], Asss[i][3], Asss[i][4], Asss[i][5], w };//A配筋输出格式统一为[直径 间距 直径 间距 实选面积]
-                    }
-                    else
-                    {
-                        double Asss0 = Asss[i][5];//Asss0用于做标记，判断后面增加面积是否超过1000mm2
-                        Asss[i][5] = Asss[i][5] + 1;//裂缝计算不够时，实配钢筋面积增加200mm2,选筋后,再进行裂缝验算
-                        if (Asss[i][5] > 4909)//超出选筋库时令其配筋为0
-                        {
-                            throw new Exception("选筋超出选筋库");
-                        }
-                        for (int j = 1; j < 2000; j++)//嵌套循环增加配筋面积，最多增加2000mm2
-                        {
-                            double[] AA = Zuhezhengfujin.zhengjinshuchu(Asss[i][5]);//再次选筋
-                            Asss[i] = new double[] { AA[1], AA[2], 0, 0, AA[3] };//将选筋结果填入Asss矩阵中
-                            d = new double[] { Asss[i][1], Math.Floor(1000 / Asss[i][2]), 0, 0 };
-                            w = Zuhezhengfujin.liefeng1(M[2 * i], cs, d, Asss[i][5], h[i], C, rg);
-                            if (w <= 0.2)
-                            {
-                                A[i] = new double[] { Asss[i][1], Asss[i][2], Asss[i][3], Asss[i][4], Asss[i][5], w };
-                                break;
-                            }
-                            else
-                            {
-                                Asss[i][5] = Asss[i][5] + 1;
-                                if (Asss[i][5] > 4909)//超出选筋库时令其配筋为0
-                                {
-                                    throw new Exception("选筋超出选筋库");
-                                }
-
-                                if (Asss[i][5] - Asss0 > 1000)
-                                {
-                                    throw new Exception("按裂缝选筋增加钢筋过大，请修改挡墙参数");
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+            
             return A;
         }
 
@@ -550,7 +419,7 @@ namespace Dr.RetainingWall
         }
 
 
-        public static List<double[]> fujinxuanjin(int space, int n, double[] As, double ft, double fy, double[] h, double[] M, double cs, int C, double rg)
+        public static List<double[]> fujinxuanjin(int space, int n, List<double> As, double ft, double fy, double[] h, double[] M, double cs, int C, double rg)
         {
             //本子函数用于负筋自动选筋，按照此子程序计算得到的配筋为最节省配筋
             //本子函数即根据裂缝选筋liefeng1(M, cs, d, As, h, C, rg)
@@ -714,7 +583,7 @@ namespace Dr.RetainingWall
 
 
 
-        public static List<double[]> zuhezhengfujin(int n, double[] As, double ft, double fy, double[] h, double[] M, double cs, int C, double rg)
+        public static List<double[]> zuhezhengfujin(int n, List<double> As, double ft, double fy, double[] h, double[] M, double cs, int C, double rg)
         {
             //此子函数用于将正筋选筋和负筋选筋结果组合成一个矩阵，方便后续调用
             //Asz——为正筋选筋矩阵
@@ -738,6 +607,15 @@ namespace Dr.RetainingWall
                 var Asf200 = fujinxuanjin(200, n, As, ft, fy, h, M, cs, C, rg);
                 Ass = new List<double[]> { Asf150[0], Asf150[1], Asf150[2], Asf200[0], Asf200[1], Asf200[2], Asz[0], Asz[1] };
             }
+            else if (n == 3)
+            {
+                var Asz = zhengjinxuanjin(n, As, h, M, cs, C, rg);
+                var Asf150 = fujinxuanjin(150, n, As, ft, fy, h, M, cs, C, rg);
+                var Asf200 = fujinxuanjin(200, n, As, ft, fy, h, M, cs, C, rg);
+                Ass = new List<double[]> { Asf150[0], Asf150[1], Asf150[2], Asf200[0], Asf200[1], Asf200[2], Asz[0], Asz[1] };
+            }
+
+
             return Ass;
 
 

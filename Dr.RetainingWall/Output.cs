@@ -17,7 +17,7 @@ namespace Dr.RetainingWall
         public Matrix m_MM;
         public double[] m_Mmax;
         public double[] m_M;
-        public double[][] m_As;
+        public List<double>[] m_As;
 
         public List<double[]> m_Zuhejin;
         public List<double[]> m_Shuipingjin;

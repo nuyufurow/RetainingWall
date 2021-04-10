@@ -134,7 +134,7 @@ namespace Dr.RetainingWall
 
                 output.m_M = InnerForceCalculation.neilizuhe(input.m_FloorCount, output.m_MM, output.m_Mmax);
 
-                double[][] As = ReinforcementCalculation.peijinjisuan(
+                List<double>[] As = ReinforcementCalculation.peijinjisuan(
                     output.m_M, input.m_cs, input.m_FloorCount, input.m_WallWidths, input.m_fy, input.m_fc, input.m_ft);
                 output.m_As = As;
 
