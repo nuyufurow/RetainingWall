@@ -57,7 +57,9 @@ namespace Dr.RetainingWall
                 for (int j = 0; j < n; j++)
                 {
                     Matrix kp = StiffnessMatrix.PlaneFrameElementStiffness(E, A[j], I[j], H[j]);
-                    Vector up = new Vector(new double[] { 0, 0, 0, u[j], 0, u[j + 1] }, VectorType.Column);  //回带总体位移
+                    double[] arrU = j == 0 ? new double[] { 0, 0, 0, u[2 * j], 0, u[2 * j + 1] }
+                    : new double[] { u[2 * j - 2], 0, u[2 * j - 1], u[2 * j], 0, u[2 * j + 1] };
+                    Vector up = new Vector(arrU, VectorType.Column);  //回带总体位移
                     Vector Fp = Vector.MatMulColVec(kp, up);
                     F0.Add(Fp);
                 }
@@ -72,13 +74,6 @@ namespace Dr.RetainingWall
                     F.Add(new double[] { Flp, Frp });
                 }
 
-                //double[] FF1 = new double[6];
-                //double[] FF2 = new double[6];
-                //for (int j = 0; j < n; j++)
-                //{
-                //    FF1[2 * j] = F0[j][2] + M[j][1];
-                //    FF1[2 * j + 1] = F0[j][5] + M[j + 1][0];
-                //}
                 double[,] FF = {
                     { F0[0][2] + M[0][1], F0[0][5] + M[1][0], F0[1][2] + M[1][1], F0[1][5] + M[2][0], F0[2][2] + M[2][1], F0[2][5]+M[3][0] },
                     { F0[0][1] + F[0][1], F0[0][4] + F[1][0] + F0[1][1] + F[1][1], F0[1][4] + F[2][0]+F0[2][1]+ F[2][1], F0[2][4] + F[3][0], 0, 0} };
@@ -153,26 +148,36 @@ namespace Dr.RetainingWall
                     { F01[1] + Fa, F01[4] + Fbl + F02[1] + Fbr, F02[4] + Fc, 0} };           //支反力修正为真正结构的支反力
                 return F;                                                                                          //输出所有节点的内力
             }
-            //else if (n == 3)
-            //{
-            //    Vector U = new Vector(new double[] { 0, 0, u[0], u[1], 0, u[2], u[3], 0, u[4], u[5], 0, u[6] }, VectorType.Column);//回带总体位移
-            //    Vector F = Vector.MatMulColVec(K, U);            //求支反力，此支反力为未加上全部加上刚臂时，只有节点荷载的支反力
-            //                                                     //支反力修正为真正结构的支反力，令F + 结构全部加上刚臂时的节点反力，得到真正结构的内力和支反力
-            //    double Ma = (Q[0] - Q[1]) * H[0] * H[0] / 20 + Q[1] * H[0] * H[0] / 12;                    //A点等效节点弯矩
-            //    double Fa = (Q[0] - Q[1]) * H[0] * 7 / 20 + 0.5 * Q[1] * H[0];                                   //A点等效节点剪力
-            //    double Mb = -(((Q[0] - Q[1]) * H[0] * H[0] / 30 + Q[1] * H[0] * H[0] / 12)
-            //        - ((Q[1] - Q[2]) * H[1] * H[1] / 20 + Q[2] * H[1] * H[1] / 12));                       //B点等效节点弯矩
-            //    double Fb = (Q[0] - Q[1]) * H[0] * 3 / 20 + 0.5 * Q[1] * H[0] + (Q[1] - Q[2])
-            //        * H[1] * 7 / 20 + 0.5 * Q[2] * H[1];                                                               //B点等效节点剪力
-            //    double Mc = -(((Q[1] - Q[2]) * H[1] * H[1] / 30 + Q[2] * H[1] * H[1] / 12)
-            //        - ((Q[2] - Q[3]) * H[2] * H[2] / 20 + Q[3] * H[2] * H[2] / 12));                       //C点等效节点弯矩
-            //    double Fc = (Q[1] - Q[2]) * H[1] * 3 / 20 + 0.5 * Q[2] * H[1]
-            //        + (Q[2] - Q[3]) * H[2] * 7 / 20 + 0.5 * Q[3] * H[2];                                         //C点等效节点剪力
-            //    double Md = -((Q[2] - Q[3]) * H[2] * H[2] / 30 + Q[3] * H[2] * H[2] / 12);                 //D点等效节点弯矩
-            //    double Fd = (Q[2] - Q[3]) * H[2] * 3 / 20 + 0.5 * Q[3] * H[2];                                   //D点等效节点剪力
-            //    F = F + new Vector(new double[] { 0, Fa, Ma, 0, Fb, Mb, 0, Fc, Mc, 0, Fd, Md }, VectorType.Column);             //支反力修正为真正结构的支反力
-            //    return F;                                                                                                       //输出所有节点的内力
-            //}
+            else if (n == 3)
+            {
+                List<Vector> F0 = new List<Vector>();
+                List<double[]> M = new List<double[]>();
+                List<double[]> F = new List<double[]>();
+                for (int j = 0; j < n; j++)
+                {
+                    Matrix kp = StiffnessMatrix.PlaneFrameElementStiffness(E, A[j], I[j], H[j]);
+                    double[] arrU = j == 0 ? new double[] { 0, 0, u[2 * j], u[2 * j + 1], 0, u[2 * j + 2] }
+                    : new double[] { u[2 * j - 1], 0, u[2 * j], u[2 * j + 1], 0, u[2 * j + 2] };
+                    Vector up = new Vector(arrU, VectorType.Column);  //回带总体位移
+                    Vector Fp = Vector.MatMulColVec(kp, up);
+                    F0.Add(Fp);
+                }
+                for (int j = 0; j < n + 1; j++)
+                {
+                    double Mlp = j == 0 ? 0 : -((Q[j - 1] - Q[j]) * Math.Pow(H[j - 1], 2) / 30 + Q[j] * Math.Pow(H[j - 1], 2) / 12);
+                    double Mrp = j == n ? 0 : (Q[j] - Q[j + 1]) * Math.Pow(H[j], 2) / 20 + Q[j + 1] * Math.Pow(H[j], 2) / 12;
+                    M.Add(new double[] { Mlp, Mrp });
+
+                    double Flp = j == 0 ? 0 : (Q[j - 1] - Q[j]) * H[j - 1] * 3 / 20 + 0.5 * Q[j] * H[j - 1];
+                    double Frp = j == n ? 0 : (Q[j] - Q[j + 1]) * H[j] * 7 / 20 + 0.5 * Q[j + 1] * H[j];
+                    F.Add(new double[] { Flp, Frp });
+                }
+
+                double[,] FF = {
+                    { F0[0][2] + M[0][1], F0[0][5] + M[1][0], F0[1][2] + M[1][1], F0[1][5] + M[2][0], F0[2][2] + M[2][1], F0[2][5]+M[3][0] },
+                    { F0[0][1] + F[0][1], F0[0][4] + F[1][0] + F0[1][1] + F[1][1], F0[1][4] + F[2][0]+F0[2][1]+ F[2][1], F0[2][4] + F[3][0], 0, 0} };
+                return FF;
+            }
             //else if (n == 4)
             //{
             //    Vector U = new Vector(new double[] { 0, 0, u[0], u[1], 0, u[2], u[3], 0, u[4], u[5], 0, u[6], u[7], 0, u[8] }, VectorType.Column);//回带总体位移
@@ -287,8 +292,8 @@ namespace Dr.RetainingWall
                     x000 = x222;
                 }
                 Mmax[0] = -(Q[2] - Q[3]) * Math.Pow(x000, 3) / (6 * H[2]) - 0.5 * Q[3] * Math.Pow(x000, 2) + M[1, 3] * x000 + M[1, 2] * (x000 - H[2]) + M[1, 1] * (x000 - H[2] - H[1]);
-                Mmax[0] = -(Q[2] - Q[3]) * Math.Pow(x00, 3) / (6 * H[2]) - 0.5 * Q[3] * Math.Pow(x00, 2) + M[1, 3] * x00 + M[1, 2] * (x00 - H[2]);
-                Mmax[1] = -(Q[2] - Q[3]) * Math.Pow(x0, 3) / (6 * H[2]) - 0.5 * Q[3] * Math.Pow(x0, 2) + M[1, 3] * x0;
+                Mmax[1] = -(Q[2] - Q[3]) * Math.Pow(x00, 3) / (6 * H[2]) - 0.5 * Q[3] * Math.Pow(x00, 2) + M[1, 3] * x00 + M[1, 2] * (x00 - H[2]);
+                Mmax[2] = -(Q[2] - Q[3]) * Math.Pow(x0, 3) / (6 * H[2]) - 0.5 * Q[3] * Math.Pow(x0, 2) + M[1, 3] * x0;
             }
             else if (n == 4)
             {
@@ -339,10 +344,10 @@ namespace Dr.RetainingWall
                 }
                 Mmax[0] = -(Q[3] - Q[4]) * Math.Pow(x0000, 3) / (6 * H[3]) - 0.5 * Q[4] * Math.Pow(x0000, 2) + M[1, 4] * x0000
                     + M[1, 3] * (x0000 - H[3]) + M[1, 2] * (x0000 - H[2] - H[3]) + M[1, 1] * (x0000 - H[1] - H[2] - H[3]);
-                Mmax[0] = -(Q[3] - Q[4]) * Math.Pow(x000, 3) / (6 * H[3]) - 0.5 * Q[4] * Math.Pow(x000, 2) + M[1, 4] * x000
+                Mmax[1] = -(Q[3] - Q[4]) * Math.Pow(x000, 3) / (6 * H[3]) - 0.5 * Q[4] * Math.Pow(x000, 2) + M[1, 4] * x000
                     + M[1, 3] * (x000 - H[3]) + M[1, 2] * (x000 - H[2] - H[3]);
-                Mmax[1] = -(Q[3] - Q[4]) * Math.Pow(x00, 3) / (6 * H[3]) - 0.5 * Q[4] * Math.Pow(x00, 2) + M[1, 4] * x00 + M[1, 3] * (x00 - H[3]);
-                Mmax[2] = -(Q[3] - Q[4]) * Math.Pow(x0, 3) / (6 * H[3]) - 0.5 * Q[4] * Math.Pow(x0, 2) + M[1, 4] * x0;
+                Mmax[2] = -(Q[3] - Q[4]) * Math.Pow(x00, 3) / (6 * H[3]) - 0.5 * Q[4] * Math.Pow(x00, 2) + M[1, 4] * x00 + M[1, 3] * (x00 - H[3]);
+                Mmax[3] = -(Q[3] - Q[4]) * Math.Pow(x0, 3) / (6 * H[3]) - 0.5 * Q[4] * Math.Pow(x0, 2) + M[1, 4] * x0;
             }
             return Mmax;
         }

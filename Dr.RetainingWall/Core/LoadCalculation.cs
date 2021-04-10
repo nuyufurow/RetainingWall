@@ -60,7 +60,7 @@ namespace Dr.RetainingWall
 
                 double qmaxg = qmax0g * rg;                                          //恒载设计值最大值
                 double qming = qmin0g * rg;                                          //恒载设计值最小值
-                double qq = q0q * rq;                                                //活载设计值
+                double qq = q0q * rq * 0.7;                                                //活载设计值
 
                 double qA = qmaxg + qq;                                              //A点荷载设计值
                 double qB = r * 0.5 * (fh + H[1] + H[2]) * rg + qq;             //B点荷载设计值
@@ -68,7 +68,7 @@ namespace Dr.RetainingWall
                 double qD = qming + qq;                                              //D点荷载设计值
 
 
-                Q = new double[] { qA, qB, qC, qD };
+                Q = new double[] { 1000 * qA, 1000 * qB, 1000 * qC, 1000 * qD };
             }
             else if (n == 4)
             {
@@ -78,7 +78,7 @@ namespace Dr.RetainingWall
 
                 double qmaxg = qmax0g * rg;                                          //恒载设计值最大值
                 double qming = qmin0g * rg;                                          //恒载设计值最小值
-                double qq = q0q * rq;                                                //活载设计值
+                double qq = q0q * rq * 0.7;                                                //活载设计值
 
                 double qA = qmaxg + qq;                                              //A点荷载设计值
                 double qB = r * 0.5 * (fh + H[1] + H[2] + H[3]) * rg + qq;   //B点荷载设计值
@@ -87,7 +87,7 @@ namespace Dr.RetainingWall
                 double qE = qming + qq;                                              //E点荷载设计值
 
 
-                Q = new double[] { qA, qB, qC, qD, qE };
+                Q = new double[] { 1000 * qA, 1000 * qB, 1000 * qC, 1000 * qD, 1000 * qE };
             }
 
             return Q;
@@ -127,17 +127,17 @@ namespace Dr.RetainingWall
             else if (n == 3)
             {
                 double Ma = -((Q[0] - Q[1]) * H[0] * H[0] / 20 + Q[1] * H[0] * H[0] / 12);    //A点等效节点弯矩
-                double Mb = -(((Q[0] - Q[1]) * H[0] * H[0] / 30 + Q[1] * H[0] * H[0] / 12)
-                    - ((Q[1] - Q[2]) * H[1] * H[1] / 20 + Q[2] * H[1] * H[1] / 12));          //B点等效节点弯矩
-                double Mc = -(((Q[1] - Q[2]) * H[1] * H[1] / 30 + Q[2] * H[1] * H[1] / 12)
-                    - ((Q[2] - Q[3]) * H[2] * H[2] / 20 + Q[3] * H[2] * H[2] / 12));          //C点等效节点弯矩
+                double Mb = ((Q[0] - Q[1]) * H[0] * H[0] / 30 + Q[1] * H[0] * H[0] / 12)
+                    - ((Q[1] - Q[2]) * H[1] * H[1] / 20 + Q[2] * H[1] * H[1] / 12);          //B点等效节点弯矩
+                double Mc = ((Q[1] - Q[2]) * H[1] * H[1] / 30 + Q[2] * H[1] * H[1] / 12)
+                    - ((Q[2] - Q[3]) * H[2] * H[2] / 20 + Q[3] * H[2] * H[2] / 12);          //C点等效节点弯矩
                 double Md = (Q[2] - Q[3]) * H[2] * H[2] / 30 + Q[3] * H[2] * H[2] / 12;       //D点等效节点弯矩
-                double Fa = (Q[0] - Q[1]) * H[0] * 7 / 20 + 0.5 * Q[1] * H[0];                //A点等效节点剪力
+                double Fa = -((Q[0] - Q[1]) * H[0] * 7 / 20 + 0.5 * Q[1] * H[0]);                //A点等效节点剪力
                 double Fb = -((Q[0] - Q[1]) * H[0] * 3 / 20 + 0.5 * Q[1] * H[0]
                     + (Q[1] - Q[2]) * H[1] * 7 / 20 + 0.5 * Q[2] * H[1]);                     //B点等效节点剪力
                 double Fc = -((Q[1] - Q[2]) * H[1] * 3 / 20 + 0.5 * Q[2] * H[1]
                     + (Q[2] - Q[3]) * H[2] * 7 / 20 + 0.5 * Q[3] * H[2]);                     //C点等效节点剪力
-                double Fd = (Q[2] - Q[3]) * H[2] * 3 / 20 + 0.5 * Q[3] * H[2];                //D点等效节点剪力
+                double Fd = -((Q[2] - Q[3]) * H[2] * 3 / 20 + 0.5 * Q[3] * H[2]);                //D点等效节点剪力
                 f = new double[] { 0, Mb, 0, Mc, 0, Md };
             }
             else if (n == 4)
@@ -190,17 +190,17 @@ namespace Dr.RetainingWall
             else if (n == 3)
             {
                 double Ma = -((Q[0] - Q[1]) * H[0] * H[0] / 20 + Q[1] * H[0] * H[0] / 12);    //A点等效节点弯矩
-                double Mb = -(((Q[0] - Q[1]) * H[0] * H[0] / 30 + Q[1] * H[0] * H[0] / 12)
-                    - ((Q[1] - Q[2]) * H[1] * H[1] / 20 + Q[2] * H[1] * H[1] / 12));          //B点等效节点弯矩
-                double Mc = -(((Q[1] - Q[2]) * H[1] * H[1] / 30 + Q[2] * H[1] * H[1] / 12)
-                    - ((Q[2] - Q[3]) * H[2] * H[2] / 20 + Q[3] * H[2] * H[2] / 12));          //C点等效节点弯矩
+                double Mb = ((Q[0] - Q[1]) * H[0] * H[0] / 30 + Q[1] * H[0] * H[0] / 12)
+                    - ((Q[1] - Q[2]) * H[1] * H[1] / 20 + Q[2] * H[1] * H[1] / 12);          //B点等效节点弯矩
+                double Mc = ((Q[1] - Q[2]) * H[1] * H[1] / 30 + Q[2] * H[1] * H[1] / 12)
+                    - ((Q[2] - Q[3]) * H[2] * H[2] / 20 + Q[3] * H[2] * H[2] / 12);          //C点等效节点弯矩
                 double Md = (Q[2] - Q[3]) * H[2] * H[2] / 30 + Q[3] * H[2] * H[2] / 12;       //D点等效节点弯矩
-                double Fa = (Q[0] - Q[1]) * H[0] * 7 / 20 + 0.5 * Q[1] * H[0];                //A点等效节点剪力
+                double Fa = -((Q[0] - Q[1]) * H[0] * 7 / 20 + 0.5 * Q[1] * H[0]);                //A点等效节点剪力
                 double Fb = -((Q[0] - Q[1]) * H[0] * 3 / 20 + 0.5 * Q[1] * H[0]
                     + (Q[1] - Q[2]) * H[1] * 7 / 20 + 0.5 * Q[2] * H[1]);                     //B点等效节点剪力
                 double Fc = -((Q[1] - Q[2]) * H[1] * 3 / 20 + 0.5 * Q[2] * H[1]
                     + (Q[2] - Q[3]) * H[2] * 7 / 20 + 0.5 * Q[3] * H[2]);                     //C点等效节点剪力
-                double Fd = (Q[2] - Q[3]) * H[2] * 3 / 20 + 0.5 * Q[3] * H[2];                //D点等效节点剪力
+                double Fd = -((Q[2] - Q[3]) * H[2] * 3 / 20 + 0.5 * Q[3] * H[2]);                //D点等效节点剪力
                 f = new double[] { Ma, 0, Mb, 0, Mc, 0, Md };
             }
             else if (n == 4)

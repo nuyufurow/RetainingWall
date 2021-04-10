@@ -217,7 +217,7 @@ namespace Dr.RetainingWall
             }
             else if (n == 3)
             {
-                double[] h0 = { h[1] - d / 2 - cs, h[2] - d / 2 - cs, h[3] - d / 2 - cs };                               //各层截面有效高度
+                double[] h0 = { h[0] - d / 2 - cs, h[1] - d / 2 - cs, h[2] - d / 2 - cs };                               //各层截面有效高度
                 double xA1 = h0[1] - Math.Sqrt(Math.Pow(h0[1], 2) - 2 * Math.Abs(M[1]) / (alpha1 * fc * 1000));           //求A点受压区高度mm
                 double xA0;
                 if (xA1 >= 0 && xA1 <= kxib * h0[1])
