@@ -191,9 +191,110 @@ namespace Dr.RetainingWall
                 //150顶筋费用 200顶筋费用 底筋费用 砼费用 水平筋费用 间距150总费用 间距200总费用
                 return Q;
             }
+            else
+            {
+                double[] arrH = new double[n];
+                for (int i = 0; i < n; i++)
+                {
+                    arrH[i] = Math.Round((H[i] - s[i]) / 3.0, 1) + 10;
+                }
+                double[] arrLff = new double[n]; //各点的附加筋总长度
+                for (int i = 0; i < n; i++)
+                {
+                    arrLff[i] = i == 0 ? (H[i] - s[i]) / 3 : 2 * Math.Max(arrH[i - 1], arrH[i]) + s[i - 1];
+                }
 
-            return new double[] { };
+                double[] arrLft150 = new double[n];//150通长顶筋的长度
+                double[] arrLft200 = new double[n];//200通长顶筋的长度
+                for (int i = 0; i < n; i++)
+                {
+                    if (i == 0)
+                    {
+                        arrLft150[i] = H[i] + arrLff[1] + Math.Max(35 * Math.Max(Ass[0][0], Ass[2][0]), 500);
+                        arrLft200[i] = H[i] + arrLff[1] + Math.Max(35 * Math.Max(Ass[5][0], Ass[7][0]), 500);
+                    }
+                    else if (i == n - 1)
+                    {
+                        arrLft150[i] = H[i] - s[i] - Math.Max(arrLff[i - 1], arrLff[i]) - Math.Max(35 * Math.Max(Ass[i][0], Ass[i + 1][0]), 500) + maoguchangdu(CC, F, Ass[i + 1][0]);
+                        arrLft200[i] = H[i] - s[i] - Math.Max(arrLff[i - 1], arrLff[i]) - Math.Max(35 * Math.Max(Ass[2 * i + 2][0], Ass[2 * i + 3][0]), 500) + maoguchangdu(CC, F, Ass[2 * i + 3][0]);
+                    }
+                    else
+                    {
+                        arrLft150[i] = H[i] - Math.Max(arrLff[i - 1], arrLff[i]) - Math.Max(35 * Math.Max(Ass[2 * i - 2][0], Ass[i + 1][0]), 500) + Math.Max(arrLff[i], arrLff[i + 1]) + Math.Max(35 * Math.Max(Ass[i + 1][0], Ass[i + 2][0]), 500);
+                        arrLft200[i] = H[i] - Math.Max(arrLff[i - 1], arrLff[i]) - Math.Max(35 * Math.Max(Ass[n + 2 * i - 1][0], Ass[n + i + 2][0]), 500) + Math.Max(arrLff[i], arrLff[i + 1]) + Math.Max(35 * Math.Max(Ass[n + i + 2][0], Ass[n + i + 3][0]), 500);
+                    }
+                }
+
+                double[] arrLz = new double[4];
+                for (int i = 0; i < n; i++)
+                {
+                    double Lzfu, Lzfd;
+                    if (i == n - 1)
+                    {
+                        Lzfu = -s[i] + maoguchangdu(CC, F, Ass[2 * n + 2][0]);
+                        Lzfd = 0;
+                    }
+                    else
+                    {
+                        if (H[i] == H[i + 1])
+                        {
+                            if (Ass[2 * n + i + 2][1] == Ass[2 * n + i + 3][1])
+                            {
+                                Lzfu = 500 + Math.Max(35 * Math.Max(Ass[2 * n + 2][0], Ass[2 * n + 3][0]), 500);
+                                Lzfd = -500 - Math.Max(35 * Math.Max(Ass[2 * n][0], Ass[2 * n + 1][0]), 500);
+                            }
+                            else
+                            {
+                                Lzfu = -s[i] + 1.2 * maoguchangduE(Z, CC, F, Ass[2 * n + 2][0]);
+                                Lzfd = 1.2 * maoguchangduE(Z, CC, F, Ass[2 * n + 3][0]);
+                            }
+                        }
+                        else
+                        {
+                            Lzfu = -cs + 12 * Ass[3 * n + i - 2][0];
+                            Lzfd = 1.2 * maoguchangduE(Z, CC, F, Ass[2 * n + i + 1][0]);
+                        }
+                    }
+                    arrLz[i] += i == 0 ? H[i] + Lzfu : H[i] + Lzfu + Lzfd;
+                }
+
+                double qft150 = 0, qff150 = 0, qft200 = 0, qff200 = 0, qz = 0, qs = 0, qt = 0;
+                for (int i = 0; i < n; i++)
+                {
+                    double varQft150 = i == 0 ? QfCal(Ass[0][1], Ass[0][0], arrLft150[0], Qg) : QfCal(Ass[i + 1][1], Ass[i + 1][0], arrLft150[i], Qg);
+                    qft150 += varQft150;
+
+                    double varQff150 = QfCal(Ass[i][3], Ass[i][2], arrLff[i], Qg);
+                    qff150 += varQff150;
+
+                    double varQft200 = i == 0 ? QfCal(Ass[n + 1][1], Ass[n + 1][0], arrLft200[0], Qg) : QfCal(Ass[n + i + 2][1], Ass[n + i + 2][0], arrLft200[i], Qg);
+                    qft200 += varQft200;
+
+                    double varQff200 = QfCal(Ass[n + i + 1][3], Ass[n + i + 1][2], arrLff[i], Qg);
+                    qff200 += varQff200;
+
+                    double varQz = QfCal(Ass[2 * n + i + 2][1], Ass[2 * n + i + 2][0], arrLz[i], Qg);
+                    qz += varQz;
+
+                    qs += 1 * 2 * Ashui[i][4] * H[i] * 7.85 * Qg * Math.Pow(10, -9);
+
+                    qt += 1 * h[i] / 1000 * H[i] / 1000 * Qh;
+                }
+
+                double qf150 = qft150 + qft200;
+                double qf200 = qft200 + qft200;
+                double[] Q = { qf150, qf200, qz, qt, qs, qf150 + qz + qt + qs, qf200 + qz + qt + qs };
+                return Q;
+            }
+
         }
 
+
+        private static double QfCal(double sp, double d, double lff, double qg)
+        {
+            double vol = (1000 / sp) * (Math.Pow((d / 1000), 2) * Math.PI / 4) * (lff / 1000);
+            double result = vol * 7.85 * qg;
+            return result;
+        }
     }
 }
