@@ -196,7 +196,7 @@ namespace Dr.RetainingWall
                 double[] arrH = new double[n];
                 for (int i = 0; i < n; i++)
                 {
-                    arrH[i] = Math.Round((H[i] - s[i]) / 3.0, 1) + 10;
+                    arrH[i] = Math.Round((H[i] - s[i]) / 30, 0) * 10 + 10;
                 }
                 double[] arrLff = new double[n]; //各点的附加筋总长度
                 for (int i = 0; i < n; i++)

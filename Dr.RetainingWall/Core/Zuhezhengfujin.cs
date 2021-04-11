@@ -710,7 +710,13 @@ namespace Dr.RetainingWall
                 var Asf200 = fujinxuanjin(200, n, As, ft, fy, h, M, cs, C, rg);
                 Ass = new List<double[]> { Asf150[0], Asf150[1], Asf150[2], Asf150[3], Asf200[0], Asf200[1], Asf200[2], Asf200[3], Asz[0], Asz[1], Asz[2] };
             }
-
+            else if (n == 4)
+            {
+                var Asz = zhengjinxuanjin(n, As, h, M, cs, C, rg);
+                var Asf150 = fujinxuanjin(150, n, As, ft, fy, h, M, cs, C, rg);
+                var Asf200 = fujinxuanjin(200, n, As, ft, fy, h, M, cs, C, rg);
+                Ass = new List<double[]> { Asf150[0], Asf150[1], Asf150[2], Asf150[3], Asf150[4], Asf200[0], Asf200[1], Asf200[2], Asf200[3], Asf200[4], Asz[0], Asz[1], Asz[2], Asz[3] };
+            }
 
             return Ass;
 
