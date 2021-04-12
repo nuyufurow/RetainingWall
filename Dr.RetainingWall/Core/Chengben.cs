@@ -215,23 +215,23 @@ namespace Dr.RetainingWall
                     }
                     else if (i == n - 1)
                     {
-                        arrLft150[i] = H[i] - s[i] - Math.Max(arrLff[i - 1], arrLff[i]) - Math.Max(35 * Math.Max(Ass[i][0], Ass[i + 1][0]), 500) + maoguchangdu(CC, F, Ass[i + 1][0]);
-                        arrLft200[i] = H[i] - s[i] - Math.Max(arrLff[i - 1], arrLff[i]) - Math.Max(35 * Math.Max(Ass[2 * i + 2][0], Ass[2 * i + 3][0]), 500) + maoguchangdu(CC, F, Ass[2 * i + 3][0]);
+                        arrLft150[i] = H[i] - s[i] - Math.Max(arrH[i - 1], arrH[i]) - Math.Max(35 * Math.Max(Ass[i][0], Ass[i + 1][0]), 500) + maoguchangdu(CC, F, Ass[i + 1][0]);
+                        arrLft200[i] = H[i] - s[i] - Math.Max(arrH[i - 1], arrH[i]) - Math.Max(35 * Math.Max(Ass[2 * i + 2][0], Ass[2 * i + 3][0]), 500) + maoguchangdu(CC, F, Ass[2 * i + 3][0]);
                     }
                     else
                     {
-                        arrLft150[i] = H[i] - Math.Max(arrLff[i - 1], arrLff[i]) - Math.Max(35 * Math.Max(Ass[2 * i - 2][0], Ass[i + 1][0]), 500) + Math.Max(arrLff[i], arrLff[i + 1]) + Math.Max(35 * Math.Max(Ass[i + 1][0], Ass[i + 2][0]), 500);
-                        arrLft200[i] = H[i] - Math.Max(arrLff[i - 1], arrLff[i]) - Math.Max(35 * Math.Max(Ass[n + 2 * i - 1][0], Ass[n + i + 2][0]), 500) + Math.Max(arrLff[i], arrLff[i + 1]) + Math.Max(35 * Math.Max(Ass[n + i + 2][0], Ass[n + i + 3][0]), 500);
+                        arrLft150[i] = H[i] - Math.Max(arrH[i - 1], arrH[i]) - Math.Max(35 * Math.Max(Ass[2 * i - 2][0], Ass[i + 1][0]), 500) + Math.Max(arrH[i], arrH[i + 1]) + Math.Max(35 * Math.Max(Ass[i + 1][0], Ass[i + 2][0]), 500);
+                        arrLft200[i] = H[i] - Math.Max(arrH[i - 1], arrH[i]) - Math.Max(35 * Math.Max(Ass[n + 2 * i - 1][0], Ass[n + i + 2][0]), 500) + Math.Max(arrH[i], arrH[i + 1]) + Math.Max(35 * Math.Max(Ass[n + i + 2][0], Ass[n + i + 3][0]), 500);
                     }
                 }
 
-                double[] arrLz = new double[4];
+                List<double[]> listLzf = new List<double[]>();
                 for (int i = 0; i < n; i++)
                 {
                     double Lzfu, Lzfd;
                     if (i == n - 1)
                     {
-                        Lzfu = -s[i] + maoguchangdu(CC, F, Ass[2 * n + 2][0]);
+                        Lzfu = -s[i] + maoguchangdu(CC, F, Ass[2 * n + i + 2][0]);
                         Lzfd = 0;
                     }
                     else
@@ -240,8 +240,8 @@ namespace Dr.RetainingWall
                         {
                             if (Ass[2 * n + i + 2][1] == Ass[2 * n + i + 3][1])
                             {
-                                Lzfu = 500 + Math.Max(35 * Math.Max(Ass[2 * n + 2][0], Ass[2 * n + 3][0]), 500);
-                                Lzfd = -500 - Math.Max(35 * Math.Max(Ass[2 * n][0], Ass[2 * n + 1][0]), 500);
+                                Lzfu = 500 + Math.Max(35 * Math.Max(Ass[2 * n + i + 2][0], Ass[2 * n + i + 3][0]), 500);
+                                Lzfd = -500 - Math.Max(35 * Math.Max(Ass[2 * n + i + 2][0], Ass[2 * n + i + 3][0]), 500);
                             }
                             else
                             {
@@ -255,7 +255,13 @@ namespace Dr.RetainingWall
                             Lzfd = 1.2 * maoguchangduE(Z, CC, F, Ass[2 * n + i + 1][0]);
                         }
                     }
-                    arrLz[i] += i == 0 ? H[i] + Lzfu : H[i] + Lzfu + Lzfd;
+                    listLzf.Add(new double[] { Lzfu, Lzfd });
+                }
+
+                double[] arrLz = new double[n];
+                for (int i = 0; i < n; i++)
+                {
+                    arrLz[i] = i == 0 ? H[i] + listLzf[i][0] : H[i] + listLzf[i - 1][1] + listLzf[i][0];
                 }
 
                 double qft150 = 0, qff150 = 0, qft200 = 0, qff200 = 0, qz = 0, qs = 0, qt = 0;
@@ -281,8 +287,8 @@ namespace Dr.RetainingWall
                     qt += 1 * h[i] / 1000 * H[i] / 1000 * Qh;
                 }
 
-                double qf150 = qft150 + qft200;
-                double qf200 = qft200 + qft200;
+                double qf150 = qft150 + qff150;
+                double qf200 = qft200 + qff200;
                 double[] Q = { qf150, qf200, qz, qt, qs, qf150 + qz + qt + qs, qf200 + qz + qt + qs };
                 return Q;
             }
