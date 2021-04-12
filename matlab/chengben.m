@@ -101,55 +101,54 @@ elseif n==3
    
   if h(1)==h(2) && h(2)==h(3)          %若1、2、3层墙厚相等，则用焊接
 %%%%%%%%%%%%%%%%%%%间距150
-           Lz1150=H(1)+500+max(35*max(Ass(9,1),Ass(10,1)),500);               
-           Lz2d150=H(2)-500-max(35*max(Ass(9,1),Ass(10,1)),500)-s(2);        
+    Lz1150 =H(1)  +500+max(35*max(Ass(9,1),Ass(10,1)),500);               
+	Lz2d150=H(2)  -500-max(35*max(Ass(9,1),Ass(10,1)),500)-s(2);        
 
-           Lz2u150=s(2)+500+max(35*max(Ass(10,1),Ass(11,1)),500);   
-           la3=maoguchangdu(CC,F,Ass(11,1));
-           Lz3150=H(3)-500-max(35*max(Ass(10,1),Ass(11,1)),500)+la3;
+    Lz2u150=s(2)+500+max(35*max(Ass(10,1),Ass(11,1)),500);   
+    la3=-s(3) + maoguchangdu(CC,F,Ass(11,1));
+    Lz3150=H(3)-500-max(35*max(Ass(10,1),Ass(11,1)),500)+la3;
        
-           Lz2150=Lz2u150+Lz2d150;
+    Lz2150=Lz2u150+Lz2d150;
 %%%%%%%%%%%%%%%%%%间距200           
-           Lz1200=H(1)+500+max(35*max(Ass(12,1),Ass(13,1)),500);               
-           Lz2d200=H(2)-500-max(35*max(Ass(12,1),Ass(13,1)),500)-s(2);          
+    Lz1200=H(1)+500+max(35*max(Ass(12,1),Ass(13,1)),500);               
+    Lz2d200=H(2)-500-max(35*max(Ass(12,1),Ass(13,1)),500);          
 
-           Lz2u200=s(2)+500+max(35*max(Ass(13,1),Ass(14,1)),500);   
-           la3=maoguchangdu(CC,F,Ass(14,1));
-           Lz3200=H(3)-500-max(35*max(Ass(13,1),Ass(14,1)),500)+la3;
+    Lz2u200=    500+max(35*max(Ass(13,1),Ass(14,1)),500);   
+    la3=-s(3) + maoguchangdu(CC,F,Ass(14,1));
+    Lz3200=H(3)-500-max(35*max(Ass(13,1),Ass(14,1)),500)+la3;
+      
+    Lz2200=Lz2u200+Lz2d200;           
        
-           Lz2200=Lz2u200+Lz2d200;           
-
-           
   elseif h(1)==h(2) &&  h(2)~=h(3)          %h(1)=h(2)≠h(3)
 %%%%%%%%%%%%%%%%%%%间距150      
-         Lz1150=H(1)+500+max(35*max(Ass(9,1),Ass(10,1)),500);  
-         Lz2150=H(2)-500-max(35*max(Ass(9,1),Ass(10,1)),500)-cs+12*Ass(10,1);        
-         Lz3150=H(3)-s(3)+maoguchangdu(CC,F,Ass(11,1))+1.2*maoguchangduE(Z(3),CC,F,Ass(11,1));
+	Lz1150=H(1)+500+max(35*max(Ass(9,1),Ass(10,1)),500);  
+	Lz2150=H(2)-500-max(35*max(Ass(9,1),Ass(10,1)),500)-cs+12*Ass(10,1);        
+	Lz3150=H(3)-s(3)+maoguchangdu(CC,F,Ass(11,1))+1.2*maoguchangduE(Z(3),CC,F,Ass(11,1));
 %%%%%%%%%%%%%%%%%%%间距200
-         Lz1200=H(1)+500+max(35*max(Ass(12,1),Ass(13,1)),500);  
-         Lz2200=H(2)-500-max(35*max(Ass(12,1),Ass(13,1)),500)-cs+12*Ass(10,1);        
-         Lz3200=H(3)-s(3)+maoguchangdu(CC,F,Ass(14,1))+1.2*maoguchangduE(Z(3),CC,F,Ass(14,1));
+	Lz1200=H(1)+500+max(35*max(Ass(12,1),Ass(13,1)),500);  
+	Lz2200=H(2)-500-max(35*max(Ass(12,1),Ass(13,1)),500)-cs+12*Ass(10,1);        
+	Lz3200=H(3)-s(3)+maoguchangdu(CC,F,Ass(14,1))+1.2*maoguchangduE(Z(3),CC,F,Ass(14,1));
 
   
   elseif h(1)~=h(2) && h(2)==h(3)          %h(1)≠h(2)=h(3)
 %%%%%%%%%%%%%%%%%%%间距150 
-            Lz1150=H(1)-cs+12*Ass(9,1);
-            Lz2150=H(2)+1.2*maoguchangduE(Z(2),CC,F,Ass(10,1))+500+max(35*max(Ass(10,1),Ass(11,1)),500);
-            Lz3150=H(3)-s(3)+maoguchangdu(CC,F,Ass(11,1))-500-max(35*max(Ass(10,1),Ass(11,1)),500);
+	Lz1150=H(1)-cs+12*Ass(9,1);
+	Lz2150=H(2)+1.2*maoguchangduE(Z(2),CC,F,Ass(10,1))+500+max(35*max(Ass(10,1),Ass(11,1)),500);
+	Lz3150=H(3)-s(3)+maoguchangdu(CC,F,Ass(11,1))-500-max(35*max(Ass(10,1),Ass(11,1)),500);
 %%%%%%%%%%%%%%%%%%%间距200 
-            Lz1200=H(1)-cs+12*Ass(12,1);
-            Lz2200=H(2)+1.2*maoguchangduE(Z(2),CC,F,Ass(13,1))+500+max(35*max(Ass(13,1),Ass(14,1)),500);
-            Lz3200=H(3)-s(3)+maoguchangdu(CC,F,Ass(14,1))-500-max(35*max(Ass(13,1),Ass(14,1)),500);
+	Lz1200=H(1)-cs+12*Ass(12,1);
+	Lz2200=H(2)+1.2*maoguchangduE(Z(2),CC,F,Ass(13,1))+500+max(35*max(Ass(13,1),Ass(14,1)),500);
+	Lz3200=H(3)-s(3)+maoguchangdu(CC,F,Ass(14,1))-500-max(35*max(Ass(13,1),Ass(14,1)),500);
 
   elseif h(1)~=h(2) && h(2)~=h(3)      %h(1)≠h(2)≠h(3)
 %%%%%%%%%%%%%%%%%%%间距150       
-      Lz1150=H(1)-cs+12*Ass(9,1);
-      Lz2150=H(2)-cs+12*Ass(10,1)+1.2*maoguchangduE(Z(2),CC,F,Ass(10,1));
-      Lz3150=H(3)-s(3)+maoguchangdu(CC,F,Ass(11,1))+1.2*maoguchangduE(Z(3),CC,F,Ass(11,1));
+    Lz1150=H(1)-cs+12*Ass(9,1);
+    Lz2150=H(2)-cs+12*Ass(10,1)+1.2*maoguchangduE(Z(2),CC,F,Ass(10,1));
+    Lz3150=H(3)-s(3)+maoguchangdu(CC,F,Ass(11,1))+1.2*maoguchangduE(Z(3),CC,F,Ass(11,1));
 %%%%%%%%%%%%%%%%%%%间距200 
-      Lz1200=H(1)-cs+12*Ass(12,1);
-      Lz2200=H(2)-cs+12*Ass(13,1)+1.2*maoguchangduE(Z(2),CC,F,Ass(13,1));
-      Lz3200=H(3)-s(3)+maoguchangdu(CC,F,Ass(14,1))+1.2*maoguchangduE(Z(3),CC,F,Ass(14,1));
+    Lz1200=H(1)-cs+12*Ass(12,1);
+    Lz2200=H(2)-cs+12*Ass(13,1)+1.2*maoguchangduE(Z(2),CC,F,Ass(13,1));
+    Lz3200=H(3)-s(3)+maoguchangdu(CC,F,Ass(14,1))+1.2*maoguchangduE(Z(3),CC,F,Ass(14,1));
   end
    
    Qft150=((1000/Ass(1,2))*((Ass(1,1)/1000)^2*pi/4)*(Lft1150/1000)+(1000/Ass(3,2))*((Ass(3,1)/1000)^2*pi/4)*(Lft2150/1000)+(1000/Ass(4,2))*((Ass(4,1)/1000)^2*pi/4)*(Lft3150/1000))*7.85*Qg; %%%%%%%Qft为通长顶筋间距150费用

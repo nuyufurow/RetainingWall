@@ -238,16 +238,8 @@ namespace Dr.RetainingWall
                     {
                         if (H[i] == H[i + 1])
                         {
-                            if (Ass[2 * n + i + 2][1] == Ass[2 * n + i + 3][1])
-                            {
-                                Lzfu = 500 + Math.Max(35 * Math.Max(Ass[2 * n + i + 2][0], Ass[2 * n + i + 3][0]), 500);
-                                Lzfd = -500 - Math.Max(35 * Math.Max(Ass[2 * n + i + 2][0], Ass[2 * n + i + 3][0]), 500);
-                            }
-                            else
-                            {
-                                Lzfu = -s[i] + 1.2 * maoguchangduE(Z, CC, F, Ass[2 * n + 2][0]);
-                                Lzfd = 1.2 * maoguchangduE(Z, CC, F, Ass[2 * n + 3][0]);
-                            }
+                            Lzfu = 500 + Math.Max(35 * Math.Max(Ass[2 * n + i + 2][0], Ass[2 * n + i + 3][0]), 500);
+                            Lzfd = -500 - Math.Max(35 * Math.Max(Ass[2 * n + i + 2][0], Ass[2 * n + i + 3][0]), 500);
                         }
                         else
                         {
