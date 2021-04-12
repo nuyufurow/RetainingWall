@@ -6,35 +6,43 @@ function [ Ass ] = zuhezhengfujin( n,As,ft,fy,h,M,cs,C,rg )
 %Ass——为最后输出的配筋
 %As——为为peijinjisuan( M,cs,n,fy,fc,ft)中计算得到各点的计算配筋
 if n==1
-        Asz=zhengjinxuanjin(n,As,h,M,cs,C,rg);        
+        Asz150=zhengjinxuanjin150(n,As,h,M,cs,C,rg); 
+        Asz200=zhengjinxuanjin200(n,As,h,M,cs,C,rg);
         Asf150=fujinxuanjin150(n,As,ft,fy,h,M,cs,C,rg);    
         Asf200=fujinxuanjin200(n,As,ft,fy,h,M,cs,C,rg); 
         Ass=[Asf150;
              Asf200;
-             Asz];
+             Asz150;
+             Asz200];
     
 elseif n==2
-        Asz=zhengjinxuanjin(n,As,h,M,cs,C,rg);        
+        Asz150=zhengjinxuanjin150(n,As,h,M,cs,C,rg);
+        Asz200=zhengjinxuanjin200(n,As,h,M,cs,C,rg);
         Asf150=fujinxuanjin150(n,As,ft,fy,h,M,cs,C,rg);    
         Asf200=fujinxuanjin200(n,As,ft,fy,h,M,cs,C,rg); 
         Ass=[Asf150;
              Asf200;
-             Asz];   
+             Asz150;
+             Asz200];   
    
 elseif n==3
-        Asz=zhengjinxuanjin(n,As,h,M,cs,C,rg);        
+        Asz150=zhengjinxuanjin150(n,As,h,M,cs,C,rg); 
+        Asz200=zhengjinxuanjin200(n,As,h,M,cs,C,rg);
         Asf150=fujinxuanjin150(n,As,ft,fy,h,M,cs,C,rg);    
         Asf200=fujinxuanjin200(n,As,ft,fy,h,M,cs,C,rg); 
         Ass=[Asf150;
              Asf200;
-             Asz];   
+             Asz150;
+             Asz200];   
    
 elseif n==4
-        Asz=zhengjinxuanjin(n,As,h,M,cs,C,rg);        
+        Asz150=zhengjinxuanjin150(n,As,h,M,cs,C,rg); 
+        Asz200=zhengjinxuanjin200(n,As,h,M,cs,C,rg);
         Asf150=fujinxuanjin150(n,As,ft,fy,h,M,cs,C,rg);    
         Asf200=fujinxuanjin200(n,As,ft,fy,h,M,cs,C,rg); 
         Ass=[Asf150;
              Asf200;
-             Asz];
+             Asz150;
+             Asz200];
 end
 end

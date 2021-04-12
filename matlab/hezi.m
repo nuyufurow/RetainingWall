@@ -15,9 +15,9 @@ function [ AAA ] = hezi( n,C,h,H,r,hh,p0,rg,rq,F,Qh,Qg,Z,s,cs,T )
 % s 地下室顶板厚度
 % cs 保护层厚度
 % T 内力调幅系数
-hunningtu=tongdengji(C);%用C30混凝土
-E=hunningtu(2);%C30弹性模量
-fc=hunningtu(1);%C30抗压强度设计值
+hunningtu=tongdengji(C);%用CXX混凝土
+E=hunningtu(2);%CXX弹性模量
+fc=hunningtu(1);%CXX抗压强度设计值
 A=1000*h;%截面积
 I=1000*h.^3/12;%截面惯性矩
 fy=gangjindengji(F);%钢筋抗拉强度设计值
@@ -37,7 +37,7 @@ As=peijinjisuan(M,cs,n,h,fy,fc,ft);%得到各节点和跨中的计算配筋值，满足最小配筋率
 Ass=zuhezhengfujin(n,As,ft,fy,h,M,cs,C,rg);%得到间距150顶筋、间距200顶筋和底筋
 Ashui=shuipingjin(n,h);%得到水平筋
 Money=chengben(Ass,Ashui,n,Qh,Qg,h,H,cs,s,Z,C,F);%计算成本   
-AAA=[Money(1) Money(2) Money(3) Money(6) Money(7)];%储存150顶筋费用 200顶筋费用 底筋费用 间距150总费用 间距200总费用
+AAA=[Money(1) Money(2) Money(3) Money(4) Money(7) Money(8)];%储存150顶筋费用 200顶筋费用 150底筋费用 200底筋费用 间距150总费用 间距200总费用
     
 end
 

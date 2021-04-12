@@ -30,12 +30,13 @@ if n==1
    Qff150=(1000/Ass(1,4))*((Ass(1,3)/1000)^2*pi/4)*(Lff/1000)*7.85*Qg;                        %%%%%%%Qff为附加顶筋间距150费用
    Qft200=(1000/Ass(3,2))*((Ass(3,1)/1000)^2*pi/4)*(Lft200/1000)*7.85*Qg;                     %%%%%%%Qft为通长顶筋间距200费用
    Qff200=(1000/Ass(3,4))*((Ass(3,3)/1000)^2*pi/4)*(Lff/1000)*7.85*Qg;                        %%%%%%%Qff为附加顶筋间距200费用   
-   Qz=(1000/Ass(5,2))*((Ass(5,1)/1000)^2*pi/4)*(Lz/1000)*7.85*Qg;                             %%%%%%%Qz为底筋费用
+   Qz150=(1000/Ass(5,2))*((Ass(5,1)/1000)^2*pi/4)*(Lz/1000)*7.85*Qg;                             %%%%%%%Qz为底筋间距150费用
+   Qz200=(1000/Ass(6,2))*((Ass(6,1)/1000)^2*pi/4)*(Lz/1000)*7.85*Qg;                             %%%%%%%Qz为底筋间距200费用
    Qt=(1*h(1)/1000)*(H(1)/1000)*Qh;                                                           %%%%%%%Qt为混凝土费用
    QF150=Qft150+Qff150;                                                                       %%%%%%%QF150为间距150所有钢筋的费用         
    QF200=Qft200+Qff200;                                                                       %%%%%%%QF200为间距200所有钢筋的费用 
-   Q=[   QF150          QF200          Qz          Qs         Qt         QF150+Qz+Qs+Qt       QF200+Qz+Qs+Qt];
-   %  150顶筋费用     200顶筋费用     底筋费用    水平筋费用   砼费用      顶筋间距150总费用      顶筋间距200总费用
+   Q=[   QF150          QF200        Qz150          Qz200          Qs         Qt     QF150+Qz150+Qs+Qt    QF200+Qz200+Qs+Qt];
+   %  150顶筋费用     200顶筋费用   150底筋费用    200底筋费用    水平筋费用    砼费用      间距150总费用       间距200总费用
    
    
 elseif n==2
@@ -46,42 +47,41 @@ elseif n==2
     
    Lft1150=H(1)+LffB+max(35*max(Ass(1,1),Ass(3,1)),500);                 %%%%%%%Lft为1层150通长顶筋的长度
    Lft1200=H(1)+LffB+max(35*max(Ass(4,1),Ass(6,1)),500);                 %%%%%%%Lft为1层150通长顶筋的长度   
-   Lft2150=H(2)-max(Lff1,Lff2)-s(2)-max(35*max(Ass(1,1),Ass(3,1)),500)+maoguchangdu( CC,F,Ass(3,1) );                              %%%%%%%Lft为2层间距150通长顶筋的长度
-   Lft2200=H(2)-max(Lff1,Lff2)-s(2)-max(35*max(Ass(4,1),Ass(6,1)),500)+maoguchangdu( CC,F,Ass(6,1) );                              %%%%%%%Lft为2层间距200通长顶筋的长度
-  if h(1)==h(2)          %若1、2层墙厚相等，则用焊接或分别锚固
+   Lft2150=H(2)-max(Lff1,Lff2)-s(2)-max(35*max(Ass(1,1),Ass(3,1)),500)+maoguchangdu( CC,F,Ass(3,1) );   %%%%%%%Lft为2层间距150通长顶筋的长度
+   Lft2200=H(2)-max(Lff1,Lff2)-s(2)-max(35*max(Ass(4,1),Ass(6,1)),500)+maoguchangdu( CC,F,Ass(6,1) );   %%%%%%%Lft为2层间距200通长顶筋的长度
+  if h(1)==h(2)          %若1、2层墙厚相等，则用焊接
    
-        if Ass(7,2)==Ass(8,2)                  %%%一层和二层的底筋模数若相等，则采用电焊
-            Lz1=H(1)+500+max(35*max(Ass(7,1),Ass(8,1)),500);                                           %%%%%%%Lz为1层底筋的长度
-            Lz2=H(2)-500-max(35*max(Ass(7,1),Ass(8,1)),500)-s(2)+maoguchangdu(CC,F,Ass(8,1));          %%%%%%%Lz为2层底筋的长度     
-        else                                   %%%一层和二层的底筋模数不同，则分别锚固
-            laE1=maoguchangduE( Z(1),CC,F,Ass(7,1) );
-            laE2=maoguchangduE( Z(2),CC,F,Ass(8,1) ); 
-            Lz1=H(1)-s(1)+1.2*laE1;            %%%一层底筋长度，忽略基础中的长度
-            laz=maoguchangdu( CC,F,Ass(8,1) );
-            Lz2=H(2)-s(2)+laz+1.2*laE2;        %%%二层底筋长度     
-        end
-
+            Lz1150=H(1)+500+max(35*max(Ass(7,1),Ass(8,1)),500);                                           %%%%%%%Lz为间距150一层底筋的长度
+            Lz2150=H(2)-500-max(35*max(Ass(7,1),Ass(8,1)),500)-s(2)+maoguchangdu(CC,F,Ass(8,1));          %%%%%%%Lz为间距150二层底筋的长度
+            Lz1200=H(1)+500+max(35*max(Ass(9,1),Ass(10,1)),500);                                          %%%%%%%Lz为间距200一层底筋的长度
+            Lz2200=H(2)-500-max(35*max(Ass(9,1),Ass(10,1)),500)-s(2)+maoguchangdu(CC,F,Ass(10,1));        %%%%%%%Lz为间距200二层底筋的长度            
+            
    else              %1、2层墙厚不相等，采用分别锚固
-        Lz1=H(1)-cs+12*Ass(7,1);
+        Lz1150=H(1)-cs+12*Ass(7,1);                                    %%%%间距150一层底筋长度
         laE2=maoguchangduE( Z(2),CC,F,Ass(8,1) );
-        Lz2=H(2)-s(2)+maoguchangdu( CC,F,Ass(8,1) )+1.2*laE2; 
+        Lz2150=H(2)-s(2)+maoguchangdu( CC,F,Ass(8,1) )+1.2*laE2;       %%%%间距150二层底筋长度
+        
+        Lz1200=H(1)-cs+12*Ass(9,1);                                    %%%%间距200一层底筋长度
+        laE2=maoguchangduE( Z(2),CC,F,Ass(10,1) );
+        Lz2200=H(2)-s(2)+maoguchangdu( CC,F,Ass(10,1) )+1.2*laE2;      %%%%间距200二层底筋长度
   end 
    
-   Qft150=((1000/Ass(1,2))*((Ass(1,1)/1000)^2*pi/4)*(Lft1150/1000)+(1000/Ass(3,2))*((Ass(3,1)/1000)^2*pi/4)*(Lft2150/1000))*7.85*Qg; %%%%%%%Qft为通长顶筋间距150费用
-   Qff150=((1000/Ass(1,4))*((Ass(1,3)/1000)^2*pi/4)*(LffA/1000)+(1000/Ass(2,4))*((Ass(2,3)/1000)^2*pi/4)*(LffB/1000))*7.85*Qg;    %%%%%%%Qff为附加顶筋间距150费用
-   Qft200=((1000/Ass(4,2))*((Ass(4,1)/1000)^2*pi/4)*(Lft1200/1000)+(1000/Ass(6,2))*((Ass(6,1)/1000)^2*pi/4)*(Lft2200/1000))*7.85*Qg; %%%%%%%Qft为通长顶筋间距200费用
-   Qff200=((1000/Ass(4,4))*((Ass(4,3)/1000)^2*pi/4)*(LffA/1000)+(1000/Ass(5,4))*((Ass(5,3)/1000)^2*pi/4)*(LffB/1000))*7.85*Qg;    %%%%%%%Qff为附加顶筋间距200费用   
-   Qz=((1000/Ass(7,2))*((Ass(7,1)/1000)^2*pi/4)*(Lz1/1000)+(1000/Ass(8,2))*((Ass(8,1)/1000)^2*pi/4)*(Lz2/1000))*7.85*Qg;          %%%%%%%Qz为底筋费用
+   Qft150=((1000/Ass(1,2))*((Ass(1,1)/1000)^2*pi/4)*(Lft1150/1000)+(1000/Ass(3,2))*((Ass(3,1)/1000)^2*pi/4)*(Lft2150/1000))*7.85*Qg;%%%%%%%Qft为通长顶筋间距150费用
+   Qff150=((1000/Ass(1,4))*((Ass(1,3)/1000)^2*pi/4)*(LffA/1000)+(1000/Ass(2,4))*((Ass(2,3)/1000)^2*pi/4)*(LffB/1000))*7.85*Qg;      %%%%%%%Qff为附加顶筋间距150费用
+   Qft200=((1000/Ass(4,2))*((Ass(4,1)/1000)^2*pi/4)*(Lft1200/1000)+(1000/Ass(6,2))*((Ass(6,1)/1000)^2*pi/4)*(Lft2200/1000))*7.85*Qg;%%%%%%%Qft为通长顶筋间距200费用
+   Qff200=((1000/Ass(4,4))*((Ass(4,3)/1000)^2*pi/4)*(LffA/1000)+(1000/Ass(5,4))*((Ass(5,3)/1000)^2*pi/4)*(LffB/1000))*7.85*Qg;      %%%%%%%Qff为附加顶筋间距200费用   
+   Qz150=((1000/Ass(7,2))*((Ass(7,1)/1000)^2*pi/4)*(Lz1150/1000)+(1000/Ass(8,2))*((Ass(8,1)/1000)^2*pi/4)*(Lz2150/1000))*7.85*Qg;   %%%%%%%Qz间距150底筋费用
+   Qz200=((1000/Ass(9,2))*((Ass(9,1)/1000)^2*pi/4)*(Lz1200/1000)+(1000/Ass(10,2))*((Ass(10,1)/1000)^2*pi/4)*(Lz2200/1000))*7.85*Qg; %%%%%%%Qz间距200底筋费用
    
-   Qs=(1*2*Ashui(1,5)*H(1)+1*2*Ashui(2,5)*H(2))*7.85*Qg*10^(-9);                  %%%%%%%水平筋的费用
+   Qs=(1*2*Ashui(1,5)*H(1)+1*2*Ashui(2,5)*H(2))*7.85*Qg*10^(-9);                              %%%%%%%水平筋的费用
    
    Qt=((1*h(1)/1000)*(H(1)/1000)+(1*h(2)/1000)*(H(2)/1000))*Qh;                               %%%%%%%Qt为混凝土费用
    QF150=Qft150+Qff150;                                                                       %%%%%%%QF150为间距150所有钢筋的费用         
    QF200=Qft200+Qff200;                                                                       %%%%%%%QF200为间距200所有钢筋的费用
    
    
-   Q=[QF150          QF200          Qz          Qt          Qs       QF150+Qz+Qt+Qs     QF200+Qz+Qt+Qs  ];
-   % 150顶筋费用   200顶筋费用     底筋费用     砼费用     水平筋费用     间距150总费用     间距200总费用
+   Q=[QF150          QF200          Qz150           Qz200          Qt          Qs       QF150+Qz150+Qt+Qs     QF200+Qz200+Qt+Qs  ];
+   % 150顶筋费用   200顶筋费用     150底筋费用    150底筋费用      砼费用     水平筋费用     间距150总费用           间距200总费用
        
 elseif n==3
    Lff1=roundn((H(1)-s(1))/3,1)+10;      %%%%%%%1层层高净高三分之一
@@ -99,77 +99,73 @@ elseif n==3
    Lft2200=H(2)-max(Lff1,Lff2)-max(35*max(Ass(5,1),Ass(7,1)),500)+max(Lff2,Lff3)+max(35*max(Ass(7,1),Ass(8,1)),500); 
    Lft3200=H(3)-s(3)-max(Lff2,Lff3)-max(35*max(Ass(7,1),Ass(8,1)),500)+maoguchangdu(CC,F,Ass(8,1)); 
    
-  if h(1)==h(2) && h(2)==h(3)          %若1、2、3层墙厚相等，则用焊接或分别锚固
-   
-        if Ass(9,2)==Ass(10,2)                  %%%一层和二层的底筋模数若相等，则采用电焊
-            Lz1=H(1)+500+max(35*max(Ass(9,1),Ass(10,1)),500);                                           %%%%%%%Lz为1层底筋的长度
-            Lz2d=H(2)-500-max(35*max(Ass(9,1),Ass(10,1)),500)-s(2);          %%%%%%%为2层底筋未伸入3层的长度
+  if h(1)==h(2) && h(2)==h(3)          %若1、2、3层墙厚相等，则用焊接
+%%%%%%%%%%%%%%%%%%%间距150
+           Lz1150=H(1)+500+max(35*max(Ass(9,1),Ass(10,1)),500);               
+           Lz2d150=H(2)-500-max(35*max(Ass(9,1),Ass(10,1)),500)-s(2);        
 
-        else                                   %%%一层和二层的底筋模数不同，则分别锚固
-            laE1=maoguchangduE( Z(1),CC,F,Ass(9,1) );
-            laE2=maoguchangduE( Z(2),CC,F,Ass(10,1) ); 
-            Lz1=H(1)-s(1)+1.2*laE1;            %%%一层底筋长度，忽略基础中的长度
-            Lz2d=H(2)-s(2)+1.2*laE2;        %%%为2层底筋未伸入3层的长度    
-        end
-
-        if Ass(10,2)==Ass(11,2)            %%%2层和3层的底筋模数若相等，则采用电焊
-           Lz2u=s(2)+500+max(35*max(Ass(10,1),Ass(11,1)),500);   
+           Lz2u150=s(2)+500+max(35*max(Ass(10,1),Ass(11,1)),500);   
            la3=maoguchangdu(CC,F,Ass(11,1));
-           Lz3=H(3)-500-max(35*max(Ass(10,1),Ass(11,1)),500)-s(3)+la3;
-        else
-           Lz2u=1.2*maoguchangduE(Z(2),CC,F,Ass(10,1));
-           Lz3=H(3)-s(3)+maoguchangdu(CC,F,Ass(11,1))+1.2*maoguchangduE(Z(3),CC,F,Ass(11,1));   
-        end
+           Lz3150=H(3)-500-max(35*max(Ass(10,1),Ass(11,1)),500)+la3;
        
-        Lz2=Lz2u+Lz2d;
-        
-        
+           Lz2150=Lz2u150+Lz2d150;
+%%%%%%%%%%%%%%%%%%间距200           
+           Lz1200=H(1)+500+max(35*max(Ass(12,1),Ass(13,1)),500);               
+           Lz2d200=H(2)-500-max(35*max(Ass(12,1),Ass(13,1)),500)-s(2);          
+
+           Lz2u200=s(2)+500+max(35*max(Ass(13,1),Ass(14,1)),500);   
+           la3=maoguchangdu(CC,F,Ass(14,1));
+           Lz3200=H(3)-500-max(35*max(Ass(13,1),Ass(14,1)),500)+la3;
+       
+           Lz2200=Lz2u200+Lz2d200;           
+
+           
   elseif h(1)==h(2) &&  h(2)~=h(3)          %h(1)=h(2)≠h(3)
-         Lz1=H(1)-cs+12*Ass(9,1);   
-         Lz2d=H(2)-s(2)+1.2*maoguchangduE(Z(2),CC,F,Ass(10,1));
-         
-         if Ass(10,2)==Ass(11,2)   %二层和三层底筋间距相同，采用焊接
-             Lz2u=s(2)+500+max(35*max(Ass(10,1),Ass(11,1)),500);
-             Lz3=H(3)-s(3)+maoguchangdu(CC,F,Ass(11,1))-500-max(35*max(Ass(10,1),Ass(11,1)),500);
-         else
-             Lz2u=1.2*maoguchangduE(Z(2),CC,F,Ass(10,1));
-             Lz3=H(3)-s(3)+maoguchangdu(CC,F,Ass(11,1))+1.2*maoguchangduE(Z(3),CC,F,Ass(11,1));
-         end
-        Lz2=Lz2d+Lz2u;
- 
+%%%%%%%%%%%%%%%%%%%间距150      
+         Lz1150=H(1)+500+max(35*max(Ass(9,1),Ass(10,1)),500);  
+         Lz2150=H(2)-500-max(35*max(Ass(9,1),Ass(10,1)),500)-cs+12*Ass(10,1);        
+         Lz3150=H(3)-s(3)+maoguchangdu(CC,F,Ass(11,1))+1.2*maoguchangduE(Z(3),CC,F,Ass(11,1));
+%%%%%%%%%%%%%%%%%%%间距200
+         Lz1200=H(1)+500+max(35*max(Ass(12,1),Ass(13,1)),500);  
+         Lz2200=H(2)-500-max(35*max(Ass(12,1),Ass(13,1)),500)-cs+12*Ass(10,1);        
+         Lz3200=H(3)-s(3)+maoguchangdu(CC,F,Ass(14,1))+1.2*maoguchangduE(Z(3),CC,F,Ass(14,1));
+
   
   elseif h(1)~=h(2) && h(2)==h(3)          %h(1)≠h(2)=h(3)
-         if Ass(9,2)==Ass(10,2)        %1层和2层底筋间距相同，采用焊接
-            Lz1=H(1)+500+max(35*max(Ass(9,1),Ass(10,1)),500); 
-            Lz2=H(2)-cs-500-max(35*max(Ass(9,1),Ass(10,1)),500)+12*Ass(10,1);
-         else
-            Lz1=H(1)-s(1)+1.2*maoguchangduE(Z(1),CC,F,Ass(9,1));
-            Lz2=H(2)-cs+1.2*maoguchangduE(Z(2),CC,F,Ass(10,1))+12*Ass(10,1);
-         end
-            Lz3=H(3)-s(3)+maoguchangdu(CC,F,Ass(11,1))+1.2*maoguchangduE(Z(3),CC,F,Ass(11,1));
- 
-  
+%%%%%%%%%%%%%%%%%%%间距150 
+            Lz1150=H(1)-cs+12*Ass(9,1);
+            Lz2150=H(2)+1.2*maoguchangduE(Z(2),CC,F,Ass(10,1))+500+max(35*max(Ass(10,1),Ass(11,1)),500);
+            Lz3150=H(3)-s(3)+maoguchangdu(CC,F,Ass(11,1))-500-max(35*max(Ass(10,1),Ass(11,1)),500);
+%%%%%%%%%%%%%%%%%%%间距200 
+            Lz1200=H(1)-cs+12*Ass(12,1);
+            Lz2200=H(2)+1.2*maoguchangduE(Z(2),CC,F,Ass(13,1))+500+max(35*max(Ass(13,1),Ass(14,1)),500);
+            Lz3200=H(3)-s(3)+maoguchangdu(CC,F,Ass(14,1))-500-max(35*max(Ass(13,1),Ass(14,1)),500);
+
   elseif h(1)~=h(2) && h(2)~=h(3)      %h(1)≠h(2)≠h(3)
-      Lz1=H(1)-cs+12*Ass(9,1);
-      Lz2=H(2)-cs+12*Ass(10,1)+1.2*maoguchangduE(Z(2),CC,F,Ass(10,1));
-      Lz3=H(3)-s(3)+maoguchangdu(CC,F,Ass(11,1))+1.2*maoguchangduE(Z(3),CC,F,Ass(11,1));
-      
+%%%%%%%%%%%%%%%%%%%间距150       
+      Lz1150=H(1)-cs+12*Ass(9,1);
+      Lz2150=H(2)-cs+12*Ass(10,1)+1.2*maoguchangduE(Z(2),CC,F,Ass(10,1));
+      Lz3150=H(3)-s(3)+maoguchangdu(CC,F,Ass(11,1))+1.2*maoguchangduE(Z(3),CC,F,Ass(11,1));
+%%%%%%%%%%%%%%%%%%%间距200 
+      Lz1200=H(1)-cs+12*Ass(12,1);
+      Lz2200=H(2)-cs+12*Ass(13,1)+1.2*maoguchangduE(Z(2),CC,F,Ass(13,1));
+      Lz3200=H(3)-s(3)+maoguchangdu(CC,F,Ass(14,1))+1.2*maoguchangduE(Z(3),CC,F,Ass(14,1));
   end
    
    Qft150=((1000/Ass(1,2))*((Ass(1,1)/1000)^2*pi/4)*(Lft1150/1000)+(1000/Ass(3,2))*((Ass(3,1)/1000)^2*pi/4)*(Lft2150/1000)+(1000/Ass(4,2))*((Ass(4,1)/1000)^2*pi/4)*(Lft3150/1000))*7.85*Qg; %%%%%%%Qft为通长顶筋间距150费用
    Qff150=((1000/Ass(1,4))*((Ass(1,3)/1000)^2*pi/4)*(LffA/1000)+(1000/Ass(2,4))*((Ass(2,3)/1000)^2*pi/4)*(LffB/1000)+(1000/Ass(3,4))*((Ass(3,3)/1000)^2*pi/4)*(LffC/1000))*7.85*Qg;    %%%%%%%Qff为附加顶筋间距150费用
    Qft200=((1000/Ass(5,2))*((Ass(5,1)/1000)^2*pi/4)*(Lft1200/1000)+(1000/Ass(7,2))*((Ass(7,1)/1000)^2*pi/4)*(Lft2200/1000)+(1000/Ass(8,2))*((Ass(8,1)/1000)^2*pi/4)*(Lft3200/1000))*7.85*Qg;     %%%%%%%Qft为通长顶筋间距200费用
    Qff200=((1000/Ass(5,4))*((Ass(5,3)/1000)^2*pi/4)*(LffA/1000)+(1000/Ass(6,4))*((Ass(6,3)/1000)^2*pi/4)*(LffB/1000)+(1000/Ass(7,4))*((Ass(7,3)/1000)^2*pi/4)*(LffC/1000))*7.85*Qg;    %%%%%%%Qff为附加顶筋间距200费用   
-   Qz=((1000/Ass(9,2))*((Ass(9,1)/1000)^2*pi/4)*(Lz1/1000)+(1000/Ass(10,2))*((Ass(10,1)/1000)^2*pi/4)*(Lz2/1000)+(1000/Ass(11,2))*((Ass(11,1)/1000)^2*pi/4)*(Lz3/1000))*7.85*Qg;          %%%%%%%Qz为底筋费用
-   
+   Qz150=((1000/Ass(9,2))*((Ass(9,1)/1000)^2*pi/4)*(Lz1150/1000)+(1000/Ass(10,2))*((Ass(10,1)/1000)^2*pi/4)*(Lz2150/1000)+(1000/Ass(11,2))*((Ass(11,1)/1000)^2*pi/4)*(Lz3150/1000))*7.85*Qg;          %%%%%%%Qz为间距150底筋费用
+   Qz200=((1000/Ass(12,2))*((Ass(12,1)/1000)^2*pi/4)*(Lz1200/1000)+(1000/Ass(13,2))*((Ass(13,1)/1000)^2*pi/4)*(Lz2200/1000)+(1000/Ass(14,2))*((Ass(14,1)/1000)^2*pi/4)*(Lz3200/1000))*7.85*Qg;          %%%%%%%Qz为间距200底筋费用   
    Qs=(1*2*Ashui(1,5)*H(1)+1*2*Ashui(2,5)*H(2)+1*2*Ashui(3,5)*H(3))*7.85*Qg*10^(-9);                  %%%%%%%水平筋的费用
    
    Qt=((1*h(1)/1000)*(H(1)/1000)+(1*h(2)/1000)*(H(2)/1000)+(1*h(3)/1000)*(H(3)/1000))*Qh;     %%%%%%%Qt为混凝土费用
    QF150=Qft150+Qff150;                                                                       %%%%%%%QF150为间距150所有钢筋的费用         
    QF200=Qft200+Qff200;                                                                       %%%%%%%QF200为间距200所有钢筋的费用
   
-   Q=[QF150          QF200          Qz          Qt          Qs       QF150+Qz+Qt+Qs     QF200+Qz+Qt+Qs  ];
-   % 150顶筋费用   200顶筋费用     底筋费用     砼费用     水平筋费用     间距150总费用     间距200总费用
+   Q=[QF150          QF200          Qz150             Qz200          Qt          Qs       QF150+Qz150+Qt+Qs     QF200+Qz200+Qt+Qs  ];
+   % 150顶筋费用   200顶筋费用    间距150底筋费用   间距200底筋费用    砼费用     水平筋费用     间距150总费用        间距200总费用
    
 elseif n==4
        Lff1=roundn((H(1)-s(1))/3,1)+10;      %%%%%%%1层层高净高三分之一
@@ -192,153 +188,116 @@ elseif n==4
    Lft4200=H(4)-s(4)-max(Lff3,Lff4)-max(35*max(Ass(9,1),Ass(10,1)),500)+maoguchangdu(CC,F,Ass(10,1));                   
    
   if h(1)==h(2) && h(2)==h(3) && h(3)==h(4)          %若1、2、3、4层墙厚相等，则用焊接或分别锚固
-      if Ass(11,2)==Ass(12,2)        %若1、2层底筋间距模数相同，则采用焊接
-          Lz1=H(1)+500+max(35*max(Ass(11,1),Ass(12,1)),500);
-          Lz2d=H(2)-s(2)-500-max(35*max(Ass(11,1),Ass(12,1)),500);   
-      else
-          Lz1=H(1)-s(1)+1.2*maoguchangduE(Z(1),CC,F,Ass(11,1));
-          Lz2d=H(2)-s(2)+1.2*maoguchangduE(Z(2),CC,F,Ass(12,1));
-      end
-       
-      if Ass(12,2)==Ass(13,2)        %若2、3层底筋间距模数相同，则采用焊接
-          Lz2u=s(2)+500+max(35*max(Ass(12,1),Ass(13,1)),500);
-          Lz3d=H(3)-s(3)-500-max(35*max(Ass(12,1),Ass(13,1)),500);
-      else
-          Lz2u=1.2*maoguchangduE(Z(2),CC,F,Ass(12,1));
-          Lz3d=H(3)-s(3)+1.2*maoguchangduE(Z(3),CC,F,Ass(13,1));
-      end
-      
-      if Ass(13,2)==Ass(14,2)        %若3、4层底筋间距模数相同，则采用焊接
-         Lz3u=s(3)+500+max(max(Ass(13,1),Ass(14,1)),500);
-         Lz4=H(4)-s(4)-500-max(max(Ass(13,1),Ass(14,1)),500)+maoguchangdu(CC,F,Ass(14,1));
-      else
-         Lz3u=1.2*maoguchangduE(Z(3),CC,F,Ass(13,1));
-         Lz4=H(4)-s(4)-500-max(max(Ass(13,1),Ass(14,1)),500)+maoguchangdu(CC,F,Ass(14,1));  
-      end
-        
-       Lz2=Lz2d+Lz2u;
-       Lz3=Lz3d+Lz3u;
-      
+%%%%%%%%%%%%%%%%%%%间距150 
+         Lz1150=H(1)+500+max(35*max(Ass(11,1),Ass(12,1)),500);
+         Lz2150=H(2)-500-max(35*max(Ass(11,1),Ass(12,1)),500)+500+max(35*max(Ass(12,1),Ass(13,1)),500);   
+         Lz3150=H(3)-500-max(35*max(Ass(12,1),Ass(13,1)),500)+500+max(35*max(Ass(13,1),Ass(14,1)),500);      
+         Lz4150=H(4)-s(4)-500-max(35*max(Ass(13,1),Ass(14,1)),500)+maoguchangdu(CC,F,Ass(14,1));
+%%%%%%%%%%%%%%%%%%%间距200
+         Lz1200=H(1)+500+max(35*max(Ass(15,1),Ass(16,1)),500);
+         Lz2200=H(2)-500-max(35*max(Ass(15,1),Ass(16,1)),500)+500+max(35*max(Ass(16,1),Ass(17,1)),500);   
+         Lz3200=H(3)-500-max(35*max(Ass(16,1),Ass(17,1)),500)+500+max(35*max(Ass(17,1),Ass(18,1)),500);      
+         Lz4200=H(4)-s(4)-500-max(35*max(Ass(17,1),Ass(18,1)),500)+maoguchangdu(CC,F,Ass(18,1));
+
   elseif h(1)==h(2) && h(2)==h(3) && h(3)~=h(4)     %有3相邻层厚度相等 h1=h2=h3≠h4
-         if Ass(11,2)==Ass(12,2)                    %若1、2层底筋间距模数相同，则采用焊接
-             Lz1=H(1)+500+max(35*max(Ass(11,1),Ass(12,1)),500);
-             Lz2d=H(2)-s(2)-500-max(35*max(Ass(11,1),Ass(12,1)),500);
-         else
-             Lz1=H(1)-s(1)+1.2*maoguchangduE(Z(1),CC,F,Ass(11,1));
-             Lz2d=H(2)-s(2)+1.2*maoguchangduE(Z(2),CC,F,Ass(12,1));
-         end
-         
-         if Ass(12,2)==Ass(13,2)                   %若2、3层底筋间距模数相同，则采用焊接
-            Lz2u=s(2)+500+max(35*max(Ass(12,1),Ass(13,1)),500);
-            Lz3=H(3)-cs-500-max(35*max(Ass(12,1),Ass(13,1)),500)+12*Ass(13,1);
-         else
-            Lz2u=1.2*maoguchangduE(Z(2),CC,F,Ass(12,1));
-            Lz3=H(3)-cs+1.2*maoguchangduE(Z(3),CC,F,Ass(13,1))+12*Ass(13,1);
-         end
-         
-         Lz2=Lz2d+Lz2u;
-         Lz4=H(4)-s(4)+maoguchangdu(CC,F,Ass(14,1))+1.2*maoguchangduE(Z(4),CC,F,Ass(14,1));
-         
-  elseif h(1)~=h(2) && h(2)==h(3) && h(3)==h(4)   %有3相邻层厚度相等 h1≠h2=h3=h4
-        Lz1=H(1)-cs+12*Ass(11,1);
-        Lz2d=H(2)-s(2)+1.2*maoguchangduE(Z(1),CC,F,Ass(12,1));
-        if Ass(12,2)==Ass(13,2)
-           Lz2u=s(2)+500+max(35*max(Ass(12,1),Ass(13,1)),500);
-           Lz3d=H(3)-s(3)-500-max(35*max(Ass(12,1),Ass(13,1)),500);
-        else
-           Lz2u=1.2*maoguchangduE(Z(2),CC,F,Ass(12,1));
-           Lz3d=H(3)-s(3)+1.2*maoguchangduE(Z(3),CC,F,Ass(13,1));
-        end
-        
-        if Ass(13,2)==Ass(14,2)
-            Lz3u=s(3)+500+max(35*max(Ass(13,1),Ass(14,1)),500);
-            Lz4=H(4)-s(4)+maoguchangdu(CC,F,Ass(14,1))-500-max(35*max(Ass(13,1),Ass(14,1)),500);
-        else
-            Lz3u=1.2*maoguchangduE(Z(3),CC,F,Ass(13,1));
-            Lz4=H(4)-s(4)+maoguchangdu(CC,F,Ass(14,1))+1.2*maoguchangduE(Z(4),CC,F,Ass(14,1));
-        end
-           
-        Lz2=Lz2d+Lz2u;
-        Lz3=Lz3d+Lz3u;
-        
-  elseif h(1)==h(2) && h(2)~=h(3) && h(3)~=h(4)      %有2相邻层厚度相等 h1=h2≠h3≠h4
-         if Ass(11,2)==Ass(12,2)
-             Lz1=H(1)+500+max(35*max(Ass(11,1),Ass(12,1)),500);
-             Lz2=H(2)-cs-500-max(35*max(Ass(11,1),Ass(12,1)),500)+12*Ass(12,1);
-         else
-             Lz1=H(1)-s(1)+1.2*maoguchangduE(Z(1),CC,F,Ass(11,1));
-             Lz2=H(2)-cs+12*Ass(12,1)+1.2*maoguchangduE(Z(2),CC,F,Ass(12,1));
-         end
-         
-            Lz3=H(3)-cs+12*Ass(13,1)+1.2*maoguchangduE(Z(3),CC,F,Ass(13,1));
-            Lz4=H(4)-s(4)+maoguchangdu(CC,F,Ass(14,1))+1.2*maoguchangduE(Z(4),CC,F,Ass(14,1));
-            
-  elseif h(1)~=h(2) && h(2)==h(3) && h(3)~=h(4)   %有2相邻层厚度相等 h1≠h2=h3≠h4
-         Lz1=H(1)-cs+12*Ass(11,1);
-         Lz2d=H(2)-s(2)+1.2*maoguchangduE(Z(2),CC,F,Ass(12,1));
-         if Ass(12,2)==Ass(13,2)
-            Lz2u=s(2)+500+max(35*max(Ass(12,1),Ass(13,1)),500);
-            Lz3=H(3)-500-max(35*max(Ass(12,1),Ass(13,1)),500)-cs+12*Ass(13,1);
-         else
-            Lz2u=1.2*maoguchangduE(Z(2),CC,F,Ass(12,1));
-            Lz3=H(3)-cs+12*Ass(13,1)+1.2*maoguchangduE(Z(3),CC,F,Ass(13,1));
-         end
+%%%%%%%%%%%%%%%%%%%间距150       
+             Lz1150=H(1)+500+max(35*max(Ass(11,1),Ass(12,1)),500);
+             Lz2150=H(2)-500-max(35*max(Ass(11,1),Ass(12,1)),500)+500+max(35*max(Ass(12,1),Ass(13,1)),500);
+             Lz3150=H(3)-cs-500-max(35*max(Ass(12,1),Ass(13,1)),500)+12*Ass(13,1);
+             Lz4150=H(4)-s(4)+maoguchangdu(CC,F,Ass(14,1))+1.2*maoguchangduE(Z(4),CC,F,Ass(14,1));
+%%%%%%%%%%%%%%%%%%%间距200
+             Lz1200=H(1)+500+max(35*max(Ass(15,1),Ass(16,1)),500);
+             Lz2200=H(2)-500-max(35*max(Ass(15,1),Ass(16,1)),500)+500+max(35*max(Ass(16,1),Ass(17,1)),500);
+             Lz3200=H(3)-cs-500-max(35*max(Ass(16,1),Ass(17,1)),500)+12*Ass(17,1);
+             Lz4200=H(4)-s(4)+maoguchangdu(CC,F,Ass(18,1))+1.2*maoguchangduE(Z(4),CC,F,Ass(18,1));         
                   
-            Lz4=H(4)-s(4)+1.2*maoguchangduE(Z(4),CC,F,Ass(14,1))+maoguchangdu(CC,F,Ass(14,1)); 
-            Lz2=Lz2u+Lz2d;
-            
-  elseif h(1)~=h(2) && h(2)~=h(3) && h(3)==h(4)
-         Lz1=H(1)-cs+12*Ass(11,1);
-         Lz2=H(2)-cs+12*Ass(12,1)+1.2*maoguchangduE(Z(1),CC,F,Ass(12,1));
-         Lz3d=H(3)-s(3)+1.2*maoguchangduE(Z(3),CC,F,Ass(13,1));
-         if Ass(13,2)==Ass(14,2)
-             Lz3u=s(3)+500+max(35*max(Ass(13,1),Ass(14,1)),500);
-             Lz4=H(4)-s(4)+maoguchangdu(CC,F,Ass(14,1))-500-max(35*max(Ass(13,1),Ass(14,1)),500);
-         else
-             Lz3u=1.2*maoguchangduE(Z(3),CC,F,Ass(13,1));
-             Lz4=H(4)-s(4)+maoguchangdu(CC,F,Ass(14,1))+1.2*maoguchangduE(Z(4),CC,F,Ass(14,1));
-         end
-      
-         Lz3=Lz3u+Lz3d;
-         
+  elseif h(1)~=h(2) && h(2)==h(3) && h(3)==h(4)   %有3相邻层厚度相等 h1≠h2=h3=h4
+%%%%%%%%%%%%%%%%%%%间距150       
+             Lz1150=H(1)-cs+12*Ass(11,1);
+             Lz2150=H(2)+1.2*maoguchangduE(Z(2),CC,F,Ass(12,1))+500+max(35*max(Ass(12,1),Ass(13,1)),500);
+             Lz3150=H(3)-500-max(35*max(Ass(12,1),Ass(13,1)),500)+500+max(35*max(Ass(13,1),Ass(14,1)),500);
+             Lz4150=H(4)-s(4)+maoguchangdu(CC,F,Ass(14,1))-500-max(35*max(Ass(13,1),Ass(14,1)),500);
+%%%%%%%%%%%%%%%%%%%间距200      
+             Lz1200=H(1)-cs+12*Ass(15,1);
+             Lz2200=H(2)+1.2*maoguchangduE(Z(2),CC,F,Ass(16,1))+500+max(35*max(Ass(16,1),Ass(17,1)),500);
+             Lz3200=H(3)-500-max(35*max(Ass(16,1),Ass(17,1)),500)+500+max(35*max(Ass(17,1),Ass(18,1)),500);
+             Lz4200=H(4)-s(4)+maoguchangdu(CC,F,Ass(18,1))-500-max(35*max(Ass(17,1),Ass(18,1)),500);      
+             
+  elseif h(1)==h(2) && h(2)~=h(3) && h(3)~=h(4)      %有2相邻层厚度相等 h1=h2≠h3≠h4
+%%%%%%%%%%%%%%%%%%%间距150
+             Lz1150=H(1)+500+max(35*max(Ass(11,1),Ass(12,1)),500);
+             Lz2150=H(2)-cs-500-max(35*max(Ass(11,1),Ass(12,1)),500)+12*Ass(12,1);
+             Lz3150=H(3)-cs+12*Ass(13,1)+1.2*maoguchangduE(Z(3),CC,F,Ass(13,1));
+             Lz4150=H(4)-s(4)+maoguchangdu(CC,F,Ass(14,1))+1.2*maoguchangduE(Z(4),CC,F,Ass(14,1));
+%%%%%%%%%%%%%%%%%%%间距200
+             Lz1200=H(1)+500+max(35*max(Ass(15,1),Ass(16,1)),500);
+             Lz2200=H(2)-cs-500-max(35*max(Ass(15,1),Ass(16,1)),500)+12*Ass(16,1);
+             Lz3200=H(3)-cs+12*Ass(17,1)+1.2*maoguchangduE(Z(3),CC,F,Ass(17,1));
+             Lz4200=H(4)-s(4)+maoguchangdu(CC,F,Ass(18,1))+1.2*maoguchangduE(Z(4),CC,F,Ass(18,1));
+
+  elseif h(1)~=h(2) && h(2)==h(3) && h(3)~=h(4)   %有2相邻层厚度相等 h1≠h2=h3≠h4
+%%%%%%%%%%%%%%%%%%%间距150      
+            Lz1150=H(1)-cs+12*Ass(11,1);
+            Lz2150=H(2)+1.2*maoguchangduE(Z(2),CC,F,Ass(12,1))+500+max(35*max(Ass(12,1),Ass(13,1)),500);
+            Lz3150=H(3)-500-max(35*max(Ass(12,1),Ass(13,1)),500)-cs+12*Ass(13,1);      
+            Lz4150=H(4)-s(4)+1.2*maoguchangduE(Z(4),CC,F,Ass(14,1))+maoguchangdu(CC,F,Ass(14,1)); 
+%%%%%%%%%%%%%%%%%%%间距200
+            Lz1200=H(1)-cs+12*Ass(15,1);
+            Lz2200=H(2)+1.2*maoguchangduE(Z(2),CC,F,Ass(16,1))+500+max(35*max(Ass(16,1),Ass(17,1)),500);
+            Lz3200=H(3)-500-max(35*max(Ass(16,1),Ass(17,1)),500)-cs+12*Ass(17,1);      
+            Lz4200=H(4)-s(4)+1.2*maoguchangduE(Z(4),CC,F,Ass(18,1))+maoguchangdu(CC,F,Ass(18,1)); 
+
+  elseif h(1)~=h(2) && h(2)~=h(3) && h(3)==h(4) %有2相邻层厚度相等 h1≠h2≠h3=h4
+%%%%%%%%%%%%%%%%%%%间距150      
+            Lz1150=H(1)-cs+12*Ass(11,1);
+            Lz2150=H(2)-cs+12*Ass(12,1)+1.2*maoguchangduE(Z(2),CC,F,Ass(12,1));
+            Lz3150=H(3)+1.2*maoguchangduE(Z(3),CC,F,Ass(13,1))+500+max(35*max(Ass(13,1),Ass(14,1)),500);
+            Lz4150=H(4)-s(4)+maoguchangdu(CC,F,Ass(14,1))-500-max(35*max(Ass(13,1),Ass(14,1)),500);
+%%%%%%%%%%%%%%%%%%%间距200
+            Lz1200=H(1)-cs+12*Ass(15,1);
+            Lz2200=H(2)-cs+12*Ass(16,1)+1.2*maoguchangduE(Z(2),CC,F,Ass(16,1));
+            Lz3200=H(3)+1.2*maoguchangduE(Z(3),CC,F,Ass(17,1))+500+max(35*max(Ass(17,1),Ass(18,1)),500);
+            Lz4200=H(4)-s(4)+maoguchangdu(CC,F,Ass(18,1))-500-max(35*max(Ass(17,1),Ass(18,1)),500);         
+        
  elseif h(1)==h(2) && h(2)~=h(3) && h(3)==h(4)      %有2相邻层厚度相等 h1=h2≠h3=h4
-         if Ass(11,2)==Ass(12,2)
-             Lz1=H(1)+500+max(35*max(Ass(11,1),Ass(12,1)),500);
-             Lz2=H(2)-cs-500-max(35*max(Ass(11,1),Ass(12,1)),500)+12*Ass(12,1);
-         else
-             Lz1=H(1)-s(1)+1.2*maoguchangduE(Z(1),CC,F,Ass(11,1));
-             Lz2=H(2)-cs+12*Ass(12,1)+1.2*maoguchangduE(Z(2),CC,F,Ass(12,1));
-         end
-         
-         if Ass(13,2)==Ass(14,2)
-            Lz3=H(3)+1.2*maoguchangduE(Z(3),CC,F,Ass(13,1))+500+max(35*max(Ass(13,1),Ass(14,1)),500);
-            Lz4=H(4)-s(4)+maoguchangdu(CC,F,Ass(14,1))-500-max(35*max(Ass(13,1),Ass(14,1)),500);
-         else 
-            Lz3=H(3)-s(3)+1.2*maoguchangduE(Z(3),CC,F,Ass(13,1))*2; 
-            Lz4=H(4)-s(4)+maoguchangdu(CC,F,Ass(14,1))+1.2*maoguchangduE(Z(4),CC,F,Ass(14,1));
-         end
+%%%%%%%%%%%%%%%%%%%间距150
+            Lz1150=H(1)+500+max(35*max(Ass(11,1),Ass(12,1)),500);
+            Lz2150=H(2)-cs-500-max(35*max(Ass(11,1),Ass(12,1)),500)+12*Ass(12,1);
+            Lz3150=H(3)+1.2*maoguchangduE(Z(3),CC,F,Ass(13,1))+500+max(35*max(Ass(13,1),Ass(14,1)),500);
+            Lz4150=H(4)-s(4)+maoguchangdu(CC,F,Ass(14,1))-500-max(35*max(Ass(13,1),Ass(14,1)),500);
+%%%%%%%%%%%%%%%%%%%间距200
+            Lz1200=H(1)+500+max(35*max(Ass(15,1),Ass(16,1)),500);
+            Lz2200=H(2)-cs-500-max(35*max(Ass(15,1),Ass(16,1)),500)+12*Ass(16,1);
+            Lz3200=H(3)+1.2*maoguchangduE(Z(3),CC,F,Ass(17,1))+500+max(35*max(Ass(17,1),Ass(18,1)),500);
+            Lz4200=H(4)-s(4)+maoguchangdu(CC,F,Ass(18,1))-500-max(35*max(Ass(17,1),Ass(18,1)),500);
               
   elseif  h(1)~=h(2) && h(2)~=h(3) && h(3)~=h(4)
-        Lz1=H(1)-cs+12*Ass(11,1);
-        Lz2=H(2)-cs+12*Ass(12,1)+1.2*maoguchangduE(Z(2),CC,F,Ass(12,1));
-        Lz3=H(3)-cs+12*Ass(13,1)+1.2*maoguchangduE(Z(3),CC,F,Ass(13,1));
-        Lz4=H(4)-s(4)+maoguchangdu(CC,F,Ass(14,1))+1.2*maoguchangduE(Z(4),CC,F,Ass(14,1));
+%%%%%%%%%%%%%%%%%%%间距150
+        Lz1150=H(1)-cs+12*Ass(11,1);
+        Lz2150=H(2)-cs+12*Ass(12,1)+1.2*maoguchangduE(Z(2),CC,F,Ass(12,1));
+        Lz3150=H(3)-cs+12*Ass(13,1)+1.2*maoguchangduE(Z(3),CC,F,Ass(13,1));
+        Lz4150=H(4)-s(4)+maoguchangdu(CC,F,Ass(14,1))+1.2*maoguchangduE(Z(4),CC,F,Ass(14,1));
+%%%%%%%%%%%%%%%%%%%间距200
+        Lz1200=H(1)-cs+12*Ass(15,1);
+        Lz2200=H(2)-cs+12*Ass(16,1)+1.2*maoguchangduE(Z(2),CC,F,Ass(16,1));
+        Lz3200=H(3)-cs+12*Ass(17,1)+1.2*maoguchangduE(Z(3),CC,F,Ass(17,1));
+        Lz4200=H(4)-s(4)+maoguchangdu(CC,F,Ass(18,1))+1.2*maoguchangduE(Z(4),CC,F,Ass(18,1));
   end
   
    Qft150=((1000/Ass(1,2))*((Ass(1,1)/1000)^2*pi/4)*(Lft1150/1000)+(1000/Ass(3,2))*((Ass(3,1)/1000)^2*pi/4)*(Lft2150/1000)+(1000/Ass(4,2))*((Ass(4,1)/1000)^2*pi/4)*(Lft3150/1000)+(1000/Ass(5,2))*((Ass(5,1)/1000)^2*pi/4)*(Lft4150/1000))*7.85*Qg; %%%%%%%Qft为通长顶筋间距150费用
    Qff150=((1000/Ass(1,4))*((Ass(1,3)/1000)^2*pi/4)*(LffA/1000)+(1000/Ass(2,4))*((Ass(2,3)/1000)^2*pi/4)*(LffB/1000)+(1000/Ass(3,4))*((Ass(3,3)/1000)^2*pi/4)*(LffC/1000)+(1000/Ass(4,4))*((Ass(4,3)/1000)^2*pi/4)*(LffD/1000))*7.85*Qg;%%%%%%%Qff为附加顶筋间距150费用
    Qft200=((1000/Ass(6,2))*((Ass(6,1)/1000)^2*pi/4)*(Lft1200/1000)+(1000/Ass(8,2))*((Ass(8,1)/1000)^2*pi/4)*(Lft2200/1000)+(1000/Ass(9,2))*((Ass(9,1)/1000)^2*pi/4)*(Lft3200/1000)+(1000/Ass(10,2))*((Ass(10,1)/1000)^2*pi/4)*(Lft4200/1000))*7.85*Qg;%%%%%%%Qft为通长顶筋间距200费用
    Qff200=((1000/Ass(6,4))*((Ass(6,3)/1000)^2*pi/4)*(LffA/1000)+(1000/Ass(7,4))*((Ass(7,3)/1000)^2*pi/4)*(LffB/1000)+(1000/Ass(8,4))*((Ass(8,3)/1000)^2*pi/4)*(LffC/1000)+(1000/Ass(9,4))*((Ass(9,3)/1000)^2*pi/4)*(LffD/1000))*7.85*Qg;    %%%%%%%Qff为附加顶筋间距200费用   
-   Qz=((1000/Ass(11,2))*((Ass(11,1)/1000)^2*pi/4)*(Lz1/1000)+(1000/Ass(12,2))*((Ass(12,1)/1000)^2*pi/4)*(Lz2/1000)+(1000/Ass(13,2))*((Ass(13,1)/1000)^2*pi/4)*(Lz3/1000)+(1000/Ass(14,2))*((Ass(14,1)/1000)^2*pi/4)*(Lz4/1000))*7.85*Qg;          %%%%%%%Qz为底筋费用
-   
+   Qz150=((1000/Ass(11,2))*((Ass(11,1)/1000)^2*pi/4)*(Lz1150/1000)+(1000/Ass(12,2))*((Ass(12,1)/1000)^2*pi/4)*(Lz2150/1000)+(1000/Ass(13,2))*((Ass(13,1)/1000)^2*pi/4)*(Lz3150/1000)+(1000/Ass(14,2))*((Ass(14,1)/1000)^2*pi/4)*(Lz4150/1000))*7.85*Qg; %%%%%%%Qz为间距150底筋费用
+   Qz200=((1000/Ass(15,2))*((Ass(15,1)/1000)^2*pi/4)*(Lz1200/1000)+(1000/Ass(16,2))*((Ass(16,1)/1000)^2*pi/4)*(Lz2200/1000)+(1000/Ass(17,2))*((Ass(17,1)/1000)^2*pi/4)*(Lz3200/1000)+(1000/Ass(18,2))*((Ass(18,1)/1000)^2*pi/4)*(Lz4200/1000))*7.85*Qg; %%%%%%%Qz为间距200底筋费用 
    Qs=(1*2*Ashui(1,5)*H(1)+1*2*Ashui(2,5)*H(2)+1*2*Ashui(3,5)*H(3)+1*2*Ashui(4,5)*H(4))*7.85*Qg*10^(-9);                    %%%%%%%水平筋的费用
    
    Qt=((1*h(1)/1000)*(H(1)/1000)+(1*h(2)/1000)*(H(2)/1000)+(1*h(3)/1000)*(H(3)/1000)+(1*h(4)/1000)*(H(4)/1000))*Qh; %%%%%%%Qt为混凝土费用
    QF150=Qft150+Qff150;                                                                       %%%%%%%QF150为间距150所有钢筋的费用         
    QF200=Qft200+Qff200;                                                                       %%%%%%%QF200为间距200所有钢筋的费用
   
-   Q=[QF150          QF200          Qz          Qt          Qs       QF150+Qz+Qt+Qs     QF200+Qz+Qt+Qs  ];
-   % 150顶筋费用   200顶筋费用     底筋费用     砼费用     水平筋费用     间距150总费用     间距200总费用
+   Q=[QF150          QF200          Qz150        Qz200          Qt         Qs       QF150+Qz150+Qt+Qs     QF200+Qz200+Qt+Qs  ];
+   % 150顶筋费用   200顶筋费用     150底筋费用   200底筋费用    砼费用    水平筋费用     间距150总费用     间距200总费用
   
 end   
 end
