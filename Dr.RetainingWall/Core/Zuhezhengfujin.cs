@@ -149,7 +149,7 @@ namespace Dr.RetainingWall
         {
             double AsmaxOfLibrary = Math.PI * Math.Pow(25, 2) / 4 * 1000 / space;
 
-            List<double[]> A = new List<double[]>();
+            List<double[]> A = new List<double[]>(n);
             if (n == 1) //1层挡墙
             {
                 double AsmaxAB = As[1];                         //AB跨中计算配筋
@@ -195,12 +195,19 @@ namespace Dr.RetainingWall
 
                             if (Asss[4] > AsmaxOfLibrary)//超出选筋库时令其配筋为0
                             {
-                                throw new Exception("选筋超出选筋库");
+                                MessageBox.Show("选筋超出选筋库");
+                                A.Add(new double[6]);
+                                A.Add(new double[6]);
+                                A.Add(new double[6]);
+                                return A;
                             }
 
                             if (Asss[4] - Asss0 > 1000)
                             {
-                                throw new Exception("按裂缝选筋增加钢筋过大，请修改挡墙参数");
+                                MessageBox.Show("按裂缝选筋增加钢筋过大，请修改挡墙参数");
+                                A.Add(new double[6]);
+                                A.Add(new double[6]);
+                                A.Add(new double[6]);
                                 return A;
                             }
                         }
@@ -231,6 +238,9 @@ namespace Dr.RetainingWall
                         if (arrAsMiddle[2] > AsmaxOfLibrary)//超出选筋库时令其配筋为0
                         {
                             MessageBox.Show("超出选筋库！");
+                            A.Add(new double[6]);
+                            A.Add(new double[6]);
+                            A.Add(new double[6]);
                             return A;
                         }
 
@@ -249,12 +259,20 @@ namespace Dr.RetainingWall
                                 arrAsMiddle[2] = arrAsMiddle[2] + 1;
                                 if (arrAsMiddle[2] > AsmaxOfLibrary)                //超出选筋库时令其配筋为0
                                 {
-                                    throw new Exception("选筋超出选筋库");
+                                    MessageBox.Show("选筋超出选筋库");
+                                    A.Add(new double[6]);
+                                    A.Add(new double[6]);
+                                    A.Add(new double[6]);
+                                    return A;
                                 }
 
                                 if (arrAsMiddle[2] - Asss0 > 1000)
                                 {
-                                    throw new Exception("按裂缝选筋增加钢筋过大，请修改挡墙参数");
+                                    MessageBox.Show("按裂缝选筋增加钢筋过大，请修改挡墙参数");
+                                    A.Add(new double[6]);
+                                    A.Add(new double[6]);
+                                    A.Add(new double[6]);
+                                    return A;
                                 }
                             }
                         }

@@ -225,38 +225,51 @@ namespace Dr.RetainingWall
                     }
                 }
 
-                List<double[]> listLzf = new List<double[]>();
+                List<double[]> listLzf150 = new List<double[]>();
+                List<double[]> listLzf200 = new List<double[]>();
                 for (int i = 0; i < n; i++)
                 {
-                    double Lzfu, Lzfd;
+                    double Lzfu150, Lzfd150, Lzfu200, Lzfd200;
                     if (i == n - 1)
                     {
-                        Lzfu = -s[i] + maoguchangdu(CC, F, Ass[2 * n + i + 2][0]);
-                        Lzfd = 0;
+                        Lzfu150 = -s[i] + maoguchangdu(CC, F, Ass[3 * n + 1][0]);
+                        Lzfd150 = 0;
+
+                        Lzfu200 = -s[i] + maoguchangdu(CC, F, Ass[3 * n + 4][0]);
+                        Lzfd200 = 0;
                     }
                     else
                     {
                         if (H[i] == H[i + 1])
                         {
-                            Lzfu = 500 + Math.Max(35 * Math.Max(Ass[2 * n + i + 2][0], Ass[2 * n + i + 3][0]), 500);
-                            Lzfd = -500 - Math.Max(35 * Math.Max(Ass[2 * n + i + 2][0], Ass[2 * n + i + 3][0]), 500);
+                            Lzfu150 = 500 + Math.Max(35 * Math.Max(Ass[2 * n + i + 2][0], Ass[2 * n + i + 3][0]), 500);
+                            Lzfd150 = -500 - Math.Max(35 * Math.Max(Ass[2 * n + i + 2][0], Ass[2 * n + i + 3][0]), 500);
+
+                            Lzfu200 = 500 + Math.Max(35 * Math.Max(Ass[3 * n + i + 2][0], Ass[3 * n + i + 3][0]), 500);
+                            Lzfd200 = -500 - Math.Max(35 * Math.Max(Ass[3 * n + i + 2][0], Ass[3 * n + i + 3][0]), 500);
                         }
                         else
                         {
-                            Lzfu = -cs + 12 * Ass[3 * n + i - 2][0];
-                            Lzfd = 1.2 * maoguchangduE(Z, CC, F, Ass[2 * n + i + 1][0]);
+                            Lzfu150 = -cs + 12 * Ass[2 * n + i + 2][0];
+                            Lzfd150 = 1.2 * maoguchangduE(Z, CC, F, Ass[2 * n + i + 3][0]);
+
+                            Lzfu200 = -cs + 12 * Ass[3 * n + i + 2][0];
+                            Lzfd200 = 1.2 * maoguchangduE(Z, CC, F, Ass[3 * n + i + 3][0]);
                         }
                     }
-                    listLzf.Add(new double[] { Lzfu, Lzfd });
+                    listLzf150.Add(new double[] { Lzfu150, Lzfd150 });
+                    listLzf200.Add(new double[] { Lzfu200, Lzfd200 });
                 }
 
-                double[] arrLz = new double[n];
+                double[] arrLz150 = new double[n];
+                double[] arrLz200 = new double[n];
                 for (int i = 0; i < n; i++)
                 {
-                    arrLz[i] = i == 0 ? H[i] + listLzf[i][0] : H[i] + listLzf[i - 1][1] + listLzf[i][0];
+                    arrLz150[i] = i == 0 ? H[i] + listLzf150[i][0] : H[i] + listLzf150[i - 1][1] + listLzf150[i][0];
+                    arrLz200[i] = i == 0 ? H[i] + listLzf200[i][0] : H[i] + listLzf200[i - 1][1] + listLzf200[i][0];
                 }
 
-                double qft150 = 0, qff150 = 0, qft200 = 0, qff200 = 0, qz = 0, qs = 0, qt = 0;
+                double qft150 = 0, qff150 = 0, qft200 = 0, qff200 = 0, qz150 = 0, qz200 = 0, qs = 0, qt = 0;
                 for (int i = 0; i < n; i++)
                 {
                     double varQft150 = i == 0 ? QfCal(Ass[0][1], Ass[0][0], arrLft150[0], Qg) : QfCal(Ass[i + 1][1], Ass[i + 1][0], arrLft150[i], Qg);
@@ -271,8 +284,11 @@ namespace Dr.RetainingWall
                     double varQff200 = QfCal(Ass[n + i + 1][3], Ass[n + i + 1][2], arrLff[i], Qg);
                     qff200 += varQff200;
 
-                    double varQz = QfCal(Ass[2 * n + i + 2][1], Ass[2 * n + i + 2][0], arrLz[i], Qg);
-                    qz += varQz;
+                    double varQz150 = QfCal(Ass[2 * n + i + 2][1], Ass[2 * n + i + 2][0], arrLz150[i], Qg);
+                    qz150 += varQz150;
+
+                    double varQz200 = QfCal(Ass[3 * n + i + 2][1], Ass[3 * n + i + 2][0], arrLz200[i], Qg);
+                    qz150 += varQz150;
 
                     qs += 1 * 2 * Ashui[i][4] * H[i] * 7.85 * Qg * Math.Pow(10, -9);
 
@@ -281,10 +297,9 @@ namespace Dr.RetainingWall
 
                 double qf150 = qft150 + qff150;
                 double qf200 = qft200 + qff200;
-                double[] Q = { qf150, qf200, qz, qt, qs, qf150 + qz + qt + qs, qf200 + qz + qt + qs };
+                double[] Q = { qf150, qf200, qz150, qz200, qt, qs, qf150 + qz150 + qt + qs, qf200 + qz200 + qt + qs };
                 return Q;
             }
-
         }
 
 
