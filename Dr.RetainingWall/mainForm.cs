@@ -112,7 +112,7 @@ namespace Dr.RetainingWall
 
             List<double[]> wallWidths = WallWidth.Genereate(input.m_FloorCount);
 
-            for (int i = 0 ; i < wallWidths.Count; i++)
+            for (int i = 0; i < wallWidths.Count; i++)
             {
                 input.SetWallWidth(wallWidths[i]);
 

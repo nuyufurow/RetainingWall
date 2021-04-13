@@ -126,7 +126,7 @@ elseif n==3
 	Lz3150=H(3)-s(3)+maoguchangdu(CC,F,Ass(11,1))+1.2*maoguchangduE(Z(3),CC,F,Ass(11,1));
 %%%%%%%%%%%%%%%%%%%¼ä¾à200
 	Lz1200=H(1)+500+max(35*max(Ass(12,1),Ass(13,1)),500);  
-	Lz2200=H(2)-500-max(35*max(Ass(12,1),Ass(13,1)),500)-cs+12*Ass(10,1);        
+	Lz2200=H(2)-500-max(35*max(Ass(12,1),Ass(13,1)),500)-cs+12*Ass(13,1);        
 	Lz3200=H(3)-s(3)+maoguchangdu(CC,F,Ass(14,1))+1.2*maoguchangduE(Z(3),CC,F,Ass(14,1));
 
   

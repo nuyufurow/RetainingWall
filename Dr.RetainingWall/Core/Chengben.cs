@@ -119,6 +119,11 @@ namespace Dr.RetainingWall
         public static double[] chengben(List<double[]> Ass, List<double[]> Ashui, int n, double Qh, double Qg,
             double[] h, double[] H, double cs, double[] s, int Z, int CC, int F)
         {
+            if (Ass.Count < 4 * n + 2)
+            {
+                return new double[1];
+            }
+
             if (n == 1)
             {
                 double la150 = maoguchangdu(CC, F, Ass[0][0]);   //间距150结果的la
@@ -240,7 +245,7 @@ namespace Dr.RetainingWall
                     }
                     else
                     {
-                        if (H[i] == H[i + 1])
+                        if (h[i] == h[i + 1])
                         {
                             Lzfu150 = 500 + Math.Max(35 * Math.Max(Ass[2 * n + i + 2][0], Ass[2 * n + i + 3][0]), 500);
                             Lzfd150 = -500 - Math.Max(35 * Math.Max(Ass[2 * n + i + 2][0], Ass[2 * n + i + 3][0]), 500);
@@ -288,7 +293,7 @@ namespace Dr.RetainingWall
                     qz150 += varQz150;
 
                     double varQz200 = QfCal(Ass[3 * n + i + 2][1], Ass[3 * n + i + 2][0], arrLz200[i], Qg);
-                    qz150 += varQz150;
+                    qz200 += varQz200;
 
                     qs += 1 * 2 * Ashui[i][4] * H[i] * 7.85 * Qg * Math.Pow(10, -9);
 
