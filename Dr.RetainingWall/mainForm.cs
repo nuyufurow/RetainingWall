@@ -26,6 +26,9 @@ namespace Dr.RetainingWall
             dgvInput.Rows.Add();
             dgvInput.Rows[2].Cells[0].Value = input.m_FloorHeights[2];
             dgvInput.Rows[2].Cells[1].Value = input.m_RoofThickness[2];
+            dgvInput.Rows.Add();
+            dgvInput.Rows[3].Cells[0].Value = input.m_FloorHeights[3];
+            dgvInput.Rows[3].Cells[1].Value = input.m_RoofThickness[3];
             cmbConcreteGrade.Text = input.m_ConcreteGrade.ToString();
             cmbRebarGrade.Text = input.m_RebarGrade.ToString();
             tbConcretePrice.Text = input.m_ConcretePrice.ToString();
@@ -46,7 +49,7 @@ namespace Dr.RetainingWall
             int rowCounts = dgvInput.Rows.Count - 1;
             double[] heights = new double[rowCounts];
             double[] roofs = new double[rowCounts];
-            if (rowCounts > 0 && rowCounts < 4)
+            if (rowCounts > 0 && rowCounts <= 4)
             {
                 for (int i = 0; i < rowCounts; i++)
                 {
@@ -56,7 +59,7 @@ namespace Dr.RetainingWall
                     roofs[i] = Util.ToDouble(strRoof);
                 }
             }
-            else if (rowCounts >= 4)
+            else if (rowCounts > 4)
             {
                 MessageBox.Show("目前该软件只支持4层(含)以下挡土墙计算。");
             }
@@ -124,9 +127,9 @@ namespace Dr.RetainingWall
                 output.m_f02 = new Vector(f02, VectorType.Column);
                 output.m_K01 = BoundaryCondition.weiyibianjie01(input.m_FloorCount, output.m_K);
                 output.m_K02 = BoundaryCondition.weiyibianjie02(input.m_FloorCount, output.m_K);
-                output.m_M01 = InnerForceCalculation.neilijisuan01(
+                output.m_M01 = InnerForceCalculation.neilijisuan(false,
                     input.m_E, input.m_A, input.m_I, output.m_K01, output.m_f01, input.m_FloorCount, output.m_Q, input.m_FloorHeights);
-                output.m_M02 = InnerForceCalculation.neilijisuan02(
+                output.m_M02 = InnerForceCalculation.neilijisuan(true,
                     input.m_E, input.m_A, input.m_I, output.m_K02, output.m_f02, input.m_FloorCount, output.m_Q, input.m_FloorHeights);
 
                 output.m_MM = InnerForceCalculation.neilitiaofu(output.m_M01, output.m_M02, input.m_T);

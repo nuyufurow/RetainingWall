@@ -95,10 +95,10 @@ namespace Dr.RetainingWall
             }
             else if (n == 4)
             {
-                Matrix k1 = PlaneFrameElementStiffness(E, A[1], I[1], H[1]);  //一层单元刚度矩阵
-                Matrix k2 = PlaneFrameElementStiffness(E, A[2], I[2], H[2]);  //二层单元刚度矩阵
-                Matrix k3 = PlaneFrameElementStiffness(E, A[3], I[3], H[3]);  //三层单元刚度矩阵
-                Matrix k4 = PlaneFrameElementStiffness(E, A[4], I[4], H[4]);  //四层单元刚度矩阵
+                Matrix k1 = PlaneFrameElementStiffness(E, A[0], I[0], H[0]);  //一层单元刚度矩阵
+                Matrix k2 = PlaneFrameElementStiffness(E, A[1], I[1], H[1]);  //二层单元刚度矩阵
+                Matrix k3 = PlaneFrameElementStiffness(E, A[2], I[2], H[2]);  //三层单元刚度矩阵
+                Matrix k4 = PlaneFrameElementStiffness(E, A[3], I[3], H[3]);  //四层单元刚度矩阵
                 PlaneFrameAssemble(ref K, k1, 1, 2);                             //将k1组装进K
                 PlaneFrameAssemble(ref K, k2, 2, 3);                             //将k2组装进K
                 PlaneFrameAssemble(ref K, k3, 3, 4);                             //将k3组装进K

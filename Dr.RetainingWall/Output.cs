@@ -12,8 +12,8 @@ namespace Dr.RetainingWall
         public Vector m_f02;
         public Matrix m_K01;
         public Matrix m_K02;
-        public Matrix m_M01;
-        public Matrix m_M02;
+        public double[,] m_M01;
+        public double[,] m_M02;
         public Matrix m_MM;
         public double[] m_Mmax;
         public double[] m_M;
