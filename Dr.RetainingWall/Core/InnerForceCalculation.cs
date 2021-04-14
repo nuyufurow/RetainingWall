@@ -15,43 +15,7 @@ namespace Dr.RetainingWall
             //输入的k为总刚度矩阵（为引入位移边界条件划掉0行0列），f为等效节点荷载列向量（为引入位移边界条件划掉0行0列）,n为挡土墙层数
             //Q = hezaijisuan(n, H, r, h, p0, rg, rq);    //调用荷载计算子程序，计算所有节点的荷载设计值
             Vector u = Vector.MatMulColVec(k.Inverse(), f);       //左除总刚度矩阵，求解未知位移
-            VectorUtil.Vpa(ref u, 7);                             //将求解的位移保留7位有效数字
-            //if (n == 1)
-            //{
-            //    Matrix k01 = StiffnessMatrix.PlaneFrameElementStiffness(E, A[0], I[0], H[0]);         //得到单元1的单元刚度矩阵
-            //    Vector u01 = new Vector(new double[] { 0, 0, 0, u[0], 0, u[1] }, VectorType.Column);
-            //    Vector F01 = Vector.MatMulColVec(k01, u01);
-            //    double Fa = (Q[0] - Q[1]) * H[0] * 7 / 20 + 0.5 * Q[1] * H[0];                        //A点等效节点剪力
-            //    double Ma = (Q[0] - Q[1]) * H[0] * H[0] / 20 + Q[1] * H[0] * H[0] / 12;               //A点等效节点弯矩
-            //    double Fb = (Q[0] - Q[1]) * H[0] * 3 / 20 + 0.5 * Q[1] * H[0];                        //B点等效节点剪力
-            //    double Mb = -((Q[0] - Q[1]) * H[0] * H[0] / 30 + Q[1] * H[0] * H[0] / 12);            //B点等效节点弯矩
-            //    double[,] F = { { F01[2] + Ma, F01[5] + Mb }, { F01[1] + Fa, F01[4] + Fb } };
-            //    return F;                                                                                      //输出所有节点的内力
-            //}
-            //else if (n == 2)
-            //{
-            //    Matrix k01 = StiffnessMatrix.PlaneFrameElementStiffness(E, A[0], I[0], H[0]);         //得到单元1的单元刚度矩阵
-            //    Vector u01 = new Vector(new double[] { 0, 0, 0, u[0], 0, u[1] }, VectorType.Column);  //回带总体位移
-            //    Vector F01 = Vector.MatMulColVec(k01, u01);
 
-            //    Matrix k02 = StiffnessMatrix.PlaneFrameElementStiffness(E, A[1], I[1], H[1]);         //得到单元1的单元刚度矩阵
-            //    Vector u02 = new Vector(new double[] { u[0], 0, u[1], u[2], 0, u[3] }, VectorType.Column);  //回带总体位移
-            //    Vector F02 = Vector.MatMulColVec(k02, u02);            //求支反力，此支反力为未加上全部加上刚臂时，只有节点荷载的支反力
-            //                                                           //支反力修正为真正结构的支反力，令F + 结构全部加上刚臂时的节点反力，得到真正结构的内力和支反力
-            //    double Ma = (Q[0] - Q[1]) * H[0] * H[0] / 20 + Q[1] * H[0] * H[0] / 12;       //A点等效节点弯矩
-            //    double Fa = (Q[0] - Q[1]) * H[0] * 7 / 20 + 0.5 * Q[1] * H[0];                      //A点等效节点剪力
-            //    double Mbl = -((Q[0] - Q[1]) * H[0] * H[0] / 30 + Q[1] * H[0] * H[0] / 12);
-            //    double Mbr = (Q[1] - Q[2]) * H[1] * H[1] / 20 + Q[2] * H[1] * H[1] / 12;
-            //    double Fbl = (Q[0] - Q[1]) * H[0] * 3 / 20 + 0.5 * Q[1] * H[0];
-            //    double Fbr = (Q[1] - Q[2]) * H[1] * 7 / 20 + 0.5 * Q[2] * H[1];
-            //    double Mc = -((Q[1] - Q[2]) * H[1] * H[1] / 30 + Q[2] * H[1] * H[1] / 12);    //C点等效节点弯矩
-            //    double Fc = (Q[1] - Q[2]) * H[1] * 3 / 20 + 0.5 * Q[2] * H[1];                      //C点等效节点剪力
-            //    double[,] F = {
-            //        { F01[2] + Ma, F01[5] + Mbl, F02[2] + Mbr, F02[5] + Mc },
-            //        { F01[1] + Fa, F01[4] + Fbl + F02[1] + Fbr, F02[4] + Fc, 0} };           //支反力修正为真正结构的支反力
-            //    return F;                                                                                          //输出所有节点的内力
-            //}
-            //else
             List<Vector> F0 = new List<Vector>();
             List<double[]> M = new List<double[]>();
             List<double[]> F = new List<double[]>();
@@ -89,87 +53,11 @@ namespace Dr.RetainingWall
                 FF[0, 2 * i + 1] = F0[i][5] + M[i + 1][0];
 
                 FF[1, i] += (F0[i][1] + F[i][1]);
-                FF[1, i + 1] += (F0[i][4] + F[i][0]);
+                FF[1, i + 1] += (F0[i][4] + F[i + 1][0]);
             }
 
             return FF;
         }
-
-        //public static Matrix neilijisuan02(double E, double[] A, double[] I, Matrix k, Vector f, int n, double[] Q, double[] H)
-        //{
-        //    //本子函数用于求解节点位移和结构内力以及支座反力,适用于墙底铰接
-        //    //输入的k为总刚度矩阵（未引入位移边界条件划掉0行0列），f为等效节点荷载列向量（未引入位移边界条件划掉0行0列）,n为挡土墙层数
-        //    //Q = hezaijisuan(n, H, r, h, p0, rg, rq);    //调用荷载计算子程序，计算所有节点的荷载设计值
-        //    Vector u = Vector.MatMulColVec(k.Inverse(), f);       //左除总刚度矩阵，求解未知位移
-        //    //VectorUtil.Vpa(ref u, 7);                             //将求解的位移保留7位有效数字
-        //    if (n == 1)
-        //    {
-        //        Matrix k01 = StiffnessMatrix.PlaneFrameElementStiffness(E, A[0], I[0], H[0]);              //得到单元1的单元刚度矩阵
-        //        Vector u01 = new Vector(new double[] { 0, 0, u[0], u[1], 0, u[2] }, VectorType.Column);
-        //        Vector F01 = Vector.MatMulColVec(k01, u01);
-        //        double Fa = (Q[0] - Q[1]) * H[0] * 7 / 20 + 0.5 * Q[1] * H[0];                             //A点等效节点剪力
-        //        double Ma = (Q[0] - Q[1]) * H[0] * H[0] / 20 + Q[1] * H[0] * H[0] / 12;                    //A点等效节点弯矩
-        //        double Fb = (Q[0] - Q[1]) * H[0] * 3 / 20 + 0.5 * Q[1] * H[0];                             //B点等效节点剪力
-        //        double Mb = -((Q[0] - Q[1]) * H[0] * H[0] / 30 + Q[1] * H[0] * H[0] / 12);                 //B点等效节点弯矩
-        //        double[,] F = { { F01[2] + Ma, F01[5] + Mb }, { F01[1] + Fa, F01[4] + Fb } };              //支反力修正为真正结构的支反力
-        //        return F;                                                                                  //输出所有节点的内力
-        //    }
-        //    else if (n == 2)
-        //    {
-        //        Matrix k01 = StiffnessMatrix.PlaneFrameElementStiffness(E, A[0], I[0], H[0]);         //得到单元1的单元刚度矩阵
-        //        Vector u01 = new Vector(new double[] { 0, 0, u[0], u[1], 0, u[2] }, VectorType.Column);  //回带总体位移
-        //        Vector F01 = Vector.MatMulColVec(k01, u01);
-
-        //        Matrix k02 = StiffnessMatrix.PlaneFrameElementStiffness(E, A[1], I[1], H[1]);         //得到单元1的单元刚度矩阵
-        //        Vector u02 = new Vector(new double[] { u[1], 0, u[2], u[3], 0, u[4] }, VectorType.Column);  //回带总体位移
-        //        Vector F02 = Vector.MatMulColVec(k02, u02);            //求支反力，此支反力为未加上全部加上刚臂时，只有节点荷载的支反力
-        //                                                               //支反力修正为真正结构的支反力，令F + 结构全部加上刚臂时的节点反力，得到真正结构的内力和支反力
-        //        double Ma = (Q[0] - Q[1]) * H[0] * H[0] / 20 + Q[1] * H[0] * H[0] / 12;       //A点等效节点弯矩
-        //        double Fa = (Q[0] - Q[1]) * H[0] * 7 / 20 + 0.5 * Q[1] * H[0];                      //A点等效节点剪力
-        //        double Mbl = -((Q[0] - Q[1]) * H[0] * H[0] / 30 + Q[1] * H[0] * H[0] / 12);
-        //        double Mbr = (Q[1] - Q[2]) * H[1] * H[1] / 20 + Q[2] * H[1] * H[1] / 12;
-        //        double Fbl = (Q[0] - Q[1]) * H[0] * 3 / 20 + 0.5 * Q[1] * H[0];
-        //        double Fbr = (Q[1] - Q[2]) * H[1] * 7 / 20 + 0.5 * Q[2] * H[1];
-        //        double Mc = -((Q[1] - Q[2]) * H[1] * H[1] / 30 + Q[2] * H[1] * H[1] / 12);    //C点等效节点弯矩
-        //        double Fc = (Q[1] - Q[2]) * H[1] * 3 / 20 + 0.5 * Q[2] * H[1];                      //C点等效节点剪力
-        //        double[,] F = {
-        //            { F01[2] + Ma, F01[5] + Mbl, F02[2] + Mbr, F02[5] + Mc },
-        //            { F01[1] + Fa, F01[4] + Fbl + F02[1] + Fbr, F02[4] + Fc, 0} };           //支反力修正为真正结构的支反力
-        //        return F;                                                                                          //输出所有节点的内力
-        //    }
-        //    else if (n == 3)
-        //    {
-        //        List<Vector> F0 = new List<Vector>();
-        //        List<double[]> M = new List<double[]>();
-        //        List<double[]> F = new List<double[]>();
-        //        for (int j = 0; j < n; j++)
-        //        {
-        //            Matrix kp = StiffnessMatrix.PlaneFrameElementStiffness(E, A[j], I[j], H[j]);
-        //            double[] arrU = j == 0 ? new double[] { 0, 0, u[2 * j], u[2 * j + 1], 0, u[2 * j + 2] }
-        //            : new double[] { u[2 * j - 1], 0, u[2 * j], u[2 * j + 1], 0, u[2 * j + 2] };
-        //            Vector up = new Vector(arrU, VectorType.Column);  //回带总体位移
-        //            Vector Fp = Vector.MatMulColVec(kp, up);
-        //            F0.Add(Fp);
-        //        }
-        //        for (int j = 0; j < n + 1; j++)
-        //        {
-        //            double Mlp = j == 0 ? 0 : -((Q[j - 1] - Q[j]) * Math.Pow(H[j - 1], 2) / 30 + Q[j] * Math.Pow(H[j - 1], 2) / 12);
-        //            double Mrp = j == n ? 0 : (Q[j] - Q[j + 1]) * Math.Pow(H[j], 2) / 20 + Q[j + 1] * Math.Pow(H[j], 2) / 12;
-        //            M.Add(new double[] { Mlp, Mrp });
-
-        //            double Flp = j == 0 ? 0 : (Q[j - 1] - Q[j]) * H[j - 1] * 3 / 20 + 0.5 * Q[j] * H[j - 1];
-        //            double Frp = j == n ? 0 : (Q[j] - Q[j + 1]) * H[j] * 7 / 20 + 0.5 * Q[j + 1] * H[j];
-        //            F.Add(new double[] { Flp, Frp });
-        //        }
-
-        //        double[,] FF = {
-        //            { F0[0][2] + M[0][1], F0[0][5] + M[1][0], F0[1][2] + M[1][1], F0[1][5] + M[2][0], F0[2][2] + M[2][1], F0[2][5]+M[3][0] },
-        //            { F0[0][1] + F[0][1], F0[0][4] + F[1][0] + F0[1][1] + F[1][1], F0[1][4] + F[2][0]+F0[2][1]+ F[2][1], F0[2][4] + F[3][0], 0, 0} };
-        //        return FF;
-        //    }
-
-        //    return new Matrix(new double[,] { });
-        //}
 
         public static double[] kuazhongzuidaM(Matrix M, int n, double[] Q, double[] H)
         {
