@@ -494,6 +494,7 @@ namespace Dr.RetainingWall
                     if (w <= 0.2)
                     {
                         Ak[i] = new double[] { arrAs[i][0], arrAs[i][1], arrAs[i][2], arrAs[i][3], arrAs[i][4], w };//A配筋输出格式统一为[直径 间距 直径 间距 实选面积]
+                        break;
                     }
                     else
                     {
@@ -534,7 +535,9 @@ namespace Dr.RetainingWall
 
                                 if (arrAs[i][4] - Asss0 > 1000)
                                 {
-                                    throw new Exception("A点按裂缝选筋增加钢筋过大，请修改挡墙参数");
+                                    //throw new Exception("A点按裂缝选筋增加钢筋过大，请修改挡墙参数");
+                                    MessageBox.Show("A点按裂缝选筋增加钢筋过大，请修改挡墙参数");
+                                    break;
                                 }
                             }
                         }
@@ -554,6 +557,12 @@ namespace Dr.RetainingWall
                     }
                 }
                 A.Add(tongchang(space, ft, fy, h[n - 1]));
+
+                if (A.Count < n + 1)
+                {
+                    return new List<double[]>();
+                }
+
                 return A;
             }
         }

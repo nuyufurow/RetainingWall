@@ -26,9 +26,9 @@ namespace Dr.RetainingWall
             dgvInput.Rows.Add();
             dgvInput.Rows[2].Cells[0].Value = input.m_FloorHeights[2];
             dgvInput.Rows[2].Cells[1].Value = input.m_RoofThickness[2];
-            //dgvInput.Rows.Add();
-            //dgvInput.Rows[3].Cells[0].Value = input.m_FloorHeights[3];
-            //dgvInput.Rows[3].Cells[1].Value = input.m_RoofThickness[3];
+            dgvInput.Rows.Add();
+            dgvInput.Rows[3].Cells[0].Value = input.m_FloorHeights[3];
+            dgvInput.Rows[3].Cells[1].Value = input.m_RoofThickness[3];
             cmbConcreteGrade.Text = input.m_ConcreteGrade.ToString();
             cmbRebarGrade.Text = input.m_RebarGrade.ToString();
             tbConcretePrice.Text = input.m_ConcretePrice.ToString();
