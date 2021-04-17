@@ -240,7 +240,7 @@ namespace Dr.RetainingWall
                         Lzfu150 = -s[i] + maoguchangdu(CC, F, Ass[3 * n + 1][0]);
                         Lzfd150 = 0;
 
-                        Lzfu200 = -s[i] + maoguchangdu(CC, F, Ass[3 * n + 4][0]);
+                        Lzfu200 = -s[i] + maoguchangdu(CC, F, Ass[4 * n + 1][0]);
                         Lzfd200 = 0;
                     }
                     else
