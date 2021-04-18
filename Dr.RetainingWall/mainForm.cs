@@ -132,12 +132,12 @@ namespace Dr.RetainingWall
                     index200 = i;
                 }
             }
-            rtbBrowser.AppendText("\n========================================================\n");
+            rtbBrowser.AppendText("========================================================\n");
             rtbBrowser.AppendText("150mm间距最优方案：\n");
             string strWidths = Util.ToString(outputs[index150].m_WallWidths);
             rtbBrowser.AppendText("墙厚：\n" + "  " + strWidths + "\n");
             List<double[]> listZuhejin = outputs[index150].m_Zuhejin;
-            rtbBrowser.AppendText("正筋：\n");
+            rtbBrowser.AppendText("负筋：\n");
             for (int i = 0; i < listZuhejin.Count; i++)
             {
                 if (i < n + 1)
@@ -147,7 +147,7 @@ namespace Dr.RetainingWall
                     rtbBrowser.AppendText("  " + strPeijin + "\n");
                 }
             }
-            rtbBrowser.AppendText("负筋：\n");
+            rtbBrowser.AppendText("正筋：\n");
             for (int i = 0; i < listZuhejin.Count; i++)
             {
                 if (i > 2 * n + 1 && i < 4 * n - 1)
@@ -180,7 +180,7 @@ namespace Dr.RetainingWall
             string strWidths200 = Util.ToString(outputs[index200].m_WallWidths);
             rtbBrowser.AppendText("墙厚：\n" + "  " + strWidths200 + "\n");
             List<double[]> listZuhejin200 = outputs[index200].m_Zuhejin;
-            rtbBrowser.AppendText("正筋：\n");
+            rtbBrowser.AppendText("负筋：\n");
             for (int i = 0; i < listZuhejin200.Count; i++)
             {
                 if (i > n && i < 2 * n + 2)
@@ -190,7 +190,7 @@ namespace Dr.RetainingWall
                     rtbBrowser.AppendText("  " + strPeijin + "\n");
                 }
             }
-            rtbBrowser.AppendText("负筋：\n");
+            rtbBrowser.AppendText("正筋：\n");
             for (int i = 0; i < listZuhejin200.Count; i++)
             {
                 if (i > 3 * n + 1)
