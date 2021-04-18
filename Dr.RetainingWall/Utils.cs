@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Forms;
 using LinearAlgebra;
 using LinearAlgebra.VectorAlgebra;
 
@@ -118,6 +119,13 @@ namespace Dr.RetainingWall
             double min = Math.Min(a, b);
             double min2 = Math.Min(min, c);
             return Math.Min(min2, d);
+        }
+
+        internal static void ShowWarning(string warnMsg)
+        {
+#if DEBUG
+            MessageBox.Show(warnMsg);
+#endif
         }
     }
 }

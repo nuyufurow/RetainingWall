@@ -6,6 +6,8 @@ namespace Dr.RetainingWall
 {
     class Output
     {
+        public double[] m_WallWidths;                           //墙厚
+
         public Matrix m_K;
         public double[] m_Q;
         public Vector m_f01;
@@ -21,5 +23,14 @@ namespace Dr.RetainingWall
 
         public List<double[]> m_Zuhejin;
         public List<double[]> m_Shuipingjin;
+
+
+        public void SetWallWidth(double[] widths)
+        {
+            m_WallWidths = widths;
+        }
+
+
+        public Output() { }
     }
 }

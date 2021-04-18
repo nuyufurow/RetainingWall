@@ -158,7 +158,8 @@ namespace Dr.RetainingWall
 
             if (A.Count < n)
             {
-                MessageBox.Show("正筋选筋时,超出选筋库！" + h);
+                //MessageBox.Show("正筋选筋时,超出选筋库！" + h);
+                Util.ShowWarning("正筋选筋时,超出选筋库！" + h);
                 return new List<double[]>();
             }
 
@@ -535,7 +536,8 @@ namespace Dr.RetainingWall
                                 if (arrAs[i][4] - Asss0 > 1000)
                                 {
                                     //throw new Exception("A点按裂缝选筋增加钢筋过大，请修改挡墙参数");
-                                    MessageBox.Show("A点按裂缝选筋增加钢筋过大，请修改挡墙参数");
+                                    //MessageBox.Show("A点按裂缝选筋增加钢筋过大，请修改挡墙参数");
+                                    Util.ShowWarning("A点按裂缝选筋增加钢筋过大，请修改挡墙参数。");
                                     return new List<double[]>();
                                 }
                             }

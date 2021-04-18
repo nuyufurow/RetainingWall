@@ -233,7 +233,8 @@ namespace Dr.RetainingWall
                         double x = h0 - Math.Sqrt(Math.Pow(h0, 2) - 2 * Math.Abs(M[2 * i + j]) / (alpha1 * fc * 1000));
                         if (x < 0 || x > kxib * h0)
                         {
-                            MessageBox.Show("超筋", "请修改" + i + "层挡墙参数！");
+                            //MessageBox.Show("超筋", "请修改" + i + "层挡墙参数！");
+                            Util.ShowWarning("超筋, 请修改" + i + "层挡墙参数");
                         }
                         double varAs = alpha1 * fc * 1000 * x / fy;
                         double varAsMin = 1000 * h[i] * roumin;
