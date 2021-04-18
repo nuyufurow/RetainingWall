@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using LinearAlgebra;
 using LinearAlgebra.VectorAlgebra;
@@ -85,9 +86,27 @@ namespace Dr.RetainingWall
             foreach (var a in arr)
             {
                 string strA = a.ToString();
-                if (Math.Abs(a) > 10)
+                if (Math.Abs(a) > 0)
                 {
                     strA = a.ToString("f2");
+                }
+                str += strA + " ";
+            }
+            str += "]";
+            return str;
+        }
+
+        internal static string ToString(List<double> list)
+        {
+            string str = "[ ";
+
+
+            foreach (var l in list)
+            {
+                string strA = l.ToString();
+                if (Math.Abs(l) > 0)
+                {
+                    strA = l.ToString("f2");
                 }
                 str += strA + " ";
             }

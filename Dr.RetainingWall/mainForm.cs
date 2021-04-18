@@ -106,10 +106,122 @@ namespace Dr.RetainingWall
 
         }
 
+        private void pritResult(Output[] outputs)
+        {
+            int n = input.m_FloorCount;
+
+            double min150 = 10000;
+            double min200 = 10000;
+            int index150 = 0, index200 = 0;
+            for (int i = 0; i < outputs.Length; i++)
+            {
+                if (outputs[i].m_Chengben.Length < 8)
+                {
+                    continue;
+                }
+
+                if (outputs[i].m_Chengben[6] < min150)
+                {
+                    min150 = outputs[i].m_Chengben[6];
+                    index150 = i;
+                }
+
+                if (outputs[i].m_Chengben[7] < min200)
+                {
+                    min200 = outputs[i].m_Chengben[7];
+                    index200 = i;
+                }
+            }
+            rtbBrowser.AppendText("\n========================================================\n");
+            rtbBrowser.AppendText("150mm间距最优方案：\n");
+            string strWidths = Util.ToString(outputs[index150].m_WallWidths);
+            rtbBrowser.AppendText("墙厚：\n" + "  " + strWidths + "\n");
+            List<double[]> listZuhejin = outputs[index150].m_Zuhejin;
+            rtbBrowser.AppendText("正筋：\n");
+            for (int i = 0; i < listZuhejin.Count; i++)
+            {
+                if (i < n + 1)
+                {
+
+                    string strPeijin = Util.ToString(listZuhejin[i]);
+                    rtbBrowser.AppendText("  " + strPeijin + "\n");
+                }
+            }
+            rtbBrowser.AppendText("负筋：\n");
+            for (int i = 0; i < listZuhejin.Count; i++)
+            {
+                if (i > 2 * n + 1 && i < 4 * n - 1)
+                {
+
+                    string strPeijin = Util.ToString(listZuhejin[i]);
+                    rtbBrowser.AppendText("  " + strPeijin + "\n");
+                }
+            }
+
+            rtbBrowser.AppendText("水平筋：\n");
+            foreach (var shuipingjin in outputs[index150].m_Shuipingjin)
+            {
+                string strPeijin = Util.ToString(shuipingjin);
+                rtbBrowser.AppendText("  " + strPeijin + "\n");
+            }
+
+            rtbBrowser.AppendText("成本：\n  [顶筋 底筋 水平筋 混凝土 总计] (单位：元)\n");
+            double[] cb150 = {
+                outputs[index150].m_Chengben[0],
+                outputs[index150].m_Chengben[2],
+                outputs[index150].m_Chengben[4],
+                outputs[index150].m_Chengben[5],
+                outputs[index150].m_Chengben[6]};
+            string strCb150 = Util.ToString(cb150);
+            rtbBrowser.AppendText("  " + strCb150 + "\n");
+
+            rtbBrowser.AppendText("\n========================================================\n");
+            rtbBrowser.AppendText("200mm间距最优方案：\n");
+            string strWidths200 = Util.ToString(outputs[index200].m_WallWidths);
+            rtbBrowser.AppendText("墙厚：\n" + "  " + strWidths200 + "\n");
+            List<double[]> listZuhejin200 = outputs[index200].m_Zuhejin;
+            rtbBrowser.AppendText("正筋：\n");
+            for (int i = 0; i < listZuhejin200.Count; i++)
+            {
+                if (i > n && i < 2 * n + 2)
+                {
+
+                    string strPeijin = Util.ToString(listZuhejin200[i]);
+                    rtbBrowser.AppendText("  " + strPeijin + "\n");
+                }
+            }
+            rtbBrowser.AppendText("负筋：\n");
+            for (int i = 0; i < listZuhejin200.Count; i++)
+            {
+                if (i > 3 * n + 1)
+                {
+
+                    string strPeijin = Util.ToString(listZuhejin200[i]);
+                    rtbBrowser.AppendText("  " + strPeijin + "\n");
+                }
+            }
+
+            rtbBrowser.AppendText("水平筋：\n");
+            foreach (var shuipingjin in outputs[index200].m_Shuipingjin)
+            {
+                string strPeijin = Util.ToString(shuipingjin);
+                rtbBrowser.AppendText("  " + strPeijin + "\n");
+            }
+
+            rtbBrowser.AppendText("成本：\n  [顶筋 底筋 水平筋 混凝土 总计] (单位：元)\n");
+            double[] cb200 = {
+                outputs[index200].m_Chengben[1],
+                outputs[index200].m_Chengben[3],
+                outputs[index200].m_Chengben[4],
+                outputs[index200].m_Chengben[5],
+                outputs[index200].m_Chengben[7]};
+            string strCb200 = Util.ToString(cb200);
+            rtbBrowser.AppendText("  " + strCb200 + "\n");
+
+        }
+
         private void btnChengben_Click(object sender, EventArgs e)
         {
-            rtbBrowser.AppendText("\n");
-            rtbBrowser.AppendText("计算结果：[厚度][成本]");
             RefreshInput();
 
             List<double[]> wallWidths = WallWidth.Genereate(input.m_FloorCount);
@@ -149,17 +261,22 @@ namespace Dr.RetainingWall
                 List<double[]> shuipingjin = Shuipingjin.shuipingjin(input.m_FloorCount, input.m_WallWidths);
                 outputs[i].m_Shuipingjin = shuipingjin;
 
-                double[] cheng = Chengben.chengben(outputs[i].m_Zuhejin, outputs[i].m_Shuipingjin, input.m_FloorCount, input.m_ConcretePrice,
+                double[] cb = Chengben.chengben(outputs[i].m_Zuhejin, outputs[i].m_Shuipingjin, input.m_FloorCount, input.m_ConcretePrice,
                     input.m_RebarPrice, input.m_WallWidths, input.m_FloorHeights, input.m_cs, input.m_RoofThickness,
                     input.m_SeismicGrade, input.m_ConcreteGrade, input.m_RebarGrade);
+                outputs[i].m_Chengben = cb;
 
-                string strWidths = Util.ToString(wallWidths[i]);
-                string strChengben = Util.ToString(cheng);
-                rtbBrowser.AppendText("\n");
-                rtbBrowser.AppendText(strWidths);
-                rtbBrowser.AppendText(strChengben);
-
+                if (cbxShowDetial.Checked == true)
+                {
+                    string strWidths = Util.ToString(wallWidths[i]);
+                    string strChengben = Util.ToString(cb);
+                    rtbBrowser.AppendText(strWidths);
+                    rtbBrowser.AppendText(strChengben);
+                    rtbBrowser.AppendText("\n");
+                }
             }
+
+            pritResult(outputs);
         }
 
     }

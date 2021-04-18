@@ -24,6 +24,7 @@ namespace Dr.RetainingWall
         public List<double[]> m_Zuhejin;
         public List<double[]> m_Shuipingjin;
 
+        public double[] m_Chengben;
 
         public void SetWallWidth(double[] widths)
         {
