@@ -71,6 +71,7 @@
             this.labCs2 = new System.Windows.Forms.Label();
             this.btnChengben = new System.Windows.Forms.Button();
             this.cbxShowDetial = new System.Windows.Forms.CheckBox();
+            this.btnOutputRestut = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvInput)).BeginInit();
             this.SuspendLayout();
             // 
@@ -458,12 +459,23 @@
             this.cbxShowDetial.Text = "显示详细信息";
             this.cbxShowDetial.UseVisualStyleBackColor = true;
             // 
+            // btnOutputRestut
+            // 
+            this.btnOutputRestut.Location = new System.Drawing.Point(364, 122);
+            this.btnOutputRestut.Name = "btnOutputRestut";
+            this.btnOutputRestut.Size = new System.Drawing.Size(100, 23);
+            this.btnOutputRestut.TabIndex = 54;
+            this.btnOutputRestut.Text = "输出结果";
+            this.btnOutputRestut.UseVisualStyleBackColor = true;
+            this.btnOutputRestut.Click += new System.EventHandler(this.btnOutputRestut_Click);
+            // 
             // mainForm
             // 
             this.AccessibleName = "floor";
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1081, 561);
+            this.Controls.Add(this.btnOutputRestut);
             this.Controls.Add(this.cbxShowDetial);
             this.Controls.Add(this.btnChengben);
             this.Controls.Add(this.labCs2);
@@ -552,6 +564,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn floorHeight;
         private System.Windows.Forms.DataGridViewTextBoxColumn s;
         private System.Windows.Forms.CheckBox cbxShowDetial;
+        private System.Windows.Forms.Button btnOutputRestut;
     }
 }
 
